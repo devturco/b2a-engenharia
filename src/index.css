@@ -17,11 +17,13 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Engineering brand colors - Professional blue and orange */
+    --primary: 207 90% 24%;  /* Deep engineering blue */
+    --primary-foreground: 0 0% 98%;
+    --primary-glow: 207 95% 35%;  /* Lighter blue for accents */
+    
+    --secondary: 25 95% 53%;  /* Engineering orange */
+    --secondary-foreground: 0 0% 98%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
@@ -34,7 +36,25 @@ All colors MUST be HSL.
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 207 90% 24%;
+    
+    /* Engineering design system */
+    --engineering-blue: 207 90% 24%;
+    --engineering-orange: 25 95% 53%;
+    --engineering-gray: 220 10% 46%;
+    --engineering-light-gray: 220 13% 94%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
+    --gradient-overlay: linear-gradient(180deg, hsl(var(--primary) / 0.8), hsl(var(--primary) / 0.95)));
+    
+    /* Shadows */
+    --shadow-engineering: 0 10px 40px -10px hsl(var(--primary) / 0.2);
+    --shadow-card: 0 4px 20px -5px hsl(var(--primary) / 0.1);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --radius: 0.5rem;
 
