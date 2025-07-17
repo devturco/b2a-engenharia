@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "build:dev": "vite build --mode development",
+    "build:prod": "vite build --mode production",
+    "build:clean": "rmdir /s /q dist 2>nul & vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

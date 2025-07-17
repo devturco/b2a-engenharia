@@ -22,8 +22,8 @@ const TerraArmada = () => {
       icon: FileText
     },
     {
-      titulo: "ECE (Estudo de Concepção da Estrutura)",
-      descricao: "Análise preliminar e estudos de viabilidade técnica para estruturas de terra armada.",
+      titulo: "ECE (Elementos Construtivos Específicos)",
+      descricao: "Materiais específicas para a montagem do muro em Terra Armada.",
       icon: Settings
     },
     {

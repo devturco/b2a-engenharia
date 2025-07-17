@@ -10,6 +10,8 @@ import TerraArmada from "./pages/services/TerraArmada";
 import ProjetosContencao from "./pages/services/ProjetosContencao";
 import CortinaAtirantada from "./pages/services/CortinaAtirantada";
 import SoloGrampeado from "./pages/services/SoloGrampeado";
+import MuroFlexao from "./pages/services/MuroFlexao";
+import OAE from "./pages/services/OAE";
 import Gabiao from "./pages/services/Gabiao";
 import Terramesh from "./pages/services/Terramesh";
 import OutrasContencoes from "./pages/services/OutrasContencoes";
@@ -32,16 +34,40 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/sobre" element={<About />} />
           <Route path="/servicos" element={<Services />} />
+          
+          {/* Projetos - Contenções */}
           <Route path="/servicos/terra-armada" element={<TerraArmada />} />
-          <Route path="/servicos/projetos-contencao" element={<ProjetosContencao />} />
           <Route path="/servicos/cortina-atirantada" element={<CortinaAtirantada />} />
+          <Route path="/servicos/muro-flexao" element={<MuroFlexao />} />
           <Route path="/servicos/solo-grampeado" element={<SoloGrampeado />} />
+          <Route path="/servicos/projetos-contencao" element={<ProjetosContencao />} />
+          
+          {/* Projetos - O.A.E */}
+          <Route path="/servicos/oae" element={<OAE />} />
+          
+          {/* Projetos - Geotecnia */}
+          <Route path="/servicos/projetos-geotecnicos" element={<ProjetosGeotecnicos />} />
+          <Route path="/servicos/geotecnia/*" element={<ProjetosGeotecnicos />} />
+          
+          {/* Execução */}
+          <Route path="/servicos/execucao/*" element={<Services />} />
+          
+          {/* Venda e Locação de Formas Metálicas */}
+          <Route path="/servicos/formas/*" element={<Services />} />
+          
+          {/* Mineração */}
+          <Route path="/servicos/mineracao/*" element={<Services />} />
+          
+          {/* Contenções Marítimas */}
+          <Route path="/servicos/contencoes-maritimas" element={<ContencoesMartitimas />} />
+          <Route path="/servicos/maritimas/*" element={<ContencoesMartitimas />} />
+          
+          {/* Rotas antigas mantidas para compatibilidade */}
           <Route path="/servicos/gabiao" element={<Gabiao />} />
           <Route path="/servicos/terramesh" element={<Terramesh />} />
           <Route path="/servicos/outras-contencoes" element={<OutrasContencoes />} />
-          <Route path="/servicos/contencoes-maritimas" element={<ContencoesMartitimas />} />
-          <Route path="/servicos/projetos-geotecnicos" element={<ProjetosGeotecnicos />} />
           <Route path="/servicos/infraestrutura-civil" element={<InfraestruturaGivil />} />
+          
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/contato" element={<Contact />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
