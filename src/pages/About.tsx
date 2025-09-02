@@ -34,21 +34,21 @@ const About = () => {
       nome: "Eng. João Silva",
       cargo: "Engenheiro Civil - Diretor Técnico",
       especialidade: "Geotecnia e Fundações",
-      crea: "CREA-SP 123456/D",
+      crea: "",
       experiencia: "15 anos"
     },
     {
       nome: "Eng. Maria Santos",
       cargo: "Engenheira Civil - Coordenadora de Projetos",
       especialidade: "Estruturas e Contenções",
-      crea: "CREA-SP 234567/D", 
+      crea: "", 
       experiencia: "12 anos"
     },
     {
       nome: "Eng. Pedro Oliveira",
       cargo: "Engenheiro Geotécnico",
       especialidade: "Investigações de Solo",
-      crea: "CREA-SP 345678/D",
+      crea: "",
       experiencia: "10 anos"
     }
   ];

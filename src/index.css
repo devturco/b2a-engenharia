@@ -17,12 +17,12 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    /* Engineering brand colors - Professional blue and orange */
-    --primary: 207 90% 24%;  /* Deep engineering blue */
+    /* B2A brand colors - Black and Red */
+    --primary: 0 0% 8%;  /* Deep black */
     --primary-foreground: 0 0% 98%;
-    --primary-glow: 207 95% 35%;  /* Lighter blue for accents */
+    --primary-glow: 0 84% 25%;  /* Dark red for accents */
     
-    --secondary: 25 95% 53%;  /* Engineering orange */
+    --secondary: 0 84% 60%;  /* B2A red */
     --secondary-foreground: 0 0% 98%;
 
     --muted: 210 40% 96.1%;
@@ -36,11 +36,11 @@ All colors MUST be HSL.
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 207 90% 24%;
+    --ring: 0 0% 8%;
     
-    /* Engineering design system */
-    --engineering-blue: 207 90% 24%;
-    --engineering-orange: 25 95% 53%;
+    /* B2A design system */
+    --engineering-blue: 0 0% 8%;  /* Black replacing blue */
+    --engineering-orange: 0 84% 60%;  /* Red replacing orange */
     --engineering-gray: 220 10% 46%;
     --engineering-light-gray: 220 13% 94%;
     
@@ -55,6 +55,12 @@ All colors MUST be HSL.
     
     /* Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Mega menu custom styles */
+    --mega-menu-z-index: 9999;
+    --mega-menu-max-height: calc(100vh - 100px);
+    --mega-menu-shadow: 0 20px 60px -10px hsl(var(--primary) / 0.3);
+    --mega-menu-backdrop: hsl(var(--background) / 0.95);
 
     --radius: 0.5rem;
 
@@ -122,4 +128,148 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Mega Menu Custom Styles */
+.mega-menu-content {
+  position: relative;
+  overflow: visible;
+}
+
+.mega-menu-submenu {
+  position: fixed;
+  width: 16rem;
+  background: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  box-shadow: var(--mega-menu-shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-10px);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 9999;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.mega-menu-submenu.right-aligned {
+  left: auto;
+  right: 100%;
+  margin-left: 0;
+  margin-right: 0.5rem;
+  transform: translateX(10px);
+}
+
+.mega-menu-submenu.bottom-aligned {
+  top: auto;
+  bottom: 0;
+  transform: translateX(-10px) translateY(0);
+}
+
+.mega-menu-submenu.bottom-aligned.right-aligned {
+  transform: translateX(10px) translateY(0);
+}
+
+.mega-menu-item:hover .mega-menu-submenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.mega-menu-item:hover .mega-menu-submenu.right-aligned {
+  transform: translateX(0);
+}
+
+.mega-menu-item:hover .mega-menu-submenu.bottom-aligned {
+  transform: translateX(0) translateY(0);
+}
+
+.mega-menu-item:hover .mega-menu-submenu.bottom-aligned.right-aligned {
+  transform: translateX(0) translateY(0);
+}
+
+/* Ensure mega menu doesn't get cut off */
+[data-radix-navigation-menu-content] {
+  overflow: visible !important;
+  max-height: none !important;
+  height: auto !important;
+}
+
+[data-radix-navigation-menu-viewport] {
+  overflow: visible !important;
+  max-height: none !important;
+  height: auto !important;
+}
+
+/* Animação para carrossel de clientes */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+.animate-scroll:hover {
+  animation-play-state: paused;
+}
+
+[data-radix-navigation-menu-list] {
+  overflow: visible !important;
+}
+
+[data-radix-navigation-menu-item] {
+  overflow: visible !important;
+}
+
+/* Force all navigation menu containers to allow overflow */
+.mega-menu-content {
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+/* Ensure parent containers don't clip submenus */
+.container {
+  overflow: visible !important;
+}
+
+header {
+  overflow: visible !important;
+}
+
+/* Simplified styles - Conservative approach */
+
+/* Basic hover effects */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Simple fade transition */
+.fade-transition {
+  transition: opacity 0.3s ease;
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(220, 38, 38, 0.1);
 }

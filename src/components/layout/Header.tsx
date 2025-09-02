@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -14,6 +14,53 @@ import {
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const megaMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleSubmenuPosition = () => {
+      const submenuItems = document.querySelectorAll('.mega-menu-item');
+      
+      submenuItems.forEach((item) => {
+        const submenu = item.querySelector('.mega-menu-submenu') as HTMLElement;
+        if (!submenu) return;
+
+        const itemRect = item.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const viewportWidth = window.innerWidth;
+        
+        // Remove classes anteriores
+        submenu.classList.remove('bottom-aligned', 'right-aligned');
+        
+        // Posiciona o submenu usando position fixed
+        submenu.style.left = `${itemRect.right + 8}px`;
+        submenu.style.top = `${itemRect.top}px`;
+        
+        // Verifica se o submenu está sendo cortado na parte inferior
+        if (itemRect.top + 280 > viewportHeight - 20) { // 280px é a altura aproximada do submenu
+          submenu.classList.add('bottom-aligned');
+          submenu.style.top = `${itemRect.bottom - 280}px`;
+        }
+        
+        // Verifica se o submenu está sendo cortado na lateral direita
+        if (itemRect.right + 280 + 8 > viewportWidth - 20) { // 280px é a largura do submenu
+          submenu.classList.add('right-aligned');
+          submenu.style.left = `${itemRect.left - 280 - 8}px`;
+        }
+      });
+    };
+
+    // Adiciona event listeners para detectar hover
+    const megaMenuItems = document.querySelectorAll('.mega-menu-item');
+    megaMenuItems.forEach((item) => {
+      item.addEventListener('mouseenter', handleSubmenuPosition);
+    });
+
+    return () => {
+      megaMenuItems.forEach((item) => {
+        item.removeEventListener('mouseenter', handleSubmenuPosition);
+      });
+    };
+  }, []);
 
   const servicosStructure = {
     "PROJETOS": {
@@ -47,23 +94,13 @@ export const Header = () => {
         { name: "CQP", href: "/servicos/geotecnia/cqp" }
       ]
     },
-    "EXECUÇÃO": {
-      "CONTENÇÕES": [
-        { name: "Contenções", href: "/servicos/execucao/contencoes" }
-      ],
-      "GERENCIAMENTO DE OBRAS": [
-        { name: "Gerenciamento de Obras", href: "/servicos/execucao/gerenciamento" }
-      ],
-      "NEW JERSEY": [
-        { name: "New Jersey", href: "/servicos/execucao/new-jersey" }
-      ],
-      "MURO A FLEXÃO": [
-        { name: "Muro a Flexão", href: "/servicos/execucao/muro-flexao" }
-      ],
-      "PEÇAS PRÉ-MOLDADAS ESPECIAIS": [
-        { name: "Peças Pré-moldadas Especiais", href: "/servicos/execucao/pecas-pre-moldadas" }
-      ]
-    },
+    "EXECUÇÃO": [
+      { name: "Contenções", href: "/servicos/execucao/contencoes" },
+      { name: "Gerenciamento de Obras", href: "/servicos/execucao/gerenciamento" },
+      { name: "New Jersey", href: "/servicos/execucao/new-jersey" },
+      { name: "Muro a Flexão", href: "/servicos/execucao/muro-flexao" },
+      { name: "Peças Pré-moldadas Especiais", href: "/servicos/execucao/pecas-pre-moldadas" }
+    ],
     "VENDA E LOCAÇÃO DE FORMAS METÁLICAS": [
       { name: "New Jersey", href: "/servicos/formas/new-jersey" },
       { name: "Muro a Flexão", href: "/servicos/formas/muro-flexao" },
@@ -85,10 +122,11 @@ export const Header = () => {
       <div className="container flex h-16 items-center">
         <div className="mr-4 hidden md:flex">
           <NavLink to="/" className="mr-6 flex items-center space-x-2">
-            <div className="h-8 w-8 rounded bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-lg">B2A</span>
-            </div>
-            <span className="hidden font-bold sm:inline-block">B2A Engenharia</span>
+            <img 
+              src="/images/logo-b2a-site.png" 
+              alt="B2A Engenharia" 
+              className="h-10 w-auto"
+            />
           </NavLink>
           <nav className="flex items-center space-x-6 text-sm font-medium">
             <NavLink
@@ -119,21 +157,21 @@ export const Header = () => {
                     Serviços
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="w-[800px] p-4">
+                    <div className="w-[1000px] p-4 max-h-[80vh] overflow-y-auto mega-menu-content">
                       <div className="grid grid-cols-2 gap-6">
                         {Object.entries(servicosStructure).map(([category, items]) => (
                           <div key={category} className="space-y-3">
                             <h4 className="text-sm font-semibold text-primary border-b pb-1">
                               {category}
                             </h4>
-                            {(category === "PROJETOS" || category === "EXECUÇÃO") ? (
+                            {category === "PROJETOS" ? (
                               <div className="space-y-2">
                                 {Object.entries(items as Record<string, any[]>).map(([subcategory, subitems]) => (
-                                  <div key={subcategory} className="relative group">
+                                  <div key={subcategory} className="relative group mega-menu-item">
                                     <div className="text-xs font-medium text-muted-foreground uppercase p-2 cursor-pointer hover:bg-accent rounded-md transition-colors">
                                       {subcategory}
                                     </div>
-                                    <div className="absolute left-full top-0 ml-2 w-64 bg-background border rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                    <div className="mega-menu-submenu">
                                       <div className="p-2 space-y-1">
                                         {subitems.map((item) => (
                                           <NavigationMenuLink key={item.name} asChild>
@@ -151,24 +189,17 @@ export const Header = () => {
                                 ))}
                               </div>
                             ) : (
-                              <div className="relative group">
-                                <div className="text-xs font-medium text-muted-foreground uppercase p-2 cursor-pointer hover:bg-accent rounded-md transition-colors">
-                                  {category}
-                                </div>
-                                <div className="absolute left-full top-0 ml-2 w-64 bg-background border rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                                  <div className="p-2 space-y-1">
-                                    {(items as any[]).map((item) => (
-                                      <NavigationMenuLink key={item.name} asChild>
-                                        <NavLink
-                                          to={item.href}
-                                          className="block select-none rounded-md p-2 text-xs leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                                        >
-                                          {item.name}
-                                        </NavLink>
-                                      </NavigationMenuLink>
-                                    ))}
-                                  </div>
-                                </div>
+                              <div className="space-y-1">
+                                {(items as any[]).map((item) => (
+                                  <NavigationMenuLink key={item.name} asChild>
+                                    <NavLink
+                                      to={item.href}
+                                      className="block select-none rounded-md p-2 text-xs leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                    >
+                                      {item.name}
+                                    </NavLink>
+                                  </NavigationMenuLink>
+                                ))}
                               </div>
                             )}
                           </div>
@@ -219,10 +250,11 @@ export const Header = () => {
               className="flex items-center"
               onClick={() => setIsOpen(false)}
             >
-              <div className="h-8 w-8 rounded bg-primary flex items-center justify-center mr-2">
-                <span className="text-primary-foreground font-bold text-lg">B2A</span>
-              </div>
-              <span className="font-bold">B2A Engenharia</span>
+              <img 
+                src="/images/logo-b2a-site.png" 
+                alt="B2A Engenharia" 
+                className="h-8 w-auto"
+              />
             </NavLink>
             <div className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
               <div className="flex flex-col space-y-3">
@@ -236,7 +268,7 @@ export const Header = () => {
                         <span className="text-sm font-semibold text-primary">
                           {category}
                         </span>
-                        {(category === "PROJETOS" || category === "EXECUÇÃO") ? (
+                        {category === "PROJETOS" ? (
                           <div className="space-y-3 pl-2">
                             {Object.entries(items as Record<string, any[]>).map(([subcategory, subitems]) => (
                               <div key={subcategory} className="space-y-1">
@@ -286,13 +318,13 @@ export const Header = () => {
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none">
             <div className="hidden md:flex items-center space-x-4">
-              <a href="tel:+5511999999999" className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground">
+              <a href="tel:+551145096222" className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground">
                 <Phone className="h-4 w-4" />
-                <span>(11) 99999-9999</span>
+                <span>(11) 4509-6222</span>
               </a>
-              <a href="mailto:contato@b2aengenharia.com.br" className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground">
+              <a href="mailto:comercial@b2aengenharia.com.br" className="flex items-center space-x-2 text-sm text-muted-foreground hover:text-foreground">
                 <Mail className="h-4 w-4" />
-                <span>contato@b2aengenharia.com.br</span>
+                <span>comercial@b2aengenharia.com.br</span>
               </a>
             </div>
           </div>
