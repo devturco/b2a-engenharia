@@ -1,22 +1,14 @@
-# Welcome to your Lovable project
+# B2A Engenharia - Website
 
-## Project info
+## Sobre o Projeto
 
-**URL**: https://lovable.dev/projects/2aa4707f-39d6-4802-bef9-751363ff0670
+Website institucional da B2A Engenharia, empresa especializada em soluções de contenções e engenharia geotécnica.
 
-## How can I edit this code?
+## Como editar o código
 
-There are several ways of editing your application.
+**Desenvolvimento Local**
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/2aa4707f-39d6-4802-bef9-751363ff0670) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Clone este repositório e faça as alterações necessárias. As mudanças podem ser enviadas via push para o repositório.
 
 The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
@@ -62,12 +54,12 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/2aa4707f-39d6-4802-bef9-751363ff0670) and click on Share -> Publish.
+Para fazer o deploy, você pode usar serviços como Vercel, Netlify ou outros provedores de hospedagem.
 
-## Can I connect a custom domain to my Lovable project?
+## Deploy
 
-Yes, you can!
+Para fazer o deploy do projeto:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+1. Execute `npm run build` para gerar os arquivos de produção
+2. Faça upload da pasta `dist/` para seu provedor de hospedagem
+3. Configure seu domínio personalizado conforme necessário
