@@ -65,7 +65,7 @@ export const Footer = () => {
               </li>
               <li>
                 <NavLink to="/portfolio" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                  Portfólio
+                  Obras
                 </NavLink>
               </li>
               <li>

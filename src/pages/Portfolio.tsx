@@ -12,7 +12,7 @@ const Portfolio = () => {
         <div className="container px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Portfólio de Projetos
+              Projetos Realizados
             </h1>
             <p className="text-xl md:text-2xl text-primary-foreground/90 leading-relaxed mb-8">
               Conheça nossos principais projetos executados em contenções, 

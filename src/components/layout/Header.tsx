@@ -219,7 +219,7 @@ export const Header = () => {
                   : "text-foreground/60 transition-colors hover:text-foreground/80"
               }
             >
-              Portfólio
+              Obras
             </NavLink>
             <NavLink
               to="/contato"

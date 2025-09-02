@@ -119,7 +119,7 @@ const Index = () => {
             </Button>
             <Button size="lg" variant="outline" className="border-white text-black bg-white hover:bg-gray-100 hover:text-black px-8 py-4">
               <NavLink to="/servicos" className="flex items-center">
-                Ver Portfólio
+                Ver Obras
               </NavLink>
             </Button>
           </div>
