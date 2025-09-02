@@ -153,36 +153,33 @@ const Index = () => {
       </section>
 
       {/* Sobre Nossa Empresa */}
-      <section ref={aboutRef} className="py-20 bg-gray-900">
+      <section ref={aboutRef} className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-600/20 border border-red-500/30 text-red-400 text-sm font-medium mb-4">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-600/20 border border-red-500/30 text-red-600 text-sm font-medium mb-4">
               <Building className="w-4 h-4 mr-2" />
               Sobre Nós
             </div>
-            <h2 className="text-4xl font-bold text-white mb-6">Sobre Nossa Empresa</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              A B2A CONTENÇÕES nasceu da firme parceria entre profissionais com experiência acumulada em mais de 17 anos.
-            </p>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">Sobre Nossa Empresa</h2>
           </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h3 className="text-2xl font-bold text-white mb-6">Nossa História</h3>
-              <p className="text-gray-300 text-lg mb-6">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Nossa História</h3>
+              <p className="text-gray-600 text-lg mb-6">
                 A B2A CONTENÇÕES nasceu da firme parceria entre profissionais com experiência acumulada em mais de 17 anos em diversos segmentos de obras civis e na fabricação de equipamentos metálicos utilizados em indústrias, acumulando experiência em mais de 600 mil m² em projetos e na execução de muros de contenções em aterro, proporcionando aos nossos clientes a segurança necessária no desenvolvimento de parcerias sólidas e duradouras.
               </p>
-              <p className="text-gray-300 text-lg mb-8">
+              <p className="text-gray-600 text-lg mb-8">
                 Tem como principal atividade de negócios, oferecer soluções em muros de contenções em aterro com solos mecanicamente estabilizados, também conhecido como sistema Terra Armada conforme norma NBR 16920-2021.
               </p>
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-red-500 mb-2">17+</div>
-                  <div className="text-gray-300">Anos de Experiência</div>
+                  <div className="text-gray-600">Anos de Experiência</div>
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-red-500 mb-2">600k+</div>
-                  <div className="text-gray-300">m² em Projetos</div>
+                  <div className="text-gray-600">m² em Projetos</div>
                 </div>
               </div>
             </div>
@@ -215,15 +212,15 @@ const Index = () => {
             {services.map((service, index) => {
               const IconComponent = service.icon;
               return (
-                <Card key={index} className="bg-gray-900 border-gray-700 hover:border-red-500 transition-all duration-300 group">
+                <Card key={index} className="bg-white border-gray-200 hover:border-red-500 transition-all duration-300 group shadow-lg">
                   <CardHeader>
                     <div className="w-12 h-12 bg-red-600/20 rounded-lg flex items-center justify-center mb-4 group-hover:bg-red-600/30 transition-colors">
                       <IconComponent className="w-6 h-6 text-red-500" />
                     </div>
-                    <CardTitle className="text-white">{service.title}</CardTitle>
+                    <CardTitle className="text-gray-900">{service.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-gray-300 mb-4">{service.description}</p>
+                    <p className="text-gray-600 mb-4">{service.description}</p>
                     <Button variant="outline" className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white">
                       <NavLink to={service.href}>Saiba Mais</NavLink>
                     </Button>
@@ -236,15 +233,15 @@ const Index = () => {
       </section>
 
       {/* Nossos Clientes */}
-      <section className="py-20 bg-gray-900">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-600/20 border border-red-500/30 text-red-400 text-sm font-medium mb-4">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-600/20 border border-red-500/30 text-red-600 text-sm font-medium mb-4">
               <Users className="w-4 h-4 mr-2" />
               Nossos Clientes
             </div>
-            <h2 className="text-4xl font-bold text-white mb-6">Confiança que Constrói</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">Confiança que Constrói</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Empresas de renome confiam em nossos serviços para seus projetos mais importantes.
             </p>
           </div>
@@ -260,7 +257,7 @@ const Index = () => {
                "/images/clientes/jmalucelli.png",
                "/images/clientes/viapar.png"
              ].map((clientImage, index) => (
-              <div key={index} className="bg-gray-800 rounded-lg p-6 flex items-center justify-center h-24 hover:bg-gray-700 transition-colors">
+              <div key={index} className="bg-gray-50 rounded-lg p-6 flex items-center justify-center h-24 hover:bg-gray-100 transition-colors border border-gray-200">
                 <img
                   src={clientImage}
                   alt={`Cliente ${index + 1}`}
@@ -301,15 +298,15 @@ const Index = () => {
       </section>
 
       {/* Depoimentos */}
-      <section className="py-20 bg-gray-900">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-600/20 border border-red-500/30 text-red-400 text-sm font-medium mb-4">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-600/20 border border-red-500/30 text-red-600 text-sm font-medium mb-4">
               <MessageCircle className="w-4 h-4 mr-2" />
               Depoimentos
             </div>
-            <h2 className="text-4xl font-bold text-white mb-6">O que Nossos Clientes Dizem</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">O que Nossos Clientes Dizem</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Feedback real de clientes satisfeitos com nossos serviços.
             </p>
           </div>
@@ -332,21 +329,21 @@ const Index = () => {
                 text: "Parceria de longa data. Sempre entregam soluções inovadoras e eficientes."
               }
             ].map((testimonial, index) => (
-              <Card key={index} className="bg-gray-800 border-gray-700">
+              <Card key={index} className="bg-white border-gray-200 shadow-lg">
                 <CardContent className="p-6">
                   <div className="flex mb-4">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                     ))}
                   </div>
-                  <p className="text-gray-300 mb-6 italic">"{testimonial.text}"</p>
+                  <p className="text-gray-600 mb-6 italic">"{testimonial.text}"</p>
                   <div className="flex items-center">
                     <div className="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center mr-3">
                       <User className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <div className="text-white font-semibold">{testimonial.name}</div>
-                      <div className="text-gray-400 text-sm">{testimonial.company}</div>
+                      <div className="text-gray-900 font-semibold">{testimonial.name}</div>
+                      <div className="text-gray-500 text-sm">{testimonial.company}</div>
                     </div>
                   </div>
                 </CardContent>
