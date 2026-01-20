@@ -9,15 +9,15 @@ export const Footer = () => {
           {/* Logo e Descrição */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <img 
-                src="/images/logo-b2a-site.png" 
-                alt="B2A Engenharia" 
+              <img
+                src="/images/logo-b2a-site.png"
+                alt="B2A Engenharia"
                 className="h-8 w-auto filter brightness-0 invert"
               />
               <span className="font-bold text-lg">B2A Engenharia</span>
             </div>
             <p className="text-primary-foreground/80 text-sm leading-relaxed">
-              Especialista em contenções, infraestrutura civil e geotecnia. 
+              Especialista em contenções, infraestrutura civil e geotecnia.
               Soluções técnicas de excelência para seus projetos de engenharia.
             </p>
           </div>
@@ -64,7 +64,7 @@ export const Footer = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/portfolio" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
+                <NavLink to="/obras" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
                   Obras
                 </NavLink>
               </li>
@@ -120,9 +120,9 @@ export const Footer = () => {
               © 2024 B2A Engenharia. Todos os direitos reservados.
             </p>
             <div className="flex space-x-4 mt-4 md:mt-0">
-              <a 
-                href="https://querosite.com.br" 
-                target="_blank" 
+              <a
+                href="https://querosite.com.br"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary-foreground/60 text-sm hover:text-primary-foreground transition-colors"
               >

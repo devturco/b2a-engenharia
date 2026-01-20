@@ -2,6 +2,7 @@ import { Layout } from "../components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { NavLink } from "react-router-dom";
+import { obras } from "../data/obras";
 import { Mountain, Shield, Building, ArrowRight, Users, Award, TrendingUp, CheckCircle, Star, User, MessageCircle, Rocket, Zap, Target, X } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
@@ -9,35 +10,68 @@ const Index = () => {
   const [counters, setCounters] = useState({ projects: 0, years: 0, experience: 0 });
   const [isVisible, setIsVisible] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [dynamicObras, setDynamicObras] = useState<any[]>([]);
+  const [dynamicVideos, setDynamicVideos] = useState<any[]>([]);
   const statsRef = useRef<HTMLDivElement>(null);
   const aboutRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    document.title = "B2A Engenharia | Contenções, Terra Armada e Geotecnia";
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", "Líder em engenharia geotécnica e contenções. Especialista em Terra Armada, Solo Grampeado e Muros de Flexão. Mais de 600 mil m² de obras executadas com excelência.");
+    }
+
+    const fetchDynamicContent = async () => {
+      try {
+        const [obrasRes, videosRes] = await Promise.all([
+          fetch("/api/obras.php"),
+          fetch("/api/videos.php")
+        ]);
+
+        if (obrasRes.ok) {
+          const data = await obrasRes.json();
+          if (Array.isArray(data)) setDynamicObras(data.slice(0, 6));
+        }
+
+        if (videosRes.ok) {
+          const data = await videosRes.json();
+          if (Array.isArray(data)) setDynamicVideos(data.slice(0, 3));
+        }
+      } catch (error) {
+        console.error("Erro ao carregar conteúdo dinâmico:", error);
+      }
+    };
+
+    fetchDynamicContent();
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !isVisible) {
           setIsVisible(true);
-          
+
           // Animate counters
           const duration = 2000;
-          const targets = { projects: 600, years: 10, experience: 500 };
+          const targets = { projects: 600, years: 15, experience: 300 };
           const startTime = Date.now();
-          
+
           const animate = () => {
             const elapsed = Date.now() - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            
+
             setCounters({
               projects: Math.floor(targets.projects * progress),
               years: Math.floor(targets.years * progress),
               experience: Math.floor(targets.experience * progress)
             });
-            
+
             if (progress < 1) {
               requestAnimationFrame(animate);
             }
           };
-          
+
           animate();
         }
       },
@@ -72,21 +106,20 @@ const Index = () => {
     }
   ];
 
-  const projectImages = [
-    "/images/obras/2016-11-10-17.39.30.jpg",
-    "/images/obras/Autodromo-Interlagos-obrasl_041114_Foto_JoseCordeiro_0088.jpg",
-    "/images/obras/Autodromo-Interlagos-obrasl_041114_Foto_JoseCordeiro_0248-1.jpg",
-    "/images/obras/IMG-20221024-WA0116.jpg",
-    "/images/obras/MG_5160a-1.png",
-    "/images/obras/MG_5343a1.jpg"
-  ];
+  const staticFeaturedObras = obras.filter(obra => obra.images.length > 0).slice(0, 6);
+  const featuredObras = dynamicObras.length > 0
+    ? dynamicObras.map(o => ({
+      ...o,
+      images: Array.isArray(o.images) ? o.images : JSON.parse(o.images || "[]")
+    }))
+    : staticFeaturedObras;
 
   return (
     <Layout>
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background Image */}
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url('/images/MG_5160a.png')`,
@@ -94,22 +127,23 @@ const Index = () => {
         >
           <div className="absolute inset-0 bg-black/50"></div>
         </div>
-        
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-600/20 border border-red-500/30 text-red-400 text-sm font-medium mb-8">
             <Zap className="w-4 h-4 mr-2" />
             Engenharia Geotécnica de Excelência
           </div>
-          
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
-            Soluções em
-            <span className="text-red-500 block">Engenharia</span>
+
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 uppercase tracking-tighter">
+            Contenções e
+            <span className="text-secondary block">Engenharia</span>
           </h1>
-          
-          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            Especialistas em contenções, fundações e projetos geotécnicos com mais de 20 anos de experiência no mercado.
+
+          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
+            Referência nacional em <strong>Terra Armada</strong>, <strong>Solo Grampeado</strong> e projetos geotécnicos de alta complexidade.
+            Mais de uma década de inovação e segurança para sua obra.
           </p>
-          
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white px-8 py-4">
               <NavLink to="/contato" className="flex items-center">
@@ -118,7 +152,7 @@ const Index = () => {
               </NavLink>
             </Button>
             <Button size="lg" variant="outline" className="border-white text-black bg-white hover:bg-gray-100 hover:text-black px-8 py-4">
-              <NavLink to="/servicos" className="flex items-center">
+              <NavLink to="/obras" className="flex items-center">
                 Ver Obras
               </NavLink>
             </Button>
@@ -127,26 +161,27 @@ const Index = () => {
       </section>
 
       {/* Estatísticas */}
-      <section ref={statsRef} className="py-20 bg-primary">
+      <section ref={statsRef} className="py-20 bg-primary relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-secondary"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="text-5xl font-bold text-red-500 mb-2">
-                +{counters.projects}.000m²
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 divide-y md:divide-y-0 md:divide-x divide-gray-800">
+            <div className="text-center pt-8 md:pt-0">
+              <div className="text-6xl font-black text-secondary mb-2 tracking-tighter">
+                +{counters.projects}k m²
               </div>
-              <div className="text-gray-300 text-lg">Em Projetos</div>
+              <div className="text-gray-400 font-bold uppercase text-sm tracking-widest">Em Projetos Executados</div>
             </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold text-red-500 mb-2">
-                {counters.years}+
+            <div className="text-center pt-8 md:pt-0">
+              <div className="text-6xl font-black text-secondary mb-2 tracking-tighter">
+                {counters.years} ANOS
               </div>
-              <div className="text-gray-300 text-lg">Anos No Mercado</div>
+              <div className="text-gray-400 font-bold uppercase text-sm tracking-widest">De Expertise Técnica</div>
             </div>
-            <div className="text-center">
-              <div className="text-5xl font-bold text-red-500 mb-2">
+            <div className="text-center pt-8 md:pt-0">
+              <div className="text-6xl font-black text-secondary mb-2 tracking-tighter">
                 {counters.experience}+
               </div>
-              <div className="text-gray-300 text-lg">Clientes Satisfeitos</div>
+              <div className="text-gray-400 font-bold uppercase text-sm tracking-widest">Obras de Sucesso</div>
             </div>
           </div>
         </div>
@@ -162,7 +197,7 @@ const Index = () => {
             </div>
             <h2 className="text-4xl font-bold text-gray-900 mb-6">Sobre Nossa Empresa</h2>
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Nossa História</h3>
@@ -184,9 +219,9 @@ const Index = () => {
               </div>
             </div>
             <div className="relative">
-              <img 
-                src="/images/aeroporto.png" 
-                alt="Sobre a B2A Engenharia" 
+              <img
+                src="/images/aeroporto.png"
+                alt="Sobre a B2A Engenharia"
                 className="rounded-lg shadow-2xl"
               />
             </div>
@@ -207,7 +242,7 @@ const Index = () => {
               Oferecemos uma ampla gama de serviços especializados em engenharia geotécnica.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {services.map((service, index) => {
               const IconComponent = service.icon;
@@ -245,23 +280,18 @@ const Index = () => {
               Empresas de renome confiam em nossos serviços para seus projetos mais importantes.
             </p>
           </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+
+          <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-6">
             {[
-               "/images/clientes/andrade.png",
-               "/images/clientes/odebrecht.png",
-               "/images/clientes/camargocorrea.png",
-               "/images/clientes/oas.png",
-               "/images/clientes/serveng.png",
-               "/images/clientes/votorantin.png",
-               "/images/clientes/jmalucelli.png",
-               "/images/clientes/viapar.png"
-             ].map((clientImage, index) => (
-              <div key={index} className="bg-gray-50 rounded-lg p-6 flex items-center justify-center h-24 hover:bg-gray-100 transition-colors border border-gray-200">
+              "andrade.png", "odebrecht.png", "camargocorrea.png", "oas.png",
+              "serveng.png", "votorantin.png", "jmalucelli.png", "viapar.png",
+              "aterpa.png", "castellar.png", "cralmeida.png", "equipav.png"
+            ].map((clientImg, index) => (
+              <div key={index} className="bg-gray-50 rounded-lg p-4 flex items-center justify-center h-20 hover:bg-gray-100 transition-all border border-gray-100 group">
                 <img
-                  src={clientImage}
-                  alt={`Cliente ${index + 1}`}
-                  className="max-w-full max-h-full object-contain filter brightness-75 hover:brightness-100 transition-all"
+                  src={`/images/clientes/${clientImg}`}
+                  alt="Cliente Parceiro"
+                  className="max-w-full max-h-full object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
                 />
               </div>
             ))}
@@ -269,30 +299,102 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Projetos */}
+      {/* Projetos em Destaque */}
       <section className="py-20 bg-primary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-600/20 border border-red-500/30 text-red-400 text-sm font-medium mb-4">
+              <Mountain className="w-4 h-4 mr-2" />
+              Nossas Obras
+            </div>
+            <h2 className="text-4xl font-bold text-white mb-6">Obras de Qualidade</h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-12">
+              Veja alguns dos nossos projetos mais recentes executados em todo o Brasil.
+            </p>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {projectImages.map((image, index) => (
-              <div 
-                key={index} 
-                className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
-                onClick={() => setSelectedImage(image)}
+            {featuredObras.map((obra) => (
+              <NavLink
+                key={obra.id}
+                to="/obras"
+                className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
               >
-                <img 
-                  src={image} 
-                  alt={`Projeto ${index + 1}`}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <div className="text-white text-center">
-                    <h3 className="text-lg font-semibold mb-2">Projeto {index + 1}</h3>
-                    <p className="text-sm">Contenção e Engenharia</p>
-                    <p className="text-xs mt-2 opacity-75">Clique para ampliar</p>
+                <div className="aspect-video overflow-hidden">
+                  <img
+                    src={obra.id > 100 ? obra.images[0] : `/obras/${encodeURIComponent(obra.name)}/${encodeURIComponent(obra.images[0])}`}
+                    alt={obra.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
+                  <h3 className="text-white text-xl font-bold mb-1">{obra.name}</h3>
+                  <p className="text-red-400 text-sm font-medium">{obra.category}</p>
+                  <div className="flex items-center text-gray-300 text-xs mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <ArrowRight className="w-4 h-4 mr-1" />
+                    Ver detalhes no portfólio
                   </div>
                 </div>
-              </div>
+              </NavLink>
             ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Button size="lg" variant="outline" className="border-red-500 text-red-500 hover:bg-red-500 hover:text-white">
+              <NavLink to="/obras">Ver Todas as Obras</NavLink>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Seção de Vídeos (Destaque) */}
+      <section className="py-20 bg- engineering-light-gray">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-600/20 border border-red-500/30 text-red-600 text-sm font-medium mb-4">
+              <Zap className="w-4 h-4 mr-2" />
+              Nossa Tecnologia em Ação
+            </div>
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">Execução e Tecnologia</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Veja nossos equipamentos e equipes em operação, garantindo a máxima precisão em cada m² construído.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {(dynamicVideos.length > 0 ? dynamicVideos : [
+              { name: "Vista Aérea - Autódromo de Interlagos", path: "/midias/DJI_0001.MOV" },
+              { name: "Obra em Andamento", path: "/midias/DJI_0013.MP4" },
+              { name: "Vista Aérea - Autódromo de Interlagos", path: "/midias/DJI_0017.MOV" },
+            ]).map((video, index) => (
+              <Card key={index} className="overflow-hidden bg-black border-none shadow-2xl group ring-1 ring-white/10">
+                <CardContent className="p-0">
+                  <div className="aspect-video relative">
+                    <video
+                      controls
+                      playsInline
+                      className="w-full h-full object-cover"
+                      preload="metadata"
+                    >
+                      <source src={video.path} />
+                    </video>
+                  </div>
+                  <div className="p-5 bg-white">
+                    <h3 className="font-bold text-primary text-lg truncate">{video.name}</h3>
+                    <p className="text-secondary text-xs font-bold uppercase mt-1">Engenharia em movimento</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white" asChild>
+              <NavLink to="/videos" className="flex items-center">
+                Conhecer outros vídeos
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </NavLink>
+            </Button>
           </div>
         </div>
       </section>
@@ -310,7 +412,7 @@ const Index = () => {
               Feedback real de clientes satisfeitos com nossos serviços.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
@@ -397,7 +499,7 @@ const Index = () => {
               </NavLink>
             </Button>
             <Button size="lg" variant="outline" className="border-white text-black bg-white hover:bg-gray-100 hover:text-black px-8 py-4">
-              <NavLink to="/portfolio">
+              <NavLink to="/obras">
                 Ver Portfolio
               </NavLink>
             </Button>
@@ -407,19 +509,19 @@ const Index = () => {
 
       {/* Modal para ampliar imagens */}
       {selectedImage && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
           onClick={() => setSelectedImage(null)}
         >
           <div className="relative max-w-4xl max-h-full">
-            <button 
+            <button
               className="absolute top-4 right-4 text-white hover:text-gray-300 z-10"
               onClick={() => setSelectedImage(null)}
             >
               <X className="w-8 h-8" />
             </button>
-            <img 
-              src={selectedImage} 
+            <img
+              src={selectedImage}
               alt="Projeto ampliado"
               className="max-w-full max-h-full object-contain rounded-lg"
               onClick={(e) => e.stopPropagation()}

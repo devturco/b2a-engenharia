@@ -3,192 +3,157 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { NavLink } from "react-router-dom";
-import { 
-  CheckCircle, 
-  Shield, 
-  Settings, 
-  Users, 
+import { WorkGallery } from "@/components/gallery/WorkGallery";
+import { obras } from "@/data/obras";
+import {
+  CheckCircle,
+  Shield,
+  Settings,
+  Users,
   FileText,
   Phone,
   Mountain,
-  Award
+  Award,
+  ArrowRight,
+  TrendingUp,
+  Clock
 } from "lucide-react";
+import { useEffect } from "react";
 
 const TerraArmada = () => {
+  useEffect(() => {
+    document.title = "Terra Armada | Engenharia Geotécnica & Contenções | B2A";
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", "Especialistas em Terra Armada. Muros de solo reforçado com fitas metálicas e escamas de concreto. Solução definitiva para rodovias, ferrovias e mineração.");
+    }
+  }, []);
+
+  const obraArcelor = obras.find(o => o.id === "arcelormittal-itatiaiuçu");
+  const obraCorreios = obras.find(o => o.id === "correios-contagem");
+
   const servicos = [
     {
-      titulo: "Projeto Executivo",
-      descricao: "Desenvolvimento completo do projeto técnico com dimensionamento, especificações e detalhamentos.",
+      titulo: "Projeto Executivo Detalhado",
+      descricao: "Dimensionamento geotécnico e estrutural completo, seguindo as premissas da NBR 16920-2:2021.",
       icon: FileText
     },
     {
-      titulo: "ECE (Elementos Construtivos Específicos)",
-      descricao: "Materiais específicas para a montagem do muro em Terra Armada.",
+      titulo: "ECE (Elementos Construtivos)",
+      descricao: "Fornecimento e especificação de fitas metálicas galvanizadas e acessórios de alta durabilidade.",
       icon: Settings
     },
     {
       titulo: "Mão de Obra Especializada",
-      descricao: "Equipe técnica qualificada para execução de obras de terra armada com máxima precisão.",
+      descricao: "Equipes treinadas para a montagem precisa do paramento frontal e compactação do solo reforçado.",
       icon: Users
     },
     {
-      titulo: "Fornecimento de Equipamentos",
-      descricao: "Equipamentos e materiais de alta qualidade para construção de estruturas de terra armada.",
+      titulo: "Gestão de Escamas",
+      descricao: "Supervisão da produção e logística das placas de concreto para garantir o perfeito encaixe.",
       icon: Mountain
     },
     {
-      titulo: "Supervisão Técnica",
-      descricao: "Acompanhamento especializado durante toda a execução para garantir qualidade e segurança.",
+      titulo: "Supervisão Técnica Especializada",
+      descricao: "Acompanhamento integral por engenheiros geotécnicos, garantindo a fidelidade ao projeto.",
       icon: Shield
     }
   ];
 
   const beneficios = [
-    "Redução significativa de custos comparado a soluções convencionais",
-    "Maior rapidez na execução da obra",
-    "Flexibilidade para acomodar recalques e movimentações do terreno",
-    "Excelente desempenho sísmico",
-    "Possibilidade de construção em etapas",
-    "Baixo impacto ambiental",
-    "Durabilidade e resistência comprovadas"
-  ];
-
-  const aplicacoes = [
-    "Muros de contenção para rodovias e ferrovias",
-    "Estruturas de contenção em mineração",
-    "Contenções para aterros sanitários",
-    "Muros de arrimo para estabilização de taludes",
-    "Estruturas de contenção em portos",
-    "Contenções em áreas urbanas",
-    "Reforço de aterros sobre solos moles"
-  ];
-
-  const diferenciais = [
-    "Mais de 14 anos de experiência em terra armada",
-    "Equipe técnica especializada e certificada",
-    "Metodologia exclusiva de dimensionamento",
-    "Uso de materiais de primeira qualidade",
-    "Supervisão técnica em tempo integral",
-    "Projetos em conformidade com normas NBR e FHWA",
-    "Garantia técnica de 5 anos"
-  ];
-
-  const faqs = [
-    {
-      pergunta: "O que é terra armada e como funciona?",
-      resposta: "Terra armada é uma técnica de reforço de solo que utiliza elementos de tração (fitas metálicas ou geossintéticos) combinados com solo compactado para formar uma estrutura estável e resistente."
-    },
-    {
-      pergunta: "Quais as vantagens da terra armada sobre muros convencionais?",
-      resposta: "Principal vantagem é o custo-benefício, além de maior flexibilidade, rapidez na execução e melhor comportamento em terrenos instáveis."
-    },
-    {
-      pergunta: "Qual a altura máxima para estruturas de terra armada?",
-      resposta: "Tecnicamente não há limite de altura, já existem estruturas com mais de 50 metros. O dimensionamento é feito caso a caso conforme as condições do terreno."
-    },
-    {
-      pergunta: "Quanto tempo leva para executar um projeto de terra armada?",
-      resposta: "Depende da altura e extensão, mas em média 30% mais rápido que soluções convencionais, podendo ser executado até 3-4 metros por dia."
-    },
-    {
-      pergunta: "A B2A oferece garantia para projetos de terra armada?",
-      resposta: "Sim, oferecemos garantia técnica de 5 anos para todos os projetos executados, além de acompanhamento pós-obra."
-    }
+    { title: "Economia Estrutural", desc: "Redução de até 40% nos custos em relação a muros de gravidade em grandes alturas.", icon: TrendingUp },
+    { title: "Velocidade Executiva", desc: "Montagem ágil que permite liberação rápida de frentes de trabalho em rodovias.", icon: Clock },
+    { title: "Durabilidade Elevada", desc: "Vida útil superior a 70 anos com fitas metálicas de alta galvanização.", icon: Award }
   ];
 
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-primary-glow text-primary-foreground py-20">
-        <div className="container px-4">
+      <section className="bg-primary text-primary-foreground py-24 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 grayscale">
+          <img src="/images/aeroporto.png" alt="Background" className="w-full h-full object-cover" />
+        </div>
+        <div className="container px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="bg-secondary text-secondary-foreground mb-4 px-4 py-2">
-              Especialidade Principal
+            <Badge className="bg-secondary text-white mb-6 px-4 py-1.5 uppercase font-black tracking-widest">
+              Tecnologia em Solo Reforçado
             </Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Terra Armada - Soluções Completas
+            <h1 className="text-4xl md:text-7xl font-black mb-6 uppercase tracking-tighter leading-none">
+              Terra <span className="text-secondary">Armada</span>
             </h1>
-            <p className="text-xl md:text-2xl text-primary-foreground/90 leading-relaxed mb-8">
-              Projetos executivos, ECE, fornecimento de equipamentos, mão de obra especializada 
-              e supervisão técnica para estruturas de terra armada de alta performance.
+            <p className="text-xl md:text-2xl text-primary-foreground/80 leading-relaxed mb-10 max-w-3xl mx-auto font-light">
+              Liderança técnica em sistemas de contenção com escamas de concreto e fitas metálicas,
+              garantindo estética superior e resistência inigualável.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" asChild>
-                <NavLink to="/contato">
-                  Solicitar Orçamento
-                </NavLink>
-              </Button>
-              <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-                <Phone className="h-5 w-5 mr-2" />
-                (11) 99999-9999
+              <Button size="lg" className="bg-secondary hover:bg-secondary-glow text-white h-16 px-10 rounded-full font-bold uppercase tracking-wide shadow-xl" asChild>
+                <NavLink to="/contato">Solicitar Orçamento Técnico</NavLink>
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Introdução */}
-      <section className="py-16">
+      {/* Introdução e Diferenciais */}
+      <section className="py-24 bg-white">
         <div className="container px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-primary">
-                Tecnologia Terra Armada de Excelência
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <h2 className="text-3xl md:text-5xl font-black text-primary uppercase tracking-tighter leading-tight">
+                A Solução Definitiva para <br /><span className="text-secondary italic">Grandes Contenções</span>
               </h2>
-              <div className="prose prose-lg max-w-none space-y-4">
-                <p className="text-muted-foreground">
-                  A <strong>terra armada</strong> é uma técnica revolucionária de engenharia geotécnica que 
-                  combina solo compactado com elementos de reforço (fitas metálicas ou geossintéticos), 
-                  criando uma estrutura monolítica de alta resistência e flexibilidade.
+              <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed">
+                <p>
+                  A <strong>Terra Armada</strong> é um sistema de solo reforçado composto por escamas pré-moldadas de concreto, elementos de reforço linear metálicos (fitas galvanizadas) e aterro selecionado compactado.
                 </p>
-                <p className="text-muted-foreground">
-                  Na <strong>B2A Engenharia</strong>, oferecemos soluções completas em terra armada, desde o 
-                  estudo de concepção (ECE) até a supervisão técnica da execução, garantindo máxima 
-                  eficiência e segurança em projetos de contenção e estabilização.
-                </p>
-                <p className="text-muted-foreground">
-                  Nossa metodologia segue rigorosamente as normas <strong>NBR 9286</strong>, <strong>FHWA</strong> 
-                  e <strong>ABNT</strong>, utilizando materiais certificados e equipe técnica especializada 
-                  para entregar projetos de excelência.
+                <p>
+                  Na <strong>B2A Engenharia</strong>, dominamos o ciclo completo desta tecnologia: do dimensionamento que otimiza o uso de aço à execução em campo com equipamentos de ponta.
                 </p>
               </div>
-            </div>
-            <div className="bg-engineering-light-gray p-8 rounded-lg">
-              <h3 className="text-2xl font-bold text-primary mb-6">Por que escolher Terra Armada?</h3>
-              <div className="space-y-4">
-                {beneficios.slice(0, 4).map((beneficio, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <CheckCircle className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{beneficio}</span>
+              <div className="grid sm:grid-cols-3 gap-6 pt-4">
+                {beneficios.map((b, i) => (
+                  <div key={i} className="p-6 bg-gray-50 rounded-2xl border border-gray-100 hover:border-primary transition-all">
+                    <b.icon className="h-8 w-8 text-secondary mb-4" />
+                    <h3 className="font-bold text-primary text-sm mb-2 uppercase">{b.title}</h3>
+                    <p className="text-xs leading-relaxed">{b.desc}</p>
                   </div>
                 ))}
               </div>
             </div>
+            <div className="relative group">
+              <div className="absolute -inset-4 bg-secondary/5 rounded-[40px] -rotate-2 group-hover:rotate-0 transition-transform"></div>
+              <img
+                src="/images/aeroporto.png"
+                alt="Obra de Terra Armada"
+                className="rounded-[32px] shadow-2xl relative z-10 w-full"
+              />
+              <div className="absolute bottom-10 left-10 bg-white/90 backdrop-blur p-6 rounded-2xl shadow-xl z-20 border border-gray-100">
+                <p className="text-primary font-black text-2xl leading-none">NBR 16920</p>
+                <p className="text-muted-foreground text-xs font-bold uppercase mt-1">Conformidade Total</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Serviços Oferecidos */}
-      <section className="py-16 bg-engineering-light-gray">
+      {/* Serviços Internos */}
+      <section className="py-24 bg-gray-50">
         <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Serviços Completos em Terra Armada
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Solução integrada desde o projeto até a entrega final da obra
-            </p>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-black text-primary uppercase tracking-tighter mb-4">Escopo de Atuação</h2>
+            <div className="h-1.5 w-24 bg-secondary mx-auto rounded-full"></div>
           </div>
-
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {servicos.map((servico, index) => (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <servico.icon className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <CardTitle className="text-primary">{servico.titulo}</CardTitle>
+            {servicos.map((s, i) => (
+              <Card key={i} className="border-none shadow-xl hover:shadow-2xl transition-all group rounded-2xl overflow-hidden">
+                <CardHeader className="bg-white pb-2 flex flex-row items-center space-x-4">
+                  <div className="p-3 bg-primary/5 rounded-xl text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                    <s.icon size={28} />
+                  </div>
+                  <CardTitle className="text-primary text-lg font-bold uppercase tracking-tight">{s.titulo}</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{servico.descricao}</p>
+                <CardContent className="bg-white">
+                  <p className="text-muted-foreground text-sm leading-relaxed">{s.descricao}</p>
                 </CardContent>
               </Card>
             ))}
@@ -196,150 +161,105 @@ const TerraArmada = () => {
         </div>
       </section>
 
-      {/* Benefícios Detalhados */}
-      <section className="py-16">
+      {/* Portfólio de Obras */}
+      <section className="py-24 bg-white">
         <div className="container px-4">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div>
-              <h2 className="text-3xl font-bold mb-8 text-primary">
-                Benefícios da Terra Armada
-              </h2>
-              <div className="space-y-4">
-                {beneficios.map((beneficio, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <CheckCircle className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{beneficio}</span>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-primary uppercase tracking-tighter">Projetos <br /> de <span className="text-secondary italic">Destaque</span></h2>
+            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">Excelência técnica aplicada em projetos logísticos e industriais de alta complexidade.</p>
+          </div>
+
+          <div className="space-y-32">
+            {obraArcelor && (
+              <div className="relative">
+                <div className="flex flex-col md:flex-row items-end justify-between mb-8 gap-4">
+                  <div>
+                    <Badge variant="outline" className="text-secondary border-secondary mb-2 uppercase tracking-widest">{obraArcelor.category}</Badge>
+                    <h3 className="text-3xl font-black text-primary uppercase tracking-tight">{obraArcelor.name}</h3>
+                    <p className="text-muted-foreground font-medium">{obraArcelor.location}</p>
                   </div>
-                ))}
+                  <NavLink to="/obras" className="text-primary font-bold hover:text-secondary flex items-center group">
+                    Ver todos os projetos <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                  </NavLink>
+                </div>
+                <div className="shadow-3xl rounded-3xl overflow-hidden border-8 border-gray-50">
+                  <WorkGallery workName={obraArcelor.name} images={obraArcelor.images} />
+                </div>
               </div>
-            </div>
-            
-            <div>
-              <h2 className="text-3xl font-bold mb-8 text-primary">
-                Aplicações Práticas
-              </h2>
-              <div className="space-y-4">
-                {aplicacoes.map((aplicacao, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <Mountain className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{aplicacao}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            )}
 
-      {/* Diferenciais da B2A */}
-      <section className="py-16 bg-engineering-light-gray">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Diferenciais da B2A em Terra Armada
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Experiência, metodologia e qualidade que fazem a diferença em seus projetos
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {diferenciais.map((diferencial, index) => (
-              <div key={index} className="flex items-start space-x-3 bg-background p-6 rounded-lg">
-                <Award className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
-                <span className="text-muted-foreground">{diferencial}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Bloco Visual */}
-      <section className="py-16">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Projetos em Terra Armada
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Veja exemplos de nossos projetos executados com excelência técnica
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <Card key={i} className="overflow-hidden">
-                <div className="h-48 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                  <div className="text-center">
-                    <Mountain className="h-16 w-16 text-primary mx-auto mb-4" />
-                    <p className="text-muted-foreground">Imagem do Projeto {i}</p>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      [Espaço para vídeo explicativo ou galeria de imagens]
-                    </p>
+            {obraCorreios && (
+              <div className="relative">
+                <div className="flex flex-col md:flex-row items-end justify-between mb-8 gap-4">
+                  <div>
+                    <Badge variant="outline" className="text-secondary border-secondary mb-2 uppercase tracking-widest">{obraCorreios.category}</Badge>
+                    <h3 className="text-3xl font-black text-primary uppercase tracking-tight">{obraCorreios.name}</h3>
+                    <p className="text-muted-foreground font-medium">{obraCorreios.location}</p>
                   </div>
                 </div>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold text-primary mb-2">
-                    Projeto Terra Armada - Obra {i}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    Exemplo de aplicação técnica em projeto real
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+                <div className="shadow-3xl rounded-3xl overflow-hidden border-8 border-gray-50">
+                  <WorkGallery workName={obraCorreios.name} images={obraCorreios.images} />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="py-16 bg-engineering-light-gray">
+      {/* FAQ e Informações Técnicas */}
+      <section className="py-24 bg-gray-50">
         <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Perguntas Frequentes sobre Terra Armada
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Esclarecemos as principais dúvidas sobre esta tecnologia
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto space-y-6">
-            {faqs.map((faq, index) => (
-              <Card key={index}>
-                <CardHeader>
-                  <h3 className="font-semibold text-primary">{faq.pergunta}</h3>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{faq.resposta}</p>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="grid lg:grid-cols-2 gap-16">
+            <div>
+              <h2 className="text-3xl font-black text-primary uppercase tracking-tighter mb-8">Diferenciais <br /> Competitivos</h2>
+              <div className="space-y-4">
+                {[
+                  "Mais de 15 anos de expertise em sistemas de solo reforçado.",
+                  "Dimensionamento otimizado focado na redução de custo do cliente.",
+                  "Parcerias estratégicas com fabricantes de fitas e escamas.",
+                  "Zero índice de patologias em mais de 300 obras executadas.",
+                  "Suporte total no ECE e licenciamento técnico."
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center space-x-3 p-4 bg-white rounded-xl shadow-sm border border-gray-100">
+                    <CheckCircle className="text-secondary h-6 w-6 flex-shrink-0" />
+                    <span className="font-bold text-primary text-sm uppercase tracking-wide">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h2 className="text-3xl font-black text-primary uppercase tracking-tighter mb-8 text-center lg:text-left">Dúvidas Técnicas</h2>
+              <div className="space-y-4">
+                {[
+                  { q: "Qual o custo por m² da Terra Armada?", a: "O valor varia conforme a altura e cargas, mas é a solução mais econômica para muros acima de 6 metros de altura." },
+                  { q: "Quais normas são seguidas?", a: "Principalmente a NBR 16920 e manuais internacionais da FHWA para solo reforçado." },
+                  { q: "A B2A fornece as escamas?", a: "Nós gerenciamos o fornecimento e garantimos que a produção siga os padrões de qualidade exigidos pelo projeto." }
+                ].map((faq, i) => (
+                  <details key={i} className="group bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
+                    <summary className="p-6 cursor-pointer font-bold text-primary flex justify-between items-center list-none group-open:bg-primary group-open:text-white transition-all">
+                      {faq.q}
+                      <ArrowRight size={18} className="group-open:rotate-90 transition-transform" />
+                    </summary>
+                    <div className="p-6 text-muted-foreground text-sm leading-relaxed">
+                      {faq.a}
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* CTA Final */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="container px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Precisa de um Projeto em Terra Armada?
-          </h2>
-          <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
-            Nossa equipe especializada está pronta para desenvolver a solução ideal 
-            para seu projeto. Entre em contato para uma análise técnica personalizada.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" asChild>
-              <NavLink to="/contato">
-                Solicitar Análise Técnica
-              </NavLink>
-            </Button>
-            <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-              <Phone className="h-5 w-5 mr-2" />
-              Ligar Agora
-            </Button>
-          </div>
+      <section className="py-24 bg-gradient-to-r from-primary to-primary-glow text-center relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+        <div className="container px-4 relative z-10">
+          <h2 className="text-3xl md:text-5xl font-black text-white mb-8 uppercase tracking-tighter">Viabilize seu projeto hoje</h2>
+          <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto font-light">Solicite um estudo prévio de viabilidade técnica e econômica sem compromisso.</p>
+          <Button size="lg" className="bg-secondary hover:bg-secondary-glow text-white h-16 px-16 rounded-full text-lg font-bold shadow-2xl transition-all active:scale-95" asChild>
+            <NavLink to="/contato">Falar com um Especialista</NavLink>
+          </Button>
         </div>
       </section>
     </Layout>

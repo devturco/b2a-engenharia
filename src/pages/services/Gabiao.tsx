@@ -3,163 +3,116 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { NavLink } from "react-router-dom";
-import { 
-  Settings, 
-  CheckCircle, 
-  Droplets, 
-  Trees, 
+import {
+  Settings,
+  CheckCircle,
+  Droplets,
+  Trees,
   Award,
   Phone,
   Recycle,
-  Shield
+  Shield,
+  Zap,
+  Mountain
 } from "lucide-react";
+import { useEffect } from "react";
+import { WorkGallery } from "@/components/gallery/WorkGallery";
 
 const Gabiao = () => {
-  const vantagens = [
-    "Estrutura flexível e permeável",
-    "Facilita a drenagem natural",
-    "Permite revegetação integrada",
-    "Montagem rápida e simples",
-    "Resistente à ação do tempo",
-    "Baixo custo de manutenção",
-    "Impacto ambiental mínimo"
+  useEffect(() => {
+    document.title = "Gabião | Contenções Flexíveis e Drenantes | B2A";
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", "Especialistas em estruturas de Gabião. Contenções flexíveis, permeáveis e sustentáveis para proteção de margens e encostas. Qualidade B2A.");
+    }
+  }, []);
+
+  const diferenciais = [
+    { title: "Permeabilidade", desc: "Drenagem natural que elimina a pressão hidrostática.", icon: Droplets },
+    { title: "Flexibilidade", desc: "Acomoda recalques do solo sem perder a integridade.", icon: Settings },
+    { title: "Sustentabilidade", desc: "Baixo impacto visual e permite a revegetação natural.", icon: Trees }
   ];
 
   const tiposGabiao = [
     {
       tipo: "Gabião Caixa",
-      descricao: "Estruturas de contenção em formato de caixa retangular",
-      aplicacoes: ["Muros de contenção", "Fundações", "Proteção de margens"]
-    },
-    {
-      tipo: "Gabião Saco",
-      descricao: "Formato cilíndrico para aplicações específicas",
-      aplicacoes: ["Proteção subaquática", "Obras de emergência", "Reforço localizado"]
+      descricao: "Muros de gravidade para contenção de encostas e barragens.",
+      icon: Shield
     },
     {
       tipo: "Gabião Colchão",
-      descricao: "Estrutura de baixa altura para proteção superficial",
-      aplicacoes: ["Proteção de taludes", "Canais", "Controle de erosão"]
+      descricao: "Proteção de canais, margens e taludes contra erosão.",
+      icon: Droplets
+    },
+    {
+      tipo: "Gabião Saco",
+      descricao: "Obras emergenciais e fundações subaquáticas.",
+      icon: Zap
     }
   ];
 
-  const aplicacoes = [
-    "Muros de contenção de pequeno a médio porte",
-    "Proteção de margens de rios e lagos",
-    "Estruturas de drenagem e controle de erosão",
-    "Contenções paisagísticas e decorativas",
-    "Proteção de infraestruturas rodoviárias",
-    "Obras de contenção em mineração",
-    "Estruturas de contenção temporárias"
-  ];
-
-  const especificacoesTecnicas = [
-    "Tela de arame galvanizado ou plastificado",
-    "Malha hexagonal de dupla torção",
-    "Diâmetro do arame: 2,7 a 4,0 mm",
-    "Abertura da malha: 80 x 100 mm",
-    "Pedra de enchimento: graduação específica",
-    "Resistência à tração: ≥ 38 kgf/mm²",
-    "Proteção anticorrosiva conforme norma"
-  ];
-
-  const criteriosProjeto = [
-    "Análise de estabilidade interna e externa",
-    "Dimensionamento conforme NBR 11682",
-    "Especificação de materiais adequados",
-    "Projeto de sistema de drenagem",
-    "Detalhamento de fundações",
-    "Cronograma executivo detalhado",
-    "Memorial descritivo e de cálculo"
-  ];
-
-  const faqs = [
-    {
-      pergunta: "Qual a altura máxima para muros de gabião?",
-      resposta: "Tecnicamente pode-se alcançar alturas de 10-15 metros, mas economicamente são mais viáveis até 6-8 metros. Para alturas maiores, análise específica de viabilidade é necessária."
-    },
-    {
-      pergunta: "Gabião é adequado para qualquer tipo de terreno?",
-      resposta: "Gabiões são mais adequados para terrenos com boa capacidade de suporte. Em solos moles, podem ser necessárias fundações especiais ou outras soluções."
-    },
-    {
-      pergunta: "É possível fazer revegetação em estruturas de gabião?",
-      resposta: "Sim, a revegetação é uma das principais vantagens. O sistema permite plantio entre as pedras, criando um aspecto natural e melhorando a integração paisagística."
-    },
-    {
-      pergunta: "Qual a vida útil de estruturas de gabião?",
-      resposta: "Com galvanização adequada e materiais de qualidade, a vida útil pode superar 50 anos. A manutenção é mínima, restringindo-se à limpeza da vegetação quando necessário."
-    },
-    {
-      pergunta: "Gabião funciona bem em regiões com variação de temperatura?",
-      resposta: "Sim, a flexibilidade da estrutura permite acomodar dilatações térmicas sem comprometer a integridade. É uma solução adequada para diferentes climas."
-    }
-  ];
+  const images = []; // Adicionar se houver imagens específicas ou manter vazio
 
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-primary-glow text-primary-foreground py-20">
-        <div className="container px-4">
+      <section className="bg-primary text-primary-foreground py-24 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-15 grayscale contrast-125">
+          <img src="/images/aeroporto.png" className="w-full h-full object-cover" alt="Background" />
+        </div>
+        <div className="container px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="bg-secondary text-secondary-foreground mb-4 px-4 py-2">
-              Contenção Flexível
+            <Badge className="bg-secondary text-white mb-6 px-4 py-1.5 uppercase font-black tracking-widest">
+              Contenção Ecológica
             </Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Gabião - Soluções Permeáveis e Sustentáveis
+            <h1 className="text-4xl md:text-7xl font-black mb-6 uppercase tracking-tighter leading-none">
+              Muros de <span className="text-secondary">Gabião</span>
             </h1>
-            <p className="text-xl md:text-2xl text-primary-foreground/90 leading-relaxed mb-8">
-              Estruturas de contenção flexíveis utilizando gaiolas metálicas preenchidas 
-              com pedras, oferecendo excelente drenagem e integração paisagística.
+            <p className="text-xl md:text-2xl text-primary-foreground/80 leading-relaxed mb-10 max-w-3xl mx-auto font-light">
+              A harmonia perfeita entre engenharia e natureza: contenções flexíveis e permeáveis
+              que se tornam parte integrante da paisagem.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" asChild>
-                <NavLink to="/contato">
-                  Solicitar Orçamento
-                </NavLink>
-              </Button>
-              <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-                <Phone className="h-5 w-5 mr-2" />
-                Consultoria Técnica
+              <Button size="lg" className="bg-secondary hover:bg-secondary-glow text-white h-16 px-10 rounded-full font-bold uppercase tracking-wide shadow-xl" asChild>
+                <NavLink to="/contato">Solicitar Orçamento</NavLink>
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Introdução */}
-      <section className="py-16">
+      {/* Introdução Técnica */}
+      <section className="py-24 bg-white">
         <div className="container px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-primary">
-                Tecnologia Gabião
-              </h2>
-              <div className="prose prose-lg max-w-none space-y-4">
-                <p className="text-muted-foreground">
-                  O <strong>gabião</strong> é uma estrutura de contenção composta por gaiolas 
-                  metálicas preenchidas com pedras, oferecendo uma solução flexível, permeável 
-                  e esteticamente integrada ao ambiente natural.
-                </p>
-                <p className="text-muted-foreground">
-                  Esta tecnologia, normatizada e amplamente utilizada em engenharia, combina 
-                  eficiência estrutural com benefícios ambientais, permitindo drenagem natural 
-                  e revegetação, características essenciais para projetos sustentáveis.
-                </p>
-                <p className="text-muted-foreground">
-                  Na <strong>B2A Engenharia</strong>, especificamos e projetamos estruturas de 
-                  gabião seguindo normas técnicas rigorosas, garantindo durabilidade e performance 
-                  adequada para cada aplicação específica.
-                </p>
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="relative rounded-[40px] overflow-hidden shadow-2xl">
+                <img src="/images/aeroporto.png" alt="Obra em Gabião" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-primary/40 to-transparent"></div>
               </div>
             </div>
-            <div className="bg-engineering-light-gray p-8 rounded-lg">
-              <h3 className="text-2xl font-bold text-primary mb-6">Principais Benefícios</h3>
-              <div className="space-y-4">
-                {vantagens.slice(0, 5).map((vantagem, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <CheckCircle className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{vantagem}</span>
+            <div className="space-y-8 order-1 lg:order-2">
+              <h2 className="text-3xl md:text-5xl font-black text-primary uppercase tracking-tighter leading-tight">
+                Eficiência que <br /><span className="text-secondary italic">Respira</span>
+              </h2>
+              <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed">
+                <p>
+                  O <strong>Gabião</strong> é uma estrutura armada, flexível e drenante, composta por gaiolas de malha hexagonal de dupla torção, preenchidas com pedras de graduação específica.
+                </p>
+                <p>
+                  Sua principal característica é a permeabilidade, o que o torna a solução ideal para contenções em cursos d'água e locais com forte presença de umidade, eliminando a necessidade de sistemas complexos de drenagem profunda.
+                </p>
+              </div>
+              <div className="grid gap-4">
+                {diferenciais.map((d, i) => (
+                  <div key={i} className="flex items-center space-x-5 p-5 bg-gray-50 rounded-2xl border border-gray-100 group hover:border-primary transition-all">
+                    <div className="p-3 bg-white rounded-xl text-secondary shadow-sm group-hover:bg-primary group-hover:text-white transition-all transform group-hover:rotate-6">
+                      <d.icon size={28} />
+                    </div>
+                    <div>
+                      <h4 className="font-black text-primary text-sm uppercase tracking-tight">{d.title}</h4>
+                      <p className="text-xs text-muted-foreground leading-relaxed">{d.desc}</p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -168,239 +121,80 @@ const Gabiao = () => {
         </div>
       </section>
 
-      {/* Tipos de Gabião */}
-      <section className="py-16 bg-engineering-light-gray">
+      {/* Tipos de Solução */}
+      <section className="py-24 bg-gray-50">
         <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Tipos de Estruturas de Gabião
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Diferentes configurações para atender necessidades específicas de cada projeto
-            </p>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-black text-primary uppercase tracking-tighter mb-4">Modelos de Estrutura</h2>
+            <div className="h-1.5 w-24 bg-secondary mx-auto rounded-full"></div>
           </div>
-
           <div className="grid md:grid-cols-3 gap-8">
-            {tiposGabiao.map((tipo, index) => (
-              <Card key={index} className="text-center">
-                <CardHeader>
-                  <Settings className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <CardTitle className="text-primary">{tipo.tipo}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground">{tipo.descricao}</p>
-                  <div>
-                    <h4 className="font-semibold text-sm mb-2">Aplicações:</h4>
-                    <ul className="text-sm text-muted-foreground space-y-1">
-                      {tipo.aplicacoes.map((app, i) => (
-                        <li key={i} className="flex items-start">
-                          <span className="w-1 h-1 bg-secondary rounded-full mt-2 mr-2 flex-shrink-0"></span>
-                          {app}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </CardContent>
+            {tiposGabiao.map((t, i) => (
+              <Card key={i} className="border-none shadow-xl hover:shadow-2xl transition-all group rounded-3xl overflow-hidden text-center p-10 bg-white">
+                <div className="w-20 h-20 bg-primary/5 text-primary rounded-full flex items-center justify-center font-black text-3xl mx-auto mb-8 group-hover:scale-110 transition-transform">
+                  <t.icon size={36} />
+                </div>
+                <h3 className="font-black text-primary text-xl uppercase tracking-tight mb-4">{t.tipo}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{t.descricao}</p>
               </Card>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Características Técnicas */}
-      <section className="py-16">
+      {/* Rigor Técnico */}
+      <section className="py-24 bg-white">
         <div className="container px-4">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div>
-              <h2 className="text-3xl font-bold mb-8 text-primary">
-                Especificações Técnicas
-              </h2>
-              <div className="space-y-4">
-                {especificacoesTecnicas.map((spec, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <Settings className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{spec}</span>
-                  </div>
-                ))}
+          <div className="bg-primary rounded-[40px] p-12 md:p-20 relative overflow-hidden shadow-3xl">
+            <div className="absolute inset-0 opacity-5 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+            <div className="relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-8 leading-none">Especificações <br /> de Qualidade</h2>
+                <div className="space-y-4">
+                  {[
+                    "Arame com galvanização pesada ou revestimento em PVC.",
+                    "Malha de dupla torção que não desfia em caso de ruptura.",
+                    "Pedras de alta densidade e resistência à compressão.",
+                    "Execução rigorosa com amarrações manuais precisas.",
+                    "Dimensionamento conforme NBR 11682."
+                  ].map((item, i) => (
+                    <div key={i} className="flex items-center space-x-4">
+                      <CheckCircle className="text-secondary h-6 w-6 flex-shrink-0" />
+                      <span className="text-white/80 font-bold text-sm uppercase tracking-wide leading-tight">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="bg-white/10 backdrop-blur-md p-10 rounded-[32px] border border-white/20 text-center">
+                  <Award className="h-12 w-12 text-secondary mx-auto mb-4" />
+                  <p className="text-white font-black text-4xl leading-none">50+</p>
+                  <p className="text-white/50 text-[10px] font-bold uppercase tracking-widest mt-2">Anos de Vida Útil</p>
+                </div>
+                <div className="bg-white/10 backdrop-blur-md p-10 rounded-[32px] border border-white/20 text-center">
+                  <Recycle className="h-12 w-12 text-secondary mx-auto mb-4" />
+                  <p className="text-white font-black text-4xl leading-none">100%</p>
+                  <p className="text-white/50 text-[10px] font-bold uppercase tracking-widest mt-2">Drenante</p>
+                </div>
               </div>
             </div>
-            
-            <div>
-              <h2 className="text-3xl font-bold mb-8 text-primary">
-                Critérios de Projeto
-              </h2>
-              <div className="space-y-4">
-                {criteriosProjeto.map((criterio, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <Award className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{criterio}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Benefícios Ambientais */}
-      <section className="py-16 bg-engineering-light-gray">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Benefícios Ambientais e Paisagísticos
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Integração harmoniosa com o meio ambiente e contribuição para sustentabilidade
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              {
-                titulo: "Drenagem Natural",
-                descricao: "Permite livre circulação da água, evitando acúmulo de pressões",
-                icon: Droplets
-              },
-              {
-                titulo: "Revegetação",
-                descricao: "Facilita crescimento de vegetação para integração paisagística",
-                icon: Trees
-              },
-              {
-                titulo: "Material Reciclável",
-                descricao: "Utiliza materiais que podem ser reutilizados ao final da vida útil",
-                icon: Recycle
-              },
-              {
-                titulo: "Flexibilidade",
-                descricao: "Adapta-se a movimentações do terreno sem perder eficiência",
-                icon: Shield
-              }
-            ].map((beneficio, index) => (
-              <Card key={index} className="text-center">
-                <CardHeader>
-                  <beneficio.icon className="h-10 w-10 text-secondary mx-auto mb-4" />
-                  <CardTitle className="text-primary text-lg">{beneficio.titulo}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">{beneficio.descricao}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Aplicações Práticas */}
-      <section className="py-16">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Aplicações Práticas do Gabião
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Soluções versáteis para diferentes necessidades de contenção e proteção
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {aplicacoes.map((aplicacao, index) => (
-              <Card key={index} className="p-6">
-                <div className="flex items-start space-x-3">
-                  <Settings className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">{aplicacao}</span>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Bloco Visual */}
-      <section className="py-16 bg-engineering-light-gray">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Projetos em Gabião
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Exemplos de aplicação em diferentes contextos e necessidades
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { titulo: "Contenção Paisagística", desc: "Muro de gabião com revegetação" },
-              { titulo: "Proteção de Margem", desc: "Gabião colchão em curso d'água" },
-              { titulo: "Contenção Rodoviária", desc: "Muro de gabião em rodovia" }
-            ].map((projeto, index) => (
-              <Card key={index} className="overflow-hidden">
-                <div className="h-48 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                  <div className="text-center">
-                    <Settings className="h-16 w-16 text-primary mx-auto mb-4" />
-                    <p className="text-muted-foreground">Imagem do Projeto</p>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      [Espaço para galeria de imagens]
-                    </p>
-                  </div>
-                </div>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold text-primary mb-2">{projeto.titulo}</h3>
-                  <p className="text-sm text-muted-foreground">{projeto.desc}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="py-16">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Perguntas Frequentes - Gabião
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Esclarecimentos sobre estruturas de contenção em gabião
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto space-y-6">
-            {faqs.map((faq, index) => (
-              <Card key={index}>
-                <CardHeader>
-                  <h3 className="font-semibold text-primary">{faq.pergunta}</h3>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{faq.resposta}</p>
-                </CardContent>
-              </Card>
-            ))}
           </div>
         </div>
       </section>
 
       {/* CTA Final */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="container px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Projeto de Gabião para Sua Necessidade?
-          </h2>
-          <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
-            Nossa equipe desenvolve projetos de gabião integrados ao paisagismo e com 
-            máxima eficiência técnica. Solicite uma análise para seu projeto.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" asChild>
-              <NavLink to="/contato">
-                Solicitar Orçamento
-              </NavLink>
-            </Button>
-            <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-              <Phone className="h-5 w-5 mr-2" />
-              Consultoria Paisagística
-            </Button>
+      <section className="py-24 bg-white text-center">
+        <div className="container px-4">
+          <div className="max-w-3xl mx-auto space-y-10">
+            <h2 className="text-3xl md:text-6xl font-black text-primary uppercase tracking-tighter leading-none">Onde a Engenharia <br /> encontra a <span className="text-secondary">Natureza</span></h2>
+            <p className="text-xl text-muted-foreground font-light leading-relaxed">
+              Consulte nossa equipe especializada para projetos de contenção em Gabião que aliam estética e segurança absoluta.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Button size="lg" className="bg-primary hover:bg-primary-glow text-white h-16 px-16 rounded-full text-lg font-bold shadow-2xl transition-all" asChild>
+                <NavLink to="/contato">Falar com Especialista</NavLink>
+              </Button>
+            </div>
           </div>
         </div>
       </section>

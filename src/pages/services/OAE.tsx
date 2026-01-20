@@ -1,124 +1,106 @@
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, ArrowRight, Phone, Mail, Building, Construction, Zap } from "lucide-react";
+import { CheckCircle, ArrowRight, Phone, Building, Construction, Zap, Shield, Layers } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useEffect } from "react";
 
 const OAE = () => {
+  useEffect(() => {
+    document.title = "O.A.E | Obras de Arte Especiais | B2A Engenharia";
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", "Especialistas em Obras de Arte Especiais (OAE). Projetos e execução de pontes, viadutos e estruturas complexas com engenharia de alta precisão.");
+    }
+  }, []);
+
   const especialidades = [
     {
       icon: Construction,
       title: "Pontes e Viadutos",
-      description: "Projetos estruturais complexos para infraestrutura viária"
+      description: "Sistemas estruturais para grandes vãos e cargas rodoviárias pesadas."
     },
     {
       icon: Building,
-      title: "Estruturas Especiais",
-      description: "Soluções customizadas para projetos únicos e desafiadores"
+      title: "Passarelas Urbanas",
+      description: "Mobilidade com design moderno e integração arquitetônica funcional."
     },
     {
       icon: Zap,
-      title: "Obras Complexas",
-      description: "Engenharia avançada para estruturas de grande porte"
+      title: "Estruturas Singulares",
+      description: "Desafios geométricos e técnicos que demandam engenharia sob medida."
     }
   ];
 
-  const servicos = [
-    "Projeto de pontes e viadutos",
-    "Estruturas de grande vão",
-    "Obras de arte correntes",
-    "Passarelas e passagens",
-    "Estruturas pré-moldadas especiais",
-    "Análise estrutural avançada",
-    "Modelagem computacional",
-    "Supervisão técnica especializada"
-  ];
-
-  const diferenciais = [
-    "Equipe técnica especializada",
-    "Tecnologia de ponta",
-    "Experiência comprovada",
-    "Soluções inovadoras",
-    "Cumprimento de prazos",
-    "Qualidade garantida"
+  const atributosOAE = [
+    { title: "Precisão Estrutural", d: "Cálculos avançados para estabilidade em situações críticas.", icon: Shield },
+    { title: "Metodologias Ágeis", d: "Uso de pré-moldados e cimbramentos otimizados.", icon: Layers },
+    { title: "Logística Complexa", d: "Expertise em içamentos e montagens em locais de difícil acesso.", icon: Construction }
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
+    <Layout>
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-r from-primary to-primary/80">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center text-white">
-            <Badge variant="secondary" className="mb-4">
-              Projetos Especiais
+      <section className="bg-primary text-primary-foreground py-24 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 grayscale">
+          <img src="/images/aeroporto.png" className="w-full h-full object-cover" alt="Background" />
+        </div>
+        <div className="container px-4 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <Badge className="bg-secondary text-white mb-6 px-4 py-1.5 uppercase font-black tracking-widest">
+              Alta Engenharia Estrutural
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              O.A.E
+            <h1 className="text-4xl md:text-7xl font-black mb-6 uppercase tracking-tighter leading-none">
+              Obras de Arte <br /><span className="text-secondary">Especiais (OAE)</span>
             </h1>
-            <p className="text-lg md:text-xl mb-2 text-white/80">
-              Obra de Artes Especiais
-            </p>
-            <p className="text-xl md:text-2xl mb-8 text-white/90">
-              Projetos estruturais complexos e soluções de engenharia avançada para obras de grande porte
+            <p className="text-xl md:text-2xl text-primary-foreground/80 leading-relaxed mb-10 max-w-3xl mx-auto font-light">
+              Projetos complexos, pontes e viadutos entregues com a precisão
+              que a infraestrutura nacional exige.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" asChild>
-                <NavLink to="/contato">
-                  Solicitar Orçamento
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </NavLink>
-              </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
-                <Phone className="mr-2 h-5 w-5" />
-                (11) 99999-9999
+              <Button size="lg" className="bg-secondary hover:bg-secondary-glow text-white h-16 px-10 rounded-full font-bold uppercase tracking-wide shadow-xl" asChild>
+                <NavLink to="/contato">Solicitar Consultoria Técnica</NavLink>
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Descrição */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center">Obras de Artes Especiais</h2>
-            <div className="prose prose-lg max-w-none">
-              <p className="text-lg text-muted-foreground mb-6">
-                As Obras de Artes Especiais (O.A.E) representam o mais alto nível da engenharia estrutural, 
-                envolvendo projetos complexos como pontes, viadutos, passarelas e estruturas de grande porte 
-                que demandam soluções técnicas avançadas e expertise especializada.
-              </p>
-              <p className="text-lg text-muted-foreground">
-                Nossa equipe possui vasta experiência no desenvolvimento de projetos de O.A.E, utilizando 
-                tecnologias de ponta e metodologias consagradas para garantir a segurança, funcionalidade 
-                e durabilidade dessas estruturas fundamentais para a infraestrutura.
-              </p>
+      {/* O que fazemos */}
+      <section className="py-24 bg-white">
+        <div className="container px-4">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <h2 className="text-3xl md:text-5xl font-black text-primary uppercase tracking-tighter leading-tight">
+                Engenharia de <br /><span className="text-secondary italic">Grande Porte</span>
+              </h2>
+              <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed">
+                <p>
+                  As <strong>Obras de Arte Especiais</strong> são a espinha dorsal da mobilidade. Na B2A, tratamos cada ponte ou viaduto como um desafio único de engenharia, onde segurança e durabilidade são pilares inegociáveis.
+                </p>
+                <p>
+                  Nossa atuação abrange desde o projeto estrutural básico até a execução completa de sistemas de infraestrutura e superestrutura, utilizando as mais modernas técnicas de concreto armado, protendido e estruturas mistas.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-4 pt-4">
+                {["Pontes", "Viadutos", "Passarelas", "Túneis", "Galerias Especiais"].map((tag, i) => (
+                  <Badge key={i} variant="outline" className="px-4 py-2 text-primary border-primary/20 font-bold uppercase tracking-tight text-[10px]">{tag}</Badge>
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Especialidades */}
-      <section className="py-16 bg-muted/50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold mb-12 text-center">Nossas Especialidades</h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              {especialidades.map((item, index) => (
-                <Card key={index} className="text-center hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                      <item.icon className="h-8 w-8 text-primary" />
+            <div className="grid grid-cols-1 gap-6">
+              {especialidades.map((e, i) => (
+                <Card key={i} className="border-none shadow-sm hover:shadow-xl transition-all rounded-3xl p-8 bg-gray-50 group">
+                  <div className="flex items-start space-x-6">
+                    <div className="p-4 bg-primary text-white rounded-2xl group-hover:bg-secondary transition-colors">
+                      <e.icon size={28} />
                     </div>
-                    <CardTitle className="text-xl">{item.title}</CardTitle>
-                    <CardDescription className="text-base">
-                      {item.description}
-                    </CardDescription>
-                  </CardHeader>
+                    <div>
+                      <h3 className="font-black text-primary uppercase tracking-tight mb-2">{e.title}</h3>
+                      <p className="text-sm text-muted-foreground leading-relaxed">{e.description}</p>
+                    </div>
+                  </div>
                 </Card>
               ))}
             </div>
@@ -126,138 +108,42 @@ const OAE = () => {
         </div>
       </section>
 
-      {/* Serviços */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold mb-12 text-center">Nossos Serviços</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {servicos.map((servico, index) => (
-                <Card key={index} className="border-l-4 border-l-primary">
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-3">
-                      <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
-                      <p className="font-medium">{servico}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+      {/* Atributos OAE */}
+      <section className="py-24 bg-primary relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+        <div className="container px-4 relative z-10 text-center">
+          <h2 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter mb-16">O Padrão <span className="text-secondary italic">B2A</span> em OAE</h2>
+          <div className="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
+            {atributosOAE.map((a, i) => (
+              <div key={i} className="space-y-6 group">
+                <div className="w-20 h-20 bg-white/10 backdrop-blur-md rounded-[30px] flex items-center justify-center mx-auto border border-white/20 group-hover:bg-secondary group-hover:border-secondary transition-all">
+                  <a.icon className="text-secondary group-hover:text-white" size={40} />
+                </div>
+                <h3 className="font-black text-white uppercase tracking-tight text-xl">{a.title}</h3>
+                <p className="text-white/60 text-sm leading-relaxed">{a.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Final */}
+      <section className="py-24 bg-white text-center">
+        <div className="container px-4">
+          <div className="max-w-4xl mx-auto space-y-10">
+            <h2 className="text-3xl md:text-6xl font-black text-primary uppercase tracking-tighter leading-none">Viabilize seu Projeto de <span className="text-secondary">Infraestrutura</span></h2>
+            <p className="text-xl text-muted-foreground font-light max-w-2xl mx-auto leading-relaxed">
+              Nossa equipe técnica está pronta para analisar seus projetos de OAE e oferecer as melhores soluções executivas e financeiras.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center pt-4">
+              <Button size="lg" className="bg-primary hover:bg-primary-glow text-white h-16 px-16 rounded-full text-lg font-bold shadow-2xl transition-all" asChild>
+                <NavLink to="/contato">Agendar Reunião Técnica</NavLink>
+              </Button>
             </div>
           </div>
         </div>
       </section>
-
-      {/* Processo */}
-      <section className="py-16 bg-muted/50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold mb-12 text-center">Nosso Processo</h2>
-            <div className="grid md:grid-cols-4 gap-8">
-              <Card className="text-center">
-                <CardHeader>
-                  <div className="mx-auto w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center mb-4 text-xl font-bold">
-                    1
-                  </div>
-                  <CardTitle className="text-lg">Análise</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Estudo detalhado das condições locais e requisitos do projeto
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="text-center">
-                <CardHeader>
-                  <div className="mx-auto w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center mb-4 text-xl font-bold">
-                    2
-                  </div>
-                  <CardTitle className="text-lg">Projeto</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Desenvolvimento do projeto estrutural com modelagem avançada
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="text-center">
-                <CardHeader>
-                  <div className="mx-auto w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center mb-4 text-xl font-bold">
-                    3
-                  </div>
-                  <CardTitle className="text-lg">Validação</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Verificação e validação através de análises computacionais
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="text-center">
-                <CardHeader>
-                  <div className="mx-auto w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center mb-4 text-xl font-bold">
-                    4
-                  </div>
-                  <CardTitle className="text-lg">Execução</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">
-                    Acompanhamento técnico durante toda a fase de construção
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Diferenciais */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold mb-12 text-center">Nossos Diferenciais</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {diferenciais.map((diferencial, index) => (
-                <Card key={index} className="border-l-4 border-l-primary">
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-3">
-                      <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
-                      <p className="font-medium">{diferencial}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-16 bg-primary text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Precisa de uma Obra de Arte Especial?</h2>
-          <p className="text-xl mb-8 text-white/90">
-            Entre em contato conosco e receba uma proposta personalizada para seu projeto complexo
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" asChild>
-              <NavLink to="/contato">
-                <Mail className="mr-2 h-5 w-5" />
-                Solicitar Orçamento
-              </NavLink>
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
-              <Phone className="mr-2 h-5 w-5" />
-              Falar com Especialista
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
+    </Layout>
   );
 };
 

@@ -3,139 +3,77 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { NavLink } from "react-router-dom";
-import { 
-  Shield, 
-  CheckCircle, 
-  Settings, 
-  Anchor, 
+import {
+  Shield,
+  CheckCircle,
+  Settings,
+  Anchor,
   Award,
   FileText,
   Phone,
   Wrench,
-  Building
+  Building,
+  Target,
+  Zap,
+  ArrowRight
 } from "lucide-react";
+import { useEffect } from "react";
 
 const CortinaAtirantada = () => {
-  const vantagens = [
-    "Capacidade para grandes alturas e cargas",
-    "Estrutura definitiva de alta durabilidade",
-    "Adaptável a diferentes tipos de terreno",
-    "Permite otimização de espaços em obras urbanas",
-    "Excelente comportamento estrutural",
-    "Possibilita construção em subsolo",
-    "Resistente a cargas dinâmicas"
-  ];
+  useEffect(() => {
+    document.title = "Cortina Atirantada | Contenções de Alta Performance | B2A";
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", "Soluções definitivas em Cortina Atirantada. Tirantes ativos protendidos para grandes alturas e cargas. Engenharia geotécnica de precisão.");
+    }
+  }, []);
 
-  const aplicacoes = [
-    "Contenções para edifícios em subsolo",
-    "Estabilização de taludes de grande altura",
-    "Contenções em obras portuárias",
-    "Escavações profundas em áreas urbanas",
-    "Contenções temporárias para obras especiais",
-    "Estruturas de contenção em mineração",
-    "Proteção de infraestruturas críticas"
+  const vantagens = [
+    { title: "Grandes Cargas", desc: "Suporta empuxos elevados em taludes de grande altura.", icon: Zap },
+    { title: "Estrutura Definitiva", desc: "Longa vida útil com tirantes protegidos contra corrosão.", icon: Shield },
+    { title: "Otimização de Espaço", desc: "Ideal para subsolos e áreas com restrição geométrica.", icon: Target }
   ];
 
   const componentesEstruturais = [
     {
       titulo: "Parede de Concreto",
-      descricao: "Estrutura vertical moldada in-loco ou pré-moldada",
+      descricao: "Elemento vertical rígido para distribuição dos esforços dos tirantes.",
       icon: Building
     },
     {
       titulo: "Tirantes Ativos",
-      descricao: "Elementos de tração em aço protendido",
+      descricao: "Monocordoalhas ou barras de aço de alta resistência protendidas.",
       icon: Anchor
     },
     {
-      titulo: "Bloco de Ancoragem",
-      descricao: "Zona de transferência de cargas no terreno",
-      icon: Shield
-    },
-    {
-      titulo: "Sistema de Drenagem",
-      descricao: "Controle de poropressões e estabilidade",
+      titulo: "Células de Carga",
+      descricao: "Monitoramento constante da tensão para garantir estabilidade.",
       icon: Settings
-    }
-  ];
-
-  const etapasExecutivas = [
-    "Escavação e execução da parede de concreto",
-    "Perfuração dos furos para tirantes",
-    "Instalação e injeção dos tirantes",
-    "Protensão e ancoragem dos tirantes",
-    "Instalação do sistema de drenagem",
-    "Acabamento e proteção da estrutura"
-  ];
-
-  const especificacoesTecnicas = [
-    "Tirantes em aço CP-190 RB ou CP-175 RB",
-    "Proteção anticorrosiva dupla ou tripla",
-    "Injeção com calda de cimento",
-    "Cargas de trabalho até 2000 kN",
-    "Vida útil de projeto ≥ 50 anos",
-    "Monitoramento com células de carga",
-    "Ensaios de recepção conforme NBR 5629"
-  ];
-
-  const criteriosProjeto = [
-    "Análise de estabilidade global",
-    "Dimensionamento estrutural da parede",
-    "Cálculo de tirantes conforme NBR 5629",
-    "Verificação de resistência do terreno",
-    "Projeto de sistema de drenagem",
-    "Especificação de materiais e equipamentos",
-    "Programa de monitoramento estrutural"
-  ];
-
-  const faqs = [
-    {
-      pergunta: "Qual a diferença entre cortina atirantada e solo grampeado?",
-      resposta: "A cortina atirantada utiliza tirantes ativos protendidos e parede de concreto, sendo ideal para grandes cargas e alturas. O solo grampeado usa grampos passivos e é mais econômico para taludes de menor porte."
-    },
-    {
-      pergunta: "Qual a altura máxima para cortinas atirantadas?",
-      resposta: "Não há limite técnico definido. Já foram executadas cortinas com mais de 60 metros de altura. O dimensionamento depende das condições geotécnicas e cargas atuantes."
-    },
-    {
-      pergunta: "Como funciona a protensão dos tirantes?",
-      resposta: "Os tirantes são protendidos após a cura do concreto de ancoragem, aplicando-se carga superior à carga de trabalho para ativar o sistema e transferir esforços ao terreno."
-    },
-    {
-      pergunta: "É necessário monitoramento após a execução?",
-      resposta: "Sim, recomenda-se monitoramento das cargas nos tirantes e deslocamentos da estrutura, especialmente nos primeiros anos após a execução."
-    },
-    {
-      pergunta: "Qual a vida útil de uma cortina atirantada?",
-      resposta: "Com projeto adequado e proteção anticorrosiva apropriada, a vida útil pode superar 50 anos, sendo considerada estrutura definitiva."
     }
   ];
 
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-primary-glow text-primary-foreground py-20">
-        <div className="container px-4">
+      <section className="bg-primary text-primary-foreground py-24 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20 grayscale scale-110">
+          <img src="/images/aeroporto.png" className="w-full h-full object-cover" alt="Background" />
+        </div>
+        <div className="container px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="bg-secondary text-secondary-foreground mb-4 px-4 py-2">
-              Estruturas de Alto Desempenho
+            <Badge className="bg-secondary text-white mb-6 px-4 py-1.5 uppercase font-black tracking-widest">
+              Engenharia Pesada
             </Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Cortina Atirantada - Máxima Resistência
+            <h1 className="text-4xl md:text-7xl font-black mb-6 uppercase tracking-tighter leading-none">
+              Cortina <span className="text-secondary">Atirantada</span>
             </h1>
-            <p className="text-xl md:text-2xl text-primary-foreground/90 leading-relaxed mb-8">
-              Solução estrutural definitiva para contenções de grande altura e cargas elevadas, 
-              utilizando tirantes protendidos e tecnologia de ponta em engenharia geotécnica.
+            <p className="text-xl md:text-2xl text-primary-foreground/80 leading-relaxed mb-10 max-w-3xl mx-auto font-light">
+              A resposta técnica para contenções de escala monumental, utilizando tirantes ativos
+              protendidos que garantem estabilidade absoluta sob as condições mais severas.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" asChild>
-                <NavLink to="/contato">
-                  Solicitar Projeto
-                </NavLink>
-              </Button>
-              <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-                <Phone className="h-5 w-5 mr-2" />
-                Consultoria Especializada
+              <Button size="lg" className="bg-secondary hover:bg-secondary-glow text-white h-16 px-10 rounded-full font-bold uppercase tracking-wide shadow-xl" asChild>
+                <NavLink to="/contato">Solicitar Estudo Técnico</NavLink>
               </Button>
             </div>
           </div>
@@ -143,259 +81,124 @@ const CortinaAtirantada = () => {
       </section>
 
       {/* Introdução Técnica */}
-      <section className="py-16">
+      <section className="py-24 bg-white">
         <div className="container px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-primary">
-                Tecnologia Cortina Atirantada
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <h2 className="text-3xl md:text-5xl font-black text-primary uppercase tracking-tighter">
+                Estabilidade <br /><span className="text-secondary italic">Através da Protensão</span>
               </h2>
-              <div className="prose prose-lg max-w-none space-y-4">
-                <p className="text-muted-foreground">
-                  A <strong>cortina atirantada</strong> é uma estrutura de contenção composta por 
-                  parede de concreto armado e tirantes protendidos, capaz de suportar grandes 
-                  cargas e alturas, sendo amplamente utilizada em obras urbanas complexas.
+              <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed">
+                <p>
+                  A <strong>Cortina Atirantada</strong> é uma das técnicas mais robustas da geotecnia moderna. Diferente de contenções passivas, ela utiliza tirantes que são "ativados" através da protensão, transferindo as cargas para as camadas mais profundas e resistentes do terreno.
                 </p>
-                <p className="text-muted-foreground">
-                  Esta tecnologia, normatizada pela <strong>NBR 5629</strong>, combina a resistência 
-                  do concreto armado com a eficiência dos tirantes de aço protendido, criando 
-                  uma estrutura definitiva de alta performance e durabilidade.
-                </p>
-                <p className="text-muted-foreground">
-                  Na <strong>B2A Engenharia</strong>, desenvolvemos projetos de cortina atirantada 
-                  com metodologia própria, utilizando softwares especializados e equipe técnica 
-                  experiente para garantir máxima segurança e eficiência.
+                <p>
+                  Na <strong>B2A Engenharia</strong>, combinamos o rigor da norma <strong>NBR 5629</strong> com técnicas avançadas de perfuração e injeção, entregando estruturas que são referência em segurança e durabilidade.
                 </p>
               </div>
-            </div>
-            <div className="bg-engineering-light-gray p-8 rounded-lg">
-              <h3 className="text-2xl font-bold text-primary mb-6">Principais Vantagens</h3>
-              <div className="space-y-4">
-                {vantagens.slice(0, 5).map((vantagem, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <CheckCircle className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{vantagem}</span>
+              <div className="grid sm:grid-cols-3 gap-6 pt-4">
+                {vantagens.map((v, i) => (
+                  <div key={i} className="p-6 bg-gray-50 rounded-2xl border border-gray-100 hover:border-primary transition-all">
+                    <v.icon className="h-8 w-8 text-secondary mb-4" />
+                    <h3 className="font-bold text-primary text-sm mb-2 uppercase">{v.title}</h3>
+                    <p className="text-xs leading-relaxed">{v.desc}</p>
                   </div>
                 ))}
+              </div>
+            </div>
+            <div className="relative group">
+              <div className="absolute -inset-4 bg-secondary/5 rounded-[40px] -rotate-2 group-hover:rotate-0 transition-transform"></div>
+              <img
+                src="/images/aeroporto.png"
+                alt="Execução de Tirantes"
+                className="rounded-[32px] shadow-2xl relative z-10 w-full grayscale hover:grayscale-0 transition-all duration-700"
+              />
+              <div className="absolute bottom-10 left-10 bg-white/95 backdrop-blur p-6 rounded-2xl shadow-xl z-20 border border-gray-100 text-center">
+                <p className="text-primary font-black text-3xl leading-none">NBR 5629</p>
+                <p className="text-muted-foreground text-[10px] font-bold uppercase tracking-widest mt-1">Conformidade Total</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Componentes Estruturais */}
-      <section className="py-16 bg-engineering-light-gray">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Componentes da Estrutura
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Sistema estrutural integrado para máxima eficiência e segurança
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            {componentesEstruturais.map((componente, index) => (
-              <Card key={index} className="text-center">
-                <CardHeader>
-                  <componente.icon className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <CardTitle className="text-primary text-lg">{componente.titulo}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">{componente.descricao}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-12">
-            <div>
-              <h3 className="text-2xl font-bold mb-6 text-primary">Etapas Executivas</h3>
-              <div className="space-y-3">
-                {etapasExecutivas.map((etapa, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold mt-0.5 flex-shrink-0">
-                      {index + 1}
-                    </div>
-                    <span className="text-muted-foreground">{etapa}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <div>
-              <h3 className="text-2xl font-bold mb-6 text-primary">Especificações Técnicas</h3>
-              <div className="space-y-3">
-                {especificacoesTecnicas.map((spec, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <Wrench className="h-4 w-4 text-secondary mt-1 flex-shrink-0" />
-                    <span className="text-muted-foreground text-sm">{spec}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Aplicações e Critérios */}
-      <section className="py-16">
-        <div className="container px-4">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div>
-              <h2 className="text-3xl font-bold mb-8 text-primary">
-                Aplicações Práticas
-              </h2>
-              <div className="space-y-4">
-                {aplicacoes.map((aplicacao, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <Shield className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{aplicacao}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <div>
-              <h2 className="text-3xl font-bold mb-8 text-primary">
-                Critérios de Projeto
-              </h2>
-              <div className="space-y-4">
-                {criteriosProjeto.map((criterio, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <FileText className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{criterio}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Conformidade Normativa */}
-      <section className="py-16 bg-engineering-light-gray">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Conformidade com Normas Técnicas
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Projetos desenvolvidos seguindo rigorosamente as normas brasileiras e internacionais
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              { norma: "NBR 5629", desc: "Execução de Tirantes Ancorados" },
-              { norma: "NBR 6118", desc: "Estruturas de Concreto Armado" },
-              { norma: "NBR 11682", desc: "Estabilidade de Taludes" },
-              { norma: "EN 1537", desc: "Ancoragens - Norma Europeia" }
-            ].map((item, index) => (
-              <Card key={index} className="text-center">
-                <CardContent className="pt-6">
-                  <Award className="h-10 w-10 text-secondary mx-auto mb-4" />
-                  <h3 className="font-bold text-primary mb-2">{item.norma}</h3>
-                  <p className="text-sm text-muted-foreground">{item.desc}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Diferenciais B2A */}
-      <section className="py-16">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Diferenciais da B2A em Cortinas Atirantadas
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Experiência e metodologia que garantem excelência em seus projetos
-            </p>
-          </div>
-
+      {/* Componentes estruturais */}
+      <section className="py-24 bg-gray-50">
+        <div className="container px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-black text-primary uppercase tracking-tighter mb-4">Anatomia do Sistema</h2>
+          <div className="h-1.5 w-24 bg-secondary mx-auto rounded-full mb-16"></div>
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                titulo: "Projetos Especializados",
-                descricao: "Desenvolvimento de projetos executivos detalhados com memorial de cálculo completo",
-                icon: FileText
-              },
-              {
-                titulo: "Supervisão Técnica",
-                descricao: "Acompanhamento especializado durante todas as etapas de execução",
-                icon: Shield
-              },
-              {
-                titulo: "Monitoramento",
-                descricao: "Sistema de monitoramento estrutural para garantir performance a longo prazo",
-                icon: Settings
-              }
-            ].map((diferencial, index) => (
-              <Card key={index} className="text-center">
-                <CardHeader>
-                  <diferencial.icon className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <CardTitle className="text-primary">{diferencial.titulo}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{diferencial.descricao}</p>
-                </CardContent>
+            {componentesEstruturais.map((c, i) => (
+              <Card key={i} className="border-none shadow-xl hover:shadow-2xl transition-all group rounded-[32px] overflow-hidden p-10 bg-white">
+                <div className="p-5 bg-primary/5 rounded-2xl text-primary group-hover:bg-primary group-hover:text-white transition-all w-fit mx-auto mb-8">
+                  <c.icon size={36} />
+                </div>
+                <h3 className="font-black text-primary text-xl uppercase tracking-tight mb-4">{c.titulo}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{c.descricao}</p>
               </Card>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="py-16 bg-engineering-light-gray">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Perguntas Frequentes - Cortina Atirantada
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Esclarecimentos técnicos sobre estruturas de contenção com tirantes
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto space-y-6">
-            {faqs.map((faq, index) => (
-              <Card key={index}>
-                <CardHeader>
-                  <h3 className="font-semibold text-primary">{faq.pergunta}</h3>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{faq.resposta}</p>
-                </CardContent>
-              </Card>
-            ))}
+      {/* Especificações e Padrões */}
+      <section className="py-24 bg-primary relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-secondary/10 -skew-x-12 translate-x-1/4"></div>
+        <div className="container px-4 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
+            <div className="space-y-8">
+              <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter">Padrões de <br /> Classe <span className="text-secondary italic">Mundial</span></h2>
+              <div className="space-y-4">
+                {[
+                  "Aço CP-190 RB de alta resistência para tirantes.",
+                  "Sistema de proteção anticorrosiva tripla.",
+                  "Ensaio de Recepção em 100% dos tirantes ativos.",
+                  "Monitoramento remoto de cargas (opcional).",
+                  "Experiência com tirantes de carga superior a 150tf."
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center space-x-4">
+                    <CheckCircle className="text-secondary h-6 w-6 flex-shrink-0" />
+                    <span className="text-white/90 font-bold text-sm uppercase tracking-wide">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-xl p-12 rounded-[40px] border border-white/20">
+              <h3 className="text-2xl font-black text-white uppercase mb-8">Etapas Executivas</h3>
+              <div className="space-y-6">
+                {[
+                  { t: "Furação", d: "Perfuração com roto-percussão em solo ou rocha." },
+                  { t: "Montagem", d: "Inserção do feixe de cordoalhas com espaçadores." },
+                  { t: "Injeção", d: "Preenchimento do trecho de ancoragem com calda de cimento." },
+                  { t: "Protensão", d: "Aplicação controlada de carga via macacos hidráulicos." }
+                ].map((step, i) => (
+                  <div key={i} className="flex gap-4">
+                    <span className="text-secondary font-black text-2xl opacity-50">0{i + 1}</span>
+                    <div>
+                      <h4 className="text-white font-bold uppercase text-sm mb-1">{step.t}</h4>
+                      <p className="text-white/60 text-xs leading-relaxed">{step.d}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* CTA Final */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="container px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Projeto de Cortina Atirantada para Sua Obra?
-          </h2>
-          <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
-            Nossa equipe especializada desenvolve projetos de cortina atirantada com máxima 
-            segurança e eficiência. Solicite uma análise técnica personalizada para seu projeto.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" asChild>
-              <NavLink to="/contato">
-                Solicitar Análise Técnica
-              </NavLink>
-            </Button>
-            <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-              <Phone className="h-5 w-5 mr-2" />
-              Falar com Especialista
-            </Button>
+      <section className="py-24 bg-white text-center">
+        <div className="container px-4">
+          <div className="max-w-4xl mx-auto space-y-10">
+            <h2 className="text-3xl md:text-6xl font-black text-primary uppercase tracking-tighter leading-none">Desafios Gigantes <br /> Exigem <span className="text-secondary">Tirantes</span></h2>
+            <p className="text-xl text-muted-foreground font-light max-w-2xl mx-auto leading-relaxed">
+              Não comprometa a segurança da sua obra. Traga seu desafio para quem entende de contenções definitivas de alta performance.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center pt-4">
+              <Button size="lg" className="bg-primary hover:bg-primary-glow text-white h-16 px-16 rounded-full text-lg font-bold shadow-2xl transition-all" asChild>
+                <NavLink to="/contato">Falar com um Especialista</NavLink>
+              </Button>
+            </div>
           </div>
         </div>
       </section>

@@ -1,207 +1,197 @@
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
+import { Layout } from "@/components/layout/Layout";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, ArrowRight, Phone, Mail } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { WorkGallery } from "@/components/gallery/WorkGallery";
+import {
+  CheckCircle,
+  Shield,
+  Settings,
+  Users,
+  FileText,
+  Phone,
+  Truck,
+  Layers,
+  ArrowRight,
+  TrendingUp,
+  Scaling
+} from "lucide-react";
+import { useEffect } from "react";
 
 const MuroFlexao = () => {
-  const vantagens = [
-    "Estrutura resistente e durável",
-    "Adaptável a diferentes terrenos",
-    "Execução rápida e eficiente",
-    "Custo-benefício otimizado",
-    "Baixa manutenção",
-    "Versatilidade de aplicação"
+  useEffect(() => {
+    document.title = "Muros a Flexão | Contenções em Concreto Armado | B2A";
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", "Especialistas em Muros a Flexão. Contenções esbeltas em concreto armado para rodovias e áreas urbanas. Fornecimento de formas metálicas e execução.");
+    }
+  }, []);
+
+  const servicos = [
+    {
+      titulo: "Execução com Formas Metálicas",
+      descricao: "Utilização de sistemas modulares que garantem acabamento superior e rapidez.",
+      icon: Settings
+    },
+    {
+      titulo: "Projeto Estrutural Otimizado",
+      descricao: "Cálculo preciso para redução de consumo de aço e concreto sem perder a segurança.",
+      icon: Layers
+    },
+    {
+      titulo: "Venda e Locação de Sistemas",
+      descricao: "Disponibilizamos o conjunto de formas B2A para agilizar sua obra própria.",
+      icon: Truck
+    },
+    {
+      titulo: "Consultoria em Fundações",
+      descricao: "Análise técnica para garantir a perfeita interface muro-solo em diversos terrenos.",
+      icon: Shield
+    },
+    {
+      titulo: "Gestão de Qualidade",
+      descricao: "Rigoroso controle tecnológico do concreto e posicionamento das armaduras.",
+      icon: Users
+    }
   ];
 
-  const aplicacoes = [
-    "Contenção de taludes",
-    "Muros de arrimo",
-    "Estruturas de contenção urbana",
-    "Obras rodoviárias",
-    "Projetos industriais",
-    "Contenções temporárias e definitivas"
+  const diferenciais = [
+    { title: "Esbeltez Técnica", desc: "Muros mais finos que os de gravidade, economizando espaço e volume.", icon: Scaling },
+    { title: "Rapidez Executiva", desc: "Ciclos de concretagem ágeis com nossas formas exclusivas.", icon: TrendingUp },
+    { title: "Estética Superior", desc: "Concreto aparente de alta qualidade, ideal para áreas urbanas.", icon: Shield }
+  ];
+
+  const images = [
+    "IMG-20250709-WA0192.jpg",
+    "IMG-20250710-WA0242.jpg",
+    "IMG-20250711-WA0003.jpg",
+    "IMG-20250712-WA0011.jpg",
+    "IMG-20250712-WA0012.jpg",
+    "IMG-20250713-WA0039.jpg"
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
+    <Layout>
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-r from-primary to-primary/80">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center text-white">
-            <Badge variant="secondary" className="mb-4">
-              Soluções em Contenção
+      <section className="bg-primary text-primary-foreground py-24 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 grayscale">
+          <img src="/images/aeroporto.png" alt="Background" className="w-full h-full object-cover" />
+        </div>
+        <div className="container px-4 relative z-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <Badge className="bg-secondary text-white mb-6 px-4 py-1.5 uppercase font-black tracking-widest">
+              Infraestrutura Urbana & Rodoviária
             </Badge>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Muro a Flexão
+            <h1 className="text-4xl md:text-7xl font-black mb-6 uppercase tracking-tighter leading-none">
+              Muros a <span className="text-secondary">Flexão</span>
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-white/90">
-              Soluções estruturais eficientes para contenção com tecnologia avançada e execução especializada
+            <p className="text-xl md:text-2xl text-primary-foreground/80 leading-relaxed mb-10 max-w-3xl mx-auto font-light">
+              Contenções esbeltas em concreto armado com o diferencial das formas metálicas modulares B2A,
+              garantindo precisão milimétrica e cronogramas antecipados.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" asChild>
-                <NavLink to="/contato">
-                  Solicitar Orçamento
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </NavLink>
-              </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
-                <Phone className="mr-2 h-5 w-5" />
-                (11) 99999-9999
+              <Button size="lg" className="bg-secondary hover:bg-secondary-glow text-white h-16 px-10 rounded-full font-bold uppercase tracking-wide shadow-xl" asChild>
+                <NavLink to="/contato">Solicitar Proposta</NavLink>
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Descrição */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold mb-8 text-center">O que é Muro a Flexão?</h2>
-            <div className="prose prose-lg max-w-none">
-              <p className="text-lg text-muted-foreground mb-6">
-                O muro a flexão é uma solução estrutural de contenção que utiliza elementos de concreto armado 
-                trabalhando predominantemente à flexão. Esta tecnologia oferece alta resistência e versatilidade 
-                para diferentes tipos de contenção e estabilização de terrenos.
-              </p>
-              <p className="text-lg text-muted-foreground">
-                Nossa expertise em projetos e execução de muros a flexão garante soluções técnicas eficientes, 
-                seguras e economicamente viáveis para as mais diversas aplicações em engenharia civil.
-              </p>
+      {/* Introdução e Diferenciais */}
+      <section className="py-24 bg-white">
+        <div className="container px-4">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <h2 className="text-3xl md:text-5xl font-black text-primary uppercase tracking-tighter leading-tight">
+                Eficiência em <br /><span className="text-secondary italic">Concreto Armado</span>
+              </h2>
+              <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed">
+                <p>
+                  Os <strong>Muros a Flexão</strong> são estruturas de contenção que utilizam a resistência do concreto armado para suportar as pressões laterais do solo. Sua principal vantagem é a esbeltez, permitindo contenções em locais com restrição de espaço.
+                </p>
+                <p>
+                  Na <strong>B2A Engenharia</strong>, elevamos o padrão desta solução através do uso de <strong>formas metálicas modulares</strong>, eliminando o desperdício de madeira e garantindo um acabamento de concreto aparente impecável.
+                </p>
+              </div>
+              <div className="grid sm:grid-cols-3 gap-6 pt-4">
+                {diferenciais.map((d, i) => (
+                  <div key={i} className="p-6 bg-gray-50 rounded-2xl border border-gray-100 hover:border-primary transition-all">
+                    <d.icon className="h-8 w-8 text-secondary mb-4" />
+                    <h3 className="font-bold text-primary text-sm mb-2 uppercase">{d.title}</h3>
+                    <p className="text-xs leading-relaxed">{d.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="relative group">
+              <div className="absolute -inset-4 bg-secondary/5 rounded-[40px] -rotate-2 group-hover:rotate-0 transition-transform"></div>
+              <img
+                src="/images/aeroporto.png"
+                alt="Execução de Muro a Flexão"
+                className="rounded-[32px] shadow-2xl relative z-10 w-full"
+              />
+              <div className="absolute top-10 right-10 bg-white/90 backdrop-blur p-4 rounded-xl shadow-lg z-20 border border-gray-100 text-center">
+                <span className="text-primary font-black block">FORMA B2A</span>
+                <span className="text-[10px] text-muted-foreground uppercase font-bold">Tecnologia Própria</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Vantagens */}
-      <section className="py-16 bg-muted/50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold mb-12 text-center">Vantagens do Muro a Flexão</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {vantagens.map((vantagem, index) => (
-                <Card key={index} className="border-l-4 border-l-primary">
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-3">
-                      <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
-                      <p className="font-medium">{vantagem}</p>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+      {/* Escopo de Atuação */}
+      <section className="py-24 bg-gray-50">
+        <div className="container px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-black text-primary uppercase tracking-tighter mb-4">Soluções Completas</h2>
+            <div className="h-1.5 w-24 bg-secondary mx-auto rounded-full"></div>
           </div>
-        </div>
-      </section>
-
-      {/* Aplicações */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold mb-12 text-center">Aplicações</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {aplicacoes.map((aplicacao, index) => (
-                <Card key={index} className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <CardTitle className="text-lg">{aplicacao}</CardTitle>
-                  </CardHeader>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Nossos Serviços */}
-      <section className="py-16 bg-muted/50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold mb-12 text-center">Nossos Serviços</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Projeto Estrutural</CardTitle>
-                  <CardDescription>
-                    Desenvolvimento completo de projetos de muros a flexão
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm">
-                    <li>• Análise estrutural detalhada</li>
-                    <li>• Dimensionamento otimizado</li>
-                    <li>• Memorial de cálculo</li>
-                    <li>• Desenhos técnicos</li>
-                  </ul>
-                </CardContent>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+            {servicos.map((s, i) => (
+              <Card key={i} className="border-none shadow-xl hover:shadow-2xl transition-all group rounded-2xl overflow-hidden p-8 bg-white">
+                <div className="p-4 bg-primary/5 rounded-2xl text-primary group-hover:bg-primary group-hover:text-white transition-all w-fit mb-6">
+                  <s.icon size={32} />
+                </div>
+                <h3 className="font-black text-primary text-lg uppercase tracking-tight mb-4">{s.titulo}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{s.descricao}</p>
               </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Execução de Obras</CardTitle>
-                  <CardDescription>
-                    Construção especializada com equipe técnica qualificada
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm">
-                    <li>• Execução completa</li>
-                    <li>• Controle de qualidade</li>
-                    <li>• Cronograma otimizado</li>
-                    <li>• Supervisão técnica</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Formas Metálicas</CardTitle>
-                  <CardDescription>
-                    Venda e locação de formas especializadas
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm">
-                    <li>• Formas sob medida</li>
-                    <li>• Locação flexível</li>
-                    <li>• Suporte técnico</li>
-                    <li>• Manutenção incluída</li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 bg-primary text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">Precisa de uma Solução em Muro a Flexão?</h2>
-          <p className="text-xl mb-8 text-white/90">
-            Entre em contato conosco e receba uma proposta personalizada para seu projeto
+      {/* Portfolio Gallery */}
+      <section className="py-24 bg-white">
+        <div className="container px-4 text-center">
+          <h2 className="text-3xl md:text-5xl font-black text-primary uppercase tracking-tighter mb-16">Registros <br /> de <span className="text-secondary italic">Campo</span></h2>
+          <div className="max-w-6xl mx-auto shadow-3xl rounded-[40px] overflow-hidden border-8 border-gray-50">
+            <WorkGallery workName="Muros a Flexão" images={images} galleryPath="muros a flexao" />
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Final */}
+      <section className="py-24 bg-primary relative overflow-hidden text-center">
+        <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div className="container px-4 relative z-10">
+          <h2 className="text-3xl md:text-5xl font-black text-white mb-8 uppercase tracking-tighter">Otimize sua contenção</h2>
+          <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
+            Seja através da execução integral ou da locação de nossos sistemas de formas,
+            estamos prontos para agilizar sua obra.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" asChild>
-              <NavLink to="/contato">
-                <Mail className="mr-2 h-5 w-5" />
-                Solicitar Orçamento
-              </NavLink>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <Button size="lg" className="bg-secondary hover:bg-secondary-glow text-white h-16 px-16 rounded-full text-lg font-bold shadow-2xl transition-all" asChild>
+              <NavLink to="/contato">Falar com um Engenheiro</NavLink>
             </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary">
-              <Phone className="mr-2 h-5 w-5" />
-              Falar com Especialista
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary h-16 px-16 rounded-full text-lg font-bold transition-all" asChild>
+              <NavLink to="/obras">Ver Todos os Projetos</NavLink>
             </Button>
           </div>
         </div>
       </section>
-
-      <Footer />
-    </div>
+    </Layout>
   );
 };
 

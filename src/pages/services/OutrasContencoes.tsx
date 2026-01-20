@@ -3,205 +3,149 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { NavLink } from "react-router-dom";
-import { 
-  Building, 
-  CheckCircle, 
-  Settings, 
-  Shield, 
+import {
+  Building,
+  CheckCircle,
+  Settings,
+  Shield,
   Award,
   Phone,
   Wrench,
   Layers,
-  ArrowRight
+  ArrowRight,
+  Database,
+  Search,
+  Zap
 } from "lucide-react";
+import { useEffect } from "react";
 
 const OutrasContencoes = () => {
+  useEffect(() => {
+    document.title = "Soluções Especiais de Contenção | Engenharia Customizada | B2A";
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", "Conheça nossas soluções especiais em contenção: Parede Diafragma, Estacas Prancha, Jet Grouting e mais. Engenharia de alta complexidade para desafios únicos.");
+    }
+  }, []);
+
   const tiposContencao = [
     {
       titulo: "Parede Diafragma",
-      descricao: "Paredes de concreto moldadas in-loco para contenções de grande profundidade",
+      descricao: "Paredes de concreto moldadas in-loco para contenções de grande profundidade e subsolos.",
       icon: Building,
       aplicacoes: ["Subsolos profundos", "Contenções impermeáveis", "Obras portuárias"],
       vantagens: ["Impermeabilidade", "Grandes profundidades", "Estrutura definitiva"]
     },
     {
       titulo: "Estacas Prancha",
-      descricao: "Sistema de contenção usando estacas metálicas ou de concreto entrelaçadas",
+      descricao: "Sistema de contenção usando perfis metálicos entrelaçados, ideal para ambientes úmidos.",
       icon: Shield,
-      aplicacoes: ["Obras portuárias", "Contenções temporárias", "Escoramentos"],
+      aplicacoes: ["Obras portuárias", "Contenções temporárias", "Valas de saneamento"],
       vantagens: ["Execução rápida", "Reaproveitável", "Resistente à água"]
     },
     {
       titulo: "Muros de Gravidade",
-      descricao: "Estruturas de contenção que resistem por peso próprio",
+      descricao: "Contenções clássicas que utilizam o peso próprio para estabilização de taludes.",
       icon: Layers,
-      aplicacoes: ["Contenções de pequeno porte", "Muros de divisa", "Paisagismo"],
-      vantagens: ["Simplicidade construtiva", "Baixo custo", "Durabilidade"]
-    },
-    {
-      titulo: "Muros de Flexão",
-      descricao: "Estruturas em concreto armado que resistem por flexão",
-      icon: Settings,
-      aplicacoes: ["Contenções urbanas", "Subsolos", "Obras lineares"],
-      vantagens: ["Otimização de material", "Menor volume", "Versatilidade"]
+      aplicacoes: ["Muros de divisa", "Cortes de pequena altura", "Acessos"],
+      vantagens: ["Simplicidade construtiva", "Baixo custo", "Alta durabilidade"]
     },
     {
       titulo: "Jet Grouting",
-      descricao: "Técnica de tratamento de solo para criação de cortinas impermeáveis",
+      descricao: "Tratamento de solo por injeção de alta pressão para colunas de solo-cimento.",
       icon: Wrench,
-      aplicacoes: ["Impermeabilização", "Contenções", "Tratamento de solo"],
-      vantagens: ["Versatilidade", "Sem vibração", "Precisão geométrica"]
+      aplicacoes: ["Impermeabilização", "Reforço de fundação", "Tampões de fundo"],
+      vantagens: ["Versatilidade", "Sem vibração", "Precisão em solos moles"]
     },
     {
-      titulo: "Micro Estacas",
-      descricao: "Sistema de reforço usando estacas de pequeno diâmetro",
+      titulo: "Estacas Raiz / Microestacas",
+      descricao: "Perfuração rotativa injetada para reforço e contenção em locais confinados.",
       icon: Award,
-      aplicacoes: ["Reforço de fundações", "Contenções", "Espaços reduzidos"],
-      vantagens: ["Baixa vibração", "Espaços confinados", "Alta capacidade"]
+      aplicacoes: ["Reforço estrutural", "Contenções urbanas", "Acessos restritos"],
+      vantagens: ["Baixa vibração", "Equipamentos compactos", "Alta capacidade"]
+    },
+    {
+      titulo: "Soluções Mistas",
+      descricao: "Integração de múltiplas técnicas para vencer desafios geométricos e geotécnicos.",
+      icon: Zap,
+      aplicacoes: ["Terrenos heterogêneos", "Alturas variáveis", "Otimização de custo"],
+      vantagens: ["Eficiência máxima", "Flexibilidade", "Custo customizado"]
     }
   ];
 
-  const criteriosSelecao = [
-    "Altura da contenção necessária",
-    "Características geotécnicas do terreno",
-    "Presença de água subterrânea",
-    "Cargas atuantes na estrutura",
-    "Restrições construtivas do local",
-    "Vida útil requerida da estrutura",
-    "Aspectos econômicos e prazo de execução"
-  ];
-
-  const metodologiaProjeto = [
-    {
-      etapa: "Análise Preliminar",
-      descricao: "Avaliação das condições locais e restrições do projeto",
-      icon: Settings
-    },
-    {
-      etapa: "Estudo Comparativo",
-      descricao: "Análise técnica e econômica de diferentes soluções",
-      icon: Award
-    },
-    {
-      etapa: "Projeto Detalhado",
-      descricao: "Desenvolvimento da solução escolhida com detalhamentos",
-      icon: Building
-    },
-    {
-      etapa: "Especificações",
-      descricao: "Memorial descritivo, materiais e procedimentos executivos",
-      icon: Shield
-    }
-  ];
-
-  const vantagens = [
-    "Análise técnica para escolha da melhor solução",
-    "Projetos personalizados para cada situação",
-    "Otimização de custos e prazos de execução",
-    "Conformidade com normas técnicas vigentes",
-    "Acompanhamento técnico especializado",
-    "Garantia de performance das estruturas",
-    "Soluções integradas com outras disciplinas"
+  const metodologia = [
+    { etapa: "Diagnóstico", d: "Análise profunda do laudo de sondagem e topografia.", icon: Search },
+    { etapa: "Dimensionamento", d: "Cálculo técnico visando o melhor custo-benefício.", icon: Settings },
+    { etapa: "Execução Técnica", d: "Acompanhamento rigoroso por engenheiros especialistas.", icon: Building },
+    { etapa: "QA & Monitoramento", d: "Entrega com garantia de performance e segurança.", icon: Shield }
   ];
 
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-primary-glow text-primary-foreground py-20">
-        <div className="container px-4">
+      <section className="bg-primary text-primary-foreground py-24 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 grayscale">
+          <img src="/images/aeroporto.png" alt="Background" className="w-full h-full object-cover" />
+        </div>
+        <div className="container px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="bg-secondary text-secondary-foreground mb-4 px-4 py-2">
-              Soluções Diversificadas
+            <Badge className="bg-secondary text-white mb-6 px-4 py-1.5 uppercase font-black tracking-widest">
+              Engenharia sob Demanda
             </Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Outras Soluções de Contenção
+            <h1 className="text-4xl md:text-7xl font-black mb-6 uppercase tracking-tighter leading-none">
+              Soluções <span className="text-secondary">Customizadas</span>
             </h1>
-            <p className="text-xl md:text-2xl text-primary-foreground/90 leading-relaxed mb-8">
-              Amplo portfólio de técnicas de contenção para atender necessidades específicas 
-              de cada projeto, garantindo a solução mais adequada técnica e economicamente.
+            <p className="text-xl md:text-2xl text-primary-foreground/80 leading-relaxed mb-10 max-w-3xl mx-auto font-light">
+              Quando as soluções convencionais não atendem, a B2A aplica inteligência
+              geotécnica para desenvolver contenções especiais e híbridas.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" asChild>
-                <NavLink to="/contato">
-                  Solicitar Análise
-                </NavLink>
-              </Button>
-              <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-                <Phone className="h-5 w-5 mr-2" />
-                Consultoria Técnica
+              <Button size="lg" className="bg-secondary hover:bg-secondary-glow text-white h-16 px-10 rounded-full font-bold uppercase tracking-wide shadow-xl" asChild>
+                <NavLink to="/contato">Consultoria Técnica</NavLink>
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Introdução */}
-      <section className="py-16">
+      {/* Intro */}
+      <section className="py-24 bg-white">
         <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-primary">
-              Diversidade de Soluções Técnicas
+          <div className="max-w-4xl mx-auto text-center space-y-8">
+            <h2 className="text-3xl md:text-5xl font-black text-primary uppercase tracking-tighter leading-tight">
+              Versatilidade em <br /><span className="text-secondary italic">Geotecnia</span>
             </h2>
-            <div className="max-w-3xl mx-auto">
-              <p className="text-xl text-muted-foreground mb-6">
-                Cada projeto de contenção apresenta características únicas que demandam 
-                análise técnica especializada para escolha da solução mais adequada.
-              </p>
-              <p className="text-muted-foreground">
-                Na <strong>B2A Engenharia</strong>, oferecemos amplo portfólio de técnicas 
-                de contenção, desde soluções convencionais até tecnologias avançadas, 
-                sempre priorizando segurança, economia e adequação às condições específicas 
-                de cada obra.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Tipos de Contenção */}
-      <section className="py-16 bg-engineering-light-gray">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Técnicas de Contenção Disponíveis
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Soluções técnicas para diferentes necessidades e condições de projeto
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              O solo não é uma ciência exata, e cada terreno apresenta desafios únicos. Na <strong>B2A Engenharia</strong>, não nos limitamos a uma única técnica. Nosso diferencial é a capacidade de combinar <strong>Parede Diafragma</strong>, <strong>Estacas Prancha</strong> e tratamentos de solo para entregar a obra mais segura no menor prazo possível.
             </p>
+            <div className="h-1.5 w-24 bg-secondary mx-auto rounded-full"></div>
           </div>
+        </div>
+      </section>
 
+      {/* Grid de Soluções */}
+      <section className="py-24 bg-gray-50">
+        <div className="container px-4">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {tiposContencao.map((tipo, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <tipo.icon className="h-10 w-10 text-primary mb-4" />
-                  <CardTitle className="text-primary">{tipo.titulo}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground text-sm">{tipo.descricao}</p>
-                  
-                  <div>
-                    <h4 className="font-semibold text-sm mb-2">Aplicações:</h4>
-                    <ul className="text-xs text-muted-foreground space-y-1">
-                      {tipo.aplicacoes.map((app, i) => (
-                        <li key={i} className="flex items-start">
-                          <span className="w-1 h-1 bg-secondary rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
-                          {app}
-                        </li>
-                      ))}
-                    </ul>
+              <Card key={index} className="border-none shadow-sm hover:shadow-2xl transition-all rounded-[32px] overflow-hidden group bg-white">
+                <CardHeader className="p-8 group-hover:bg-primary transition-colors">
+                  <div className="w-16 h-16 bg-primary/5 text-secondary rounded-2xl flex items-center justify-center mb-6 group-hover:bg-white/10 group-hover:text-white transition-colors">
+                    <tipo.icon size={32} />
                   </div>
-
-                  <div>
-                    <h4 className="font-semibold text-sm mb-2">Vantagens:</h4>
-                    <ul className="text-xs text-muted-foreground space-y-1">
-                      {tipo.vantagens.map((vant, i) => (
-                        <li key={i} className="flex items-start">
-                          <CheckCircle className="h-3 w-3 text-secondary mt-0.5 mr-2 flex-shrink-0" />
-                          {vant}
-                        </li>
-                      ))}
-                    </ul>
+                  <CardTitle className="text-primary group-hover:text-white font-black uppercase tracking-tight text-xl">{tipo.titulo}</CardTitle>
+                </CardHeader>
+                <CardContent className="p-8 group-hover:bg-primary transition-colors">
+                  <p className="text-sm text-muted-foreground group-hover:text-white/70 leading-relaxed mb-6">{tipo.descricao}</p>
+                  <div className="space-y-4">
+                    <div className="pt-4 border-t border-gray-100 group-hover:border-white/10">
+                      <h4 className="font-black text-[10px] uppercase text-primary group-hover:text-white mb-2 tracking-widest">Aplicações</h4>
+                      <ul className="text-[11px] text-muted-foreground group-hover:text-white/60 space-y-1">
+                        {tipo.aplicacoes.map((app, i) => (
+                          <li key={i} className="flex items-center">• {app}</li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -211,186 +155,37 @@ const OutrasContencoes = () => {
       </section>
 
       {/* Metodologia de Seleção */}
-      <section className="py-16">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Metodologia para Seleção da Solução
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Processo técnico estruturado para escolha da melhor alternativa
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            {metodologiaProjeto.map((metodo, index) => (
-              <Card key={index} className="text-center">
-                <CardHeader>
-                  <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-xl mx-auto mb-4">
-                    {index + 1}
-                  </div>
-                  <metodo.icon className="h-8 w-8 text-secondary mx-auto mb-4" />
-                  <CardTitle className="text-primary text-lg">{metodo.etapa}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">{metodo.descricao}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="max-w-4xl mx-auto">
-            <h3 className="text-2xl font-bold mb-6 text-primary text-center">
-              Critérios de Seleção Técnica
-            </h3>
-            <div className="grid md:grid-cols-2 gap-6">
-              {criteriosSelecao.map((criterio, index) => (
-                <div key={index} className="flex items-start space-x-3">
-                  <Award className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
-                  <span className="text-muted-foreground">{criterio}</span>
+      <section className="py-24 bg-primary relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+        <div className="container px-4 relative z-10 text-center">
+          <h2 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter mb-16">O Processo <span className="text-secondary italic">B2A</span></h2>
+          <div className="grid md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            {metodologia.map((m, i) => (
+              <div key={i} className="space-y-6 group">
+                <div className="w-20 h-20 bg-white/10 backdrop-blur-md rounded-[30px] flex items-center justify-center mx-auto border border-white/20 group-hover:bg-secondary group-hover:border-secondary transition-all">
+                  <m.icon className="text-secondary group-hover:text-white" size={32} />
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Vantagens da B2A */}
-      <section className="py-16 bg-engineering-light-gray">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Diferenciais da B2A em Contenções
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Experiência e metodologia para garantir a melhor solução para seu projeto
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {vantagens.map((vantagem, index) => (
-              <div key={index} className="flex items-start space-x-3 bg-background p-6 rounded-lg">
-                <CheckCircle className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
-                <span className="text-muted-foreground">{vantagem}</span>
+                <h3 className="font-black text-white uppercase tracking-tight text-lg">{m.etapa}</h3>
+                <p className="text-white/50 text-[11px] leading-relaxed px-4">{m.d}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Aplicações Práticas */}
-      <section className="py-16">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Aplicações em Diferentes Contextos
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Soluções adaptadas para cada tipo de obra e necessidade específica
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              {
-                contexto: "Obras Urbanas",
-                tecnicas: ["Parede diafragma", "Muros de flexão", "Micro estacas"],
-                caracteristicas: "Espaços reduzidos, baixa vibração"
-              },
-              {
-                contexto: "Obras Portuárias",
-                tecnicas: ["Estacas prancha", "Parede diafragma", "Jet grouting"],
-                caracteristicas: "Ambiente aquático, cargas elevadas"
-              },
-              {
-                contexto: "Infraestrutura",
-                tecnicas: ["Muros de gravidade", "Solo grampeado", "Terra armada"],
-                caracteristicas: "Grandes extensões, economia"
-              },
-              {
-                contexto: "Casos Especiais",
-                tecnicas: ["Jet grouting", "Micro estacas", "Soluções mistas"],
-                caracteristicas: "Condições específicas, inovação"
-              }
-            ].map((app, index) => (
-              <Card key={index} className="text-center">
-                <CardHeader>
-                  <Building className="h-10 w-10 text-primary mx-auto mb-4" />
-                  <CardTitle className="text-primary text-lg">{app.contexto}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <h4 className="font-semibold text-sm mb-2">Técnicas aplicáveis:</h4>
-                    <ul className="text-xs text-muted-foreground space-y-1">
-                      {app.tecnicas.map((tec, i) => (
-                        <li key={i}>{tec}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  <p className="text-xs text-muted-foreground italic">{app.caracteristicas}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Links para Outras Páginas */}
-      <section className="py-16 bg-engineering-light-gray">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Conheça Nossas Especialidades
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Saiba mais sobre nossas principais técnicas de contenção
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { nome: "Terra Armada", href: "/servicos/terra-armada" },
-              { nome: "Solo Grampeado", href: "/servicos/solo-grampeado" },
-              { nome: "Cortina Atirantada", href: "/servicos/cortina-atirantada" },
-              { nome: "Gabião", href: "/servicos/gabiao" }
-            ].map((servico, index) => (
-              <Card key={index} className="hover:shadow-md transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <h4 className="font-semibold text-primary">{servico.nome}</h4>
-                    <Button variant="ghost" size="sm" asChild>
-                      <NavLink to={servico.href}>
-                        <ArrowRight className="h-4 w-4" />
-                      </NavLink>
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA Final */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="container px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Precisa da Melhor Solução de Contenção?
-          </h2>
-          <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
-            Nossa equipe analisa seu projeto e recomenda a solução técnica mais adequada, 
-            considerando todos os aspectos técnicos, econômicos e executivos.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" asChild>
-              <NavLink to="/contato">
-                Solicitar Análise Técnica
-              </NavLink>
-            </Button>
-            <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-              <Phone className="h-5 w-5 mr-2" />
-              Consultoria Especializada
-            </Button>
+      <section className="py-24 bg-white text-center">
+        <div className="container px-4">
+          <div className="max-w-4xl mx-auto space-y-10">
+            <h2 className="text-3xl md:text-6xl font-black text-primary uppercase tracking-tighter leading-none">Desafio <span className="text-secondary">Especial?</span></h2>
+            <p className="text-xl text-muted-foreground font-light max-w-2xl mx-auto leading-relaxed">
+              Traga o seu problema geotécnico. Nós desenvolvemos a solução com viabilidade técnica e financeira.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center pt-4">
+              <Button size="lg" className="bg-primary hover:bg-primary-glow text-white h-16 px-16 rounded-full text-lg font-bold shadow-2xl transition-all" asChild>
+                <NavLink to="/contato">Falar com um Especialista</NavLink>
+              </Button>
+            </div>
           </div>
         </div>
       </section>

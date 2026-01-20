@@ -3,454 +3,205 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { NavLink } from "react-router-dom";
-import { 
-  Trees, 
-  CheckCircle, 
-  Droplets, 
-  Leaf, 
+import {
+  Trees,
+  CheckCircle,
+  Droplets,
+  Leaf,
   Award,
   Phone,
   Settings,
-  Shield
+  Shield,
+  Sprout,
+  ArrowRight
 } from "lucide-react";
+import { useEffect } from "react";
 
 const Terramesh = () => {
+  useEffect(() => {
+    document.title = "Terramesh | Contenção em Solo Reforçado Verde | B2A";
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", "Especialistas em Terramesh. Sistema de solo reforçado com face em gabião para contenção de encostas e taludes. Engenharia verde de alta performance.");
+    }
+  }, []);
+
   const vantagens = [
-    "Sistema modular de rápida instalação",
-    "Permite revegetação imediata",
-    "Excelente controle de erosão",
-    "Impacto visual mínimo após vegetação",
-    "Drenagem natural integrada",
-    "Baixo custo de manutenção",
-    "Solução ecologicamente sustentável"
+    { title: "Maciço Estrutural", desc: "Forma um bloco monolítico de solo reforçado altamente estável.", icon: Shield },
+    { title: "Estética Natural", desc: "A face em rede metálica permite revegetação total em poucos meses.", icon: Sprout },
+    { title: "Flexibilidade", desc: "Acomoda-se a deformações do terreno sem trincar ou falhar.", icon: Settings }
   ];
 
-  const componentesSistema = [
-    {
-      titulo: "Gaiola Metálica",
-      descricao: "Estrutura de arame galvanizado de dupla torção",
-      icon: Shield
-    },
-    {
-      titulo: "Geotêxtil Integrado",
-      descricao: "Manta geotêxtil biodegradável para suporte inicial",
-      icon: Leaf
-    },
-    {
-      titulo: "Sistema de Plantio",
-      descricao: "Especificação técnica de vegetação adequada",
-      icon: Trees
-    },
-    {
-      titulo: "Drenagem",
-      descricao: "Sistema integrado para controle de água superficial",
-      icon: Droplets
-    }
-  ];
-
-  const aplicacoes = [
-    "Proteção e revegetação de taludes rodoviários",
-    "Contenções paisagísticas em áreas urbanas",
-    "Controle de erosão em encostas",
-    "Proteção de margens de rios e lagos",
-    "Recuperação de áreas degradadas",
-    "Contenções temporárias com revegetação",
-    "Integração paisagística em grandes obras"
-  ];
-
-  const especificacoesTecnicas = [
-    "Malha hexagonal dupla torção Ø 2,7 mm",
-    "Galvanização pesada conforme ASTM A641",
-    "Geotêxtil biodegradável 200-400 g/m²",
-    "Abertura da malha: 80 x 100 mm",
-    "Altura das gaiolas: 0,50 a 1,00 m",
-    "Comprimento padrão: 2,00 m",
-    "Resistência à tração: ≥ 38 kgf/mm²"
-  ];
-
-  const etapasExecutivas = [
-    "Preparação e regularização do talude",
-    "Instalação das gaiolas Terramesh",
-    "Preenchimento com solo vegetal adequado",
-    "Colocação do geotêxtil biodegradável",
-    "Plantio conforme especificação técnica",
-    "Sistema de irrigação temporária",
-    "Manutenção inicial da vegetação"
-  ];
-
-  const tiposVegetacao = [
-    {
-      categoria: "Gramíneas",
-      especies: ["Grama esmeralda", "Grama santo agostinho", "Vetiver"],
-      uso: "Proteção superficial e controle de erosão"
-    },
-    {
-      categoria: "Leguminosas",
-      especies: ["Feijão-de-porco", "Crotalária", "Kudzu"],
-      uso: "Fixação de nitrogênio e melhoria do solo"
-    },
-    {
-      categoria: "Arbustivas",
-      especies: ["Alamanda", "Bougainvillea", "Ixora"],
-      uso: "Paisagismo e proteção de médio porte"
-    }
-  ];
-
-  const faqs = [
-    {
-      pergunta: "Qual a diferença entre Terramesh e gabião convencional?",
-      resposta: "O Terramesh é preenchido com solo vegetal e inclui geotêxtil biodegradável para facilitar o crescimento de vegetação, enquanto o gabião convencional é preenchido com pedras."
-    },
-    {
-      pergunta: "Quanto tempo leva para a vegetação se estabelecer?",
-      resposta: "Gramíneas geralmente se estabelecem em 30-60 dias, enquanto arbustos e plantas de maior porte podem levar 6-12 meses para completo estabelecimento."
-    },
-    {
-      pergunta: "É necessário sistema de irrigação permanente?",
-      resposta: "Não, apenas irrigação temporária durante o estabelecimento inicial (3-6 meses). Após esse período, a vegetação deve ser autossuficiente."
-    },
-    {
-      pergunta: "Terramesh funciona em qualquer tipo de clima?",
-      resposta: "Sim, mas a especificação da vegetação deve ser adequada ao clima local. Em regiões áridas, podem ser necessárias espécies mais resistentes à seca."
-    },
-    {
-      pergunta: "Qual a inclinação máxima para uso do Terramesh?",
-      resposta: "Geralmente é recomendado para taludes com inclinação até 70°. Para inclinações maiores, análises específicas de estabilidade são necessárias."
-    }
+  const fasesEvolucao = [
+    { fase: "Instalação", d: "Colocação dos módulos de rede e reforços metálicos.", icon: Settings },
+    { fase: "Enchimento", d: "Compactação de solo e inserção de substrato vegetal.", icon: Droplets },
+    { fase: "Maturação", d: "Crescimento da vegetação e integração total à paisagem.", icon: Sprout }
   ];
 
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-primary-glow text-primary-foreground py-20">
-        <div className="container px-4">
+      <section className="bg-primary text-primary-foreground py-24 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20 grayscale brightness-75">
+          <img src="/images/aeroporto.png" className="w-full h-full object-cover scale-105" alt="Background" />
+        </div>
+        <div className="container px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="bg-secondary text-secondary-foreground mb-4 px-4 py-2">
-              Contenção Verde
+            <Badge className="bg-secondary text-white mb-6 px-4 py-1.5 uppercase font-black tracking-widest">
+              Engenharia Socioambiental
             </Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Terramesh - Contenção com Revegetação
+            <h1 className="text-4xl md:text-7xl font-black mb-6 uppercase tracking-tighter leading-none">
+              Sistema <span className="text-secondary">Terramesh</span>
             </h1>
-            <p className="text-xl md:text-2xl text-primary-foreground/90 leading-relaxed mb-8">
-              Sistema modular de contenção que combina estrutura metálica com solo vegetal, 
-              proporcionando proteção eficaz e integração paisagística natural.
+            <p className="text-xl md:text-2xl text-primary-foreground/80 leading-relaxed mb-10 max-w-3xl mx-auto font-light">
+              A evolução das contenções: solo reforçado com face verde, unindo a força do aço
+              à resiliência da vegetação nativa.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" asChild>
-                <NavLink to="/contato">
-                  Solicitar Projeto
-                </NavLink>
-              </Button>
-              <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-                <Phone className="h-5 w-5 mr-2" />
-                Consultoria Paisagística
+              <Button size="lg" className="bg-secondary hover:bg-secondary-glow text-white h-16 px-10 rounded-full font-bold uppercase tracking-wide shadow-xl" asChild>
+                <NavLink to="/contato">Solicitar Projeto Verde</NavLink>
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Introdução */}
-      <section className="py-16">
+      {/* Introdução Técnica */}
+      <section className="py-24 bg-white">
         <div className="container px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-primary">
-                Sistema Terramesh
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <h2 className="text-3xl md:text-5xl font-black text-primary uppercase tracking-tighter leading-tight">
+                Contenção que <br /><span className="text-secondary italic">Cresce com o Tempo</span>
               </h2>
-              <div className="prose prose-lg max-w-none space-y-4">
-                <p className="text-muted-foreground">
-                  O <strong>Terramesh</strong> é um sistema inovador de contenção que utiliza 
-                  gaiolas metálicas preenchidas com solo vegetal, combinando proteção estrutural 
-                  com revegetação natural para máxima integração paisagística.
+              <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed">
+                <p>
+                  O <strong>Terramesh</strong> é um sistema modular exclusivo para contenção de solo reforçado. Sua estrutura é composta por um reforço metálico em malha hexagonal de dupla torção, que se estende para dentro do maciço, garantindo estabilidade interna superior.
                 </p>
-                <p className="text-muted-foreground">
-                  Esta tecnologia incorpora geotêxtil biodegradável que facilita o estabelecimento 
-                  inicial da vegetação, criando uma solução sustentável que melhora com o tempo, 
-                  oferecendo proteção eficaz contra erosão e impacto visual mínimo.
-                </p>
-                <p className="text-muted-foreground">
-                  Na <strong>B2A Engenharia</strong>, desenvolvemos projetos Terramesh integrados 
-                  com especificação técnica de vegetação adequada ao clima e características 
-                  locais, garantindo sucesso na revegetação e durabilidade da estrutura.
+                <p>
+                  Diferente de muros rígidos, o Terramesh é permeável e flexível, tornando-se praticamente invisível após a maturação da vegetação, o que o torna a escolha definitiva para rodovias, ferrovias e condomínios de alto padrão.
                 </p>
               </div>
-            </div>
-            <div className="bg-engineering-light-gray p-8 rounded-lg">
-              <h3 className="text-2xl font-bold text-primary mb-6">Benefícios Únicos</h3>
-              <div className="space-y-4">
-                {vantagens.slice(0, 5).map((vantagem, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <CheckCircle className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{vantagem}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Componentes do Sistema */}
-      <section className="py-16 bg-engineering-light-gray">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Componentes do Sistema Terramesh
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Integração técnica entre estrutura metálica, geotêxtil e sistema de revegetação
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {componentesSistema.map((componente, index) => (
-              <Card key={index} className="text-center">
-                <CardHeader>
-                  <componente.icon className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <CardTitle className="text-primary text-lg">{componente.titulo}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">{componente.descricao}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Processo Executivo */}
-      <section className="py-16">
-        <div className="container px-4">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div>
-              <h2 className="text-3xl font-bold mb-8 text-primary">
-                Processo Executivo
-              </h2>
-              <div className="space-y-4">
-                {etapasExecutivas.map((etapa, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <div className="w-6 h-6 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-xs font-bold mt-0.5 flex-shrink-0">
-                      {index + 1}
+              <div className="grid sm:grid-cols-3 gap-6 pt-4">
+                {vantagens.map((v, i) => (
+                  <div key={i} className="flex flex-col items-center text-center space-y-3 p-4">
+                    <div className="p-4 bg-primary/5 text-secondary rounded-2xl group-hover:bg-primary group-hover:text-white transition-all">
+                      <v.icon size={32} />
                     </div>
-                    <span className="text-muted-foreground">{etapa}</span>
+                    <h4 className="font-black text-primary text-xs uppercase tracking-tight">{v.title}</h4>
+                    <p className="text-[10px] text-muted-foreground leading-tight">{v.desc}</p>
                   </div>
                 ))}
               </div>
             </div>
-            
-            <div>
-              <h2 className="text-3xl font-bold mb-8 text-primary">
-                Especificações Técnicas
-              </h2>
-              <div className="space-y-4">
-                {especificacoesTecnicas.map((spec, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <Settings className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{spec}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Especificação de Vegetação */}
-      <section className="py-16 bg-engineering-light-gray">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Especificação Técnica de Vegetação
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Seleção adequada de espécies para máxima eficiência na proteção e paisagismo
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {tiposVegetacao.map((tipo, index) => (
-              <Card key={index}>
-                <CardHeader>
-                  <Trees className="h-10 w-10 text-secondary mx-auto mb-4" />
-                  <CardTitle className="text-primary text-center">{tipo.categoria}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div>
-                    <h4 className="font-semibold text-sm mb-2">Espécies recomendadas:</h4>
-                    <ul className="text-sm text-muted-foreground space-y-1">
-                      {tipo.especies.map((especie, i) => (
-                        <li key={i} className="flex items-start">
-                          <Leaf className="h-3 w-3 text-secondary mt-1 mr-2 flex-shrink-0" />
-                          {especie}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-sm mb-1">Aplicação:</h4>
-                    <p className="text-sm text-muted-foreground">{tipo.uso}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Aplicações e Vantagens */}
-      <section className="py-16">
-        <div className="container px-4">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div>
-              <h2 className="text-3xl font-bold mb-8 text-primary">
-                Aplicações do Terramesh
-              </h2>
-              <div className="space-y-4">
-                {aplicacoes.map((aplicacao, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <Trees className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{aplicacao}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <div>
-              <h2 className="text-3xl font-bold mb-8 text-primary">
-                Todas as Vantagens
-              </h2>
-              <div className="space-y-4">
-                {vantagens.map((vantagem, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <CheckCircle className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{vantagem}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Evolução da Vegetação */}
-      <section className="py-16 bg-engineering-light-gray">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Evolução da Revegetação
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Transformação paisagística ao longo do tempo
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              { periodo: "0-30 dias", desc: "Instalação e plantio inicial", cor: "primary" },
-              { periodo: "1-3 meses", desc: "Estabelecimento das gramíneas", cor: "secondary" },
-              { periodo: "6 meses", desc: "Cobertura vegetal consolidada", cor: "primary" },
-              { periodo: "1-2 anos", desc: "Paisagem natural integrada", cor: "secondary" }
-            ].map((fase, index) => (
-              <Card key={index} className="text-center">
-                <CardContent className="pt-6">
-                  <div className={`w-16 h-16 bg-${fase.cor} text-${fase.cor}-foreground rounded-full flex items-center justify-center font-bold mx-auto mb-4`}>
-                    {index + 1}
-                  </div>
-                  <h3 className="font-semibold text-primary mb-2">{fase.periodo}</h3>
-                  <p className="text-sm text-muted-foreground">{fase.desc}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Bloco Visual */}
-      <section className="py-16">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Projetos Terramesh Executados
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Exemplos de integração paisagística bem-sucedida
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { titulo: "Contenção Rodoviária", desc: "Revegetação em rodovia SP-348" },
-              { titulo: "Área Urbana", desc: "Integração paisagística residencial" },
-              { titulo: "Recuperação Ambiental", desc: "Área degradada revitalizada" }
-            ].map((projeto, index) => (
-              <Card key={index} className="overflow-hidden">
-                <div className="h-48 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                  <div className="text-center">
-                    <Trees className="h-16 w-16 text-primary mx-auto mb-4" />
-                    <p className="text-muted-foreground">Imagem do Projeto</p>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      [Antes/Depois da revegetação]
-                    </p>
-                  </div>
+            <div className="relative">
+              <div className="absolute -inset-4 bg-secondary/5 rounded-[40px] rotate-1"></div>
+              <img
+                src="/images/aeroporto.png"
+                alt="Obra Terramesh Verde"
+                className="rounded-[32px] shadow-2xl relative z-10 w-full min-h-[500px] object-cover"
+              />
+              <div className="absolute -bottom-6 -left-6 bg-white p-8 rounded-3xl shadow-xl z-20 border border-gray-100 hidden md:block">
+                <div className="flex items-center space-x-4 mb-4">
+                  <Leaf className="text-secondary h-8 w-8" />
+                  <span className="font-black text-primary uppercase tracking-tighter text-xl">Bioengenharia</span>
                 </div>
-                <CardContent className="p-6">
-                  <h3 className="font-semibold text-primary mb-2">{projeto.titulo}</h3>
-                  <p className="text-sm text-muted-foreground">{projeto.desc}</p>
-                </CardContent>
-              </Card>
+                <p className="text-xs text-muted-foreground max-w-[200px]">Redução de até 90% no impacto visual comparado a muros de concreto.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Processo de Maturação */}
+      <section className="py-24 bg-gray-50">
+        <div className="container px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-black text-primary uppercase tracking-tighter mb-4">Ciclo de Maturação</h2>
+            <div className="h-1.5 w-24 bg-secondary mx-auto rounded-full"></div>
+          </div>
+          <div className="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
+            {fasesEvolucao.map((f, i) => (
+              <div key={i} className="relative group text-center">
+                <div className="w-24 h-24 bg-white border-2 border-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:border-secondary transition-colors relative z-10">
+                  <f.icon className="h-10 w-10 text-primary group-hover:text-secondary transition-colors" />
+                </div>
+                {i < 2 && (
+                  <div className="hidden md:block absolute top-12 left-[60%] w-full h-[2px] bg-primary/5 z-0"></div>
+                )}
+                <h3 className="font-black text-primary uppercase tracking-tight mb-2">{f.fase}</h3>
+                <p className="text-sm text-muted-foreground px-4">{f.d}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="py-16 bg-engineering-light-gray">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Perguntas Frequentes - Terramesh
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Esclarecimentos sobre contenção com revegetação
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto space-y-6">
-            {faqs.map((faq, index) => (
-              <Card key={index}>
-                <CardHeader>
-                  <h3 className="font-semibold text-primary">{faq.pergunta}</h3>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">{faq.resposta}</p>
-                </CardContent>
-              </Card>
-            ))}
+      {/* Especificação Técnica */}
+      <section className="py-24 bg-primary relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+        <div className="container px-4 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-20 items-center">
+            <div>
+              <Badge className="bg-secondary text-white mb-6">Padrão B2A</Badge>
+              <h2 className="text-3xl md:text-5xl font-black text-white uppercase tracking-tighter mb-8 leading-none">Rigor Técnico <br /> <span className="text-secondary italic">Inquestionável</span></h2>
+              <div className="space-y-4">
+                {[
+                  "Malha de dupla torção com galvanização Galmac® de alta durabilidade.",
+                  "Revestimento em polímero para proteção contra raios UV e abrasão.",
+                  "Reforços estruturais integrados (Grelhas ou Redes).",
+                  "Dimensionamento rigoroso seguindo normas ABNT e internacionais.",
+                  "Monitoramento de performance pós-execução."
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center space-x-4">
+                    <CheckCircle className="text-secondary h-6 w-6 flex-shrink-0" />
+                    <span className="text-white/80 font-bold text-sm uppercase tracking-wide">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-xl p-12 rounded-[40px] border border-white/20">
+              <h3 className="text-2xl font-black text-white uppercase mb-8">Diferenciais</h3>
+              <div className="grid grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <Award className="text-secondary h-10 w-10" />
+                  <p className="text-white font-black text-2xl">NBR 16920</p>
+                  <p className="text-white/50 text-[10px] uppercase font-bold tracking-widest">Normatização</p>
+                </div>
+                <div className="space-y-2">
+                  <Droplets className="text-secondary h-10 w-10" />
+                  <p className="text-white font-black text-2xl">100%</p>
+                  <p className="text-white/50 text-[10px] uppercase font-bold tracking-widest">Permeável</p>
+                </div>
+                <div className="space-y-2">
+                  <Shield className="text-secondary h-10 w-10" />
+                  <p className="text-white font-black text-2xl">120 ANOS</p>
+                  <p className="text-white/50 text-[10px] uppercase font-bold tracking-widest">Vida Útil</p>
+                </div>
+                <div className="space-y-2">
+                  <Sprout className="text-secondary h-10 w-10" />
+                  <p className="text-white font-black text-2xl">CLEAN-TECH</p>
+                  <p className="text-white/50 text-[10px] uppercase font-bold tracking-widest">Tecnologia Limpa</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* CTA Final */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="container px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Projeto Terramesh com Paisagismo Integrado?
-          </h2>
-          <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
-            Nossa equipe desenvolve projetos Terramesh com especificação técnica de vegetação 
-            adequada, garantindo proteção eficaz e integração paisagística natural.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" asChild>
-              <NavLink to="/contato">
-                Solicitar Projeto Paisagístico
-              </NavLink>
-            </Button>
-            <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-              <Phone className="h-5 w-5 mr-2" />
-              Consultoria Verde
-            </Button>
+      <section className="py-24 bg-white text-center">
+        <div className="container px-4">
+          <div className="max-w-4xl mx-auto space-y-10">
+            <h2 className="text-3xl md:text-6xl font-black text-primary uppercase tracking-tighter leading-none">Proteja seu Talude <br /> com <span className="text-secondary">Inteligência Verde</span></h2>
+            <p className="text-xl text-muted-foreground font-light max-w-2xl mx-auto leading-relaxed">
+              Consulte nossa engenharia técnica para viabilizar projetos de Terramesh com máxima segurança e beleza estética.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center pt-4">
+              <Button size="lg" className="bg-primary hover:bg-primary-glow text-white h-16 px-16 rounded-full text-lg font-bold shadow-2xl transition-all" asChild>
+                <NavLink to="/contato">Solicitar Análise de Viabilidade</NavLink>
+              </Button>
+            </div>
           </div>
         </div>
       </section>

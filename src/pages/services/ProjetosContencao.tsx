@@ -3,260 +3,161 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { NavLink } from "react-router-dom";
-import { 
-  Shield, 
-  Mountain, 
-  Anchor, 
-  Settings, 
+import {
+  Shield,
+  Mountain,
+  Anchor,
+  Settings,
   CheckCircle,
   ArrowRight,
   FileText,
   Award,
-  Phone
+  Phone,
+  LayoutDashboard,
+  HardHat,
+  Scale
 } from "lucide-react";
+import { useEffect } from "react";
 
 const ProjetosContencao = () => {
-  const tiposContencao = [
-    {
-      titulo: "Cortina Atirantada",
-      descricao: "Estruturas de contenção com tirantes para altas cargas e grandes alturas.",
-      icon: Shield,
-      href: "/servicos/cortina-atirantada",
-      aplicacoes: ["Grandes alturas", "Cargas elevadas", "Terrenos rochosos"],
-      destaque: true
-    },
-    {
-      titulo: "Solo Grampeado",
-      descricao: "Técnica de reforço de solo in-situ para estabilização de taludes.",
-      icon: Mountain,
-      href: "/servicos/solo-grampeado",
-      aplicacoes: ["Taludes naturais", "Cortes em solo", "Escavações"],
-      destaque: true
-    },
-    {
-      titulo: "Gabião",
-      descricao: "Estruturas de contenção flexíveis usando gaiolas metálicas preenchidas.",
-      icon: Settings,
-      href: "/servicos/gabiao",
-      aplicacoes: ["Contenções flexíveis", "Drenagem", "Paisagismo"],
-      destaque: false
-    },
-    {
-      titulo: "Terramesh",
-      descricao: "Sistema de contenção modular com geotêxtil integrado para revegetação.",
-      icon: Anchor,
-      href: "/servicos/terramesh",
-      aplicacoes: ["Revegetação", "Proteção ambiental", "Contenções verdes"],
-      destaque: false
+  useEffect(() => {
+    document.title = "Projetos de Contenção | Consultoria e Engenharia Geotécnica | B2A";
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", "Projetos executivos de contenção, estabilização de taludes e encostas. Consultoria técnica especializada com conformidade normativa NBR 11682.");
     }
-  ];
+  }, []);
 
-  const caracteristicas = [
-    "Projetos executivos detalhados conforme NBR 11682",
-    "Análise de estabilidade global e local",
-    "Dimensionamento de elementos estruturais",
-    "Especificação de materiais e equipamentos",
-    "Detalhamento de sistemas de drenagem",
-    "Cronograma executivo e memorial de cálculo",
-    "Supervisão técnica especializada"
-  ];
-
-  const metodologia = [
+  const disciplinas = [
     {
-      etapa: "Investigação Geotécnica",
-      descricao: "Caracterização completa do subsolo através de sondagens e ensaios",
+      titulo: "Estudos de Estabilidade",
+      descricao: "Análise global e local por métodos de equilíbrio limite e elementos finitos.",
+      icon: LayoutDashboard
+    },
+    {
+      titulo: "Projetos Executivos",
+      descricao: "Detalhamento completo de armaduras, geometria e especificações de tirantes/grampos.",
       icon: FileText
     },
     {
-      etapa: "Análise de Estabilidade",
-      descricao: "Verificação da segurança através de métodos computacionais avançados",
-      icon: Settings
+      titulo: "Consultoria Normativa",
+      descricao: "Adequação de projetos às normas DNIT e ABNT (NBR 11682, 5629).",
+      icon: Scale
     },
     {
-      etapa: "Dimensionamento",
-      descricao: "Cálculo estrutural dos elementos de contenção conforme normas técnicas",
-      icon: Award
-    },
-    {
-      etapa: "Projeto Executivo",
-      descricao: "Documentação técnica completa para execução da obra",
-      icon: Shield
+      titulo: "Apoio à Fiscalização",
+      descricao: "Supervisão técnica de campo para garantir a conformidade com o projeto.",
+      icon: HardHat
     }
   ];
 
-  const vantagens = [
-    "Soluções técnicas personalizadas para cada projeto",
-    "Otimização de custos através de análises comparativas",
-    "Projetos em conformidade com normas ABNT e DNIT",
-    "Equipe especializada com mais de 14 anos de experiência",
-    "Acompanhamento técnico durante toda a execução",
-    "Garantia de desempenho e durabilidade das estruturas",
-    "Integração com sistemas de drenagem e paisagismo"
+  const tiposContencao = [
+    {
+      titulo: "Cortinas Atirantadas",
+      descricao: "Cálculo de estruturas ancoradas para contenções de grande altura.",
+      icon: Shield,
+      href: "/servicos/cortina-atirantada"
+    },
+    {
+      titulo: "Solo Grampeado",
+      descricao: "Dimensionamento de grampos e concreto projetado para taludes.",
+      icon: Mountain,
+      href: "/servicos/solo-grampeado"
+    }
   ];
 
-  const aplicacoesPraticas = [
-    "Contenção de taludes em rodovias e ferrovias",
-    "Estabilização de encostas urbanas",
-    "Contenções para edificações e subsolo",
-    "Proteção de infraestruturas críticas",
-    "Recuperação de áreas degradadas",
-    "Contenções temporárias para escavações",
-    "Muros de divisa e paisagismo"
+  const diferenciais = [
+    { title: "Software Avançado", desc: "Utilizamos as ferramentas mais modernas do mercado para simulações reais.", icon: Settings },
+    { title: "Viabilidade", desc: "Nossos projetos focam na otimização de materiais e facilidade executiva.", icon: Award },
+    { title: "Segurança", desc: "Rigor total nos coeficientes de segurança exigidos por norma.", icon: Shield }
   ];
 
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-primary-glow text-primary-foreground py-20">
-        <div className="container px-4">
+      <section className="bg-primary text-primary-foreground py-24 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 grayscale">
+          <img src="/images/aeroporto.png" alt="Background" className="w-full h-full object-cover" />
+        </div>
+        <div className="container px-4 relative z-10">
           <div className="max-w-4xl mx-auto text-center">
-            <Badge className="bg-secondary text-secondary-foreground mb-4 px-4 py-2">
-              Contenções Especializadas
+            <Badge className="bg-secondary text-white mb-6 px-4 py-1.5 uppercase font-black tracking-widest">
+              Inteligência Estrutural
             </Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Projetos de Contenção Completos
+            <h1 className="text-4xl md:text-7xl font-black mb-6 uppercase tracking-tighter leading-none">
+              Projetos de <span className="text-secondary">Engenharia</span>
             </h1>
-            <p className="text-xl md:text-2xl text-primary-foreground/90 leading-relaxed mb-8">
-              Soluções técnicas especializadas em contenções para estabilização de taludes, 
-              encostas e estruturas de terra com máxima segurança e eficiência.
+            <p className="text-xl md:text-2xl text-primary-foreground/80 leading-relaxed mb-10 max-w-3xl mx-auto font-light">
+              Do estudo de solo ao detalhamento executivo. Criamos soluções de contenção
+              que equilibram segurança absoluta e eficiência financeira.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" variant="secondary" asChild>
-                <NavLink to="/contato">
-                  Solicitar Projeto
-                </NavLink>
-              </Button>
-              <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-                <Phone className="h-5 w-5 mr-2" />
-                Consultoria Técnica
+              <Button size="lg" className="bg-secondary hover:bg-secondary-glow text-white h-16 px-10 rounded-full font-bold uppercase tracking-wide shadow-xl" asChild>
+                <NavLink to="/contato">Solicitar Orçamentos de Projeto</NavLink>
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Introdução */}
-      <section className="py-16">
+      {/* Expertise */}
+      <section className="py-24 bg-white">
         <div className="container px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-primary">
-                Engenharia de Contenções de Excelência
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <h2 className="text-3xl md:text-5xl font-black text-primary uppercase tracking-tighter leading-tight">
+                Engenharia <br /><span className="text-secondary italic">Consultiva</span>
               </h2>
-              <div className="prose prose-lg max-w-none space-y-4">
-                <p className="text-muted-foreground">
-                  Os <strong>projetos de contenção</strong> são fundamentais para garantir a estabilidade 
-                  de taludes, encostas e estruturas de terra em diversas obras de engenharia civil. 
-                  Na B2A Engenharia, desenvolvemos soluções técnicas personalizadas para cada situação específica.
+              <div className="prose prose-lg max-w-none text-muted-foreground leading-relaxed">
+                <p>
+                  Antes de mobilizar uma obra, a <strong>B2A Engenharia</strong> foca no planejamento técnico. Nossos projetos de contenção não são apenas "desenhos", são estudos profundos de interação solo-estrutura.
                 </p>
-                <p className="text-muted-foreground">
-                  Nossa metodologia integra <strong>análise geotécnica</strong> avançada, dimensionamento 
-                  estrutural rigoroso e especificação de materiais de qualidade, sempre em conformidade 
-                  com as normas <strong>NBR 11682</strong>, <strong>NBR 5629</strong> e diretrizes do <strong>DNIT</strong>.
-                </p>
-                <p className="text-muted-foreground">
-                  Oferecemos desde estudos preliminares até supervisão técnica da execução, 
-                  garantindo máxima segurança e durabilidade das estruturas de contenção.
+                <p>
+                  Trabalhamos para reduzir o consumo de materiais sem comprometer a estabilidade, entregando um <strong>Projeto Executivo</strong> pronto para aprovação em órgãos reguladores (DNIT, Prefeituras, Concessionárias) e execução direta.
                 </p>
               </div>
-            </div>
-            <div className="bg-engineering-light-gray p-8 rounded-lg">
-              <h3 className="text-2xl font-bold text-primary mb-6">Características dos Nossos Projetos</h3>
-              <div className="space-y-4">
-                {caracteristicas.slice(0, 5).map((caracteristica, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <CheckCircle className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground text-sm">{caracteristica}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Tipos de Contenção */}
-      <section className="py-16 bg-engineering-light-gray">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Tipos de Contenção Especializados
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Cada projeto demanda uma solução específica. Conheça nossas especialidades
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 mb-12">
-            {tiposContencao.map((tipo, index) => (
-              <Card key={index} className={`hover:shadow-lg transition-shadow ${tipo.destaque ? 'border-primary/20' : ''}`}>
-                <CardHeader>
-                  <div className="flex items-center justify-between mb-4">
-                    <tipo.icon className="h-10 w-10 text-primary" />
-                    {tipo.destaque && (
-                      <Badge className="bg-secondary text-secondary-foreground">Destaque</Badge>
-                    )}
-                  </div>
-                  <CardTitle className="text-primary">{tipo.titulo}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-muted-foreground">{tipo.descricao}</p>
-                  <div>
-                    <h4 className="font-semibold text-sm mb-2">Aplicações principais:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {tipo.aplicacoes.map((app, i) => (
-                        <Badge key={i} variant="outline" className="text-xs">
-                          {app}
-                        </Badge>
-                      ))}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4">
+                {diferenciais.map((d, i) => (
+                  <div key={i} className="flex flex-col items-center text-center p-4 bg-gray-50 rounded-2xl group hover:bg-primary transition-all duration-300">
+                    <div className="p-3 bg-white text-secondary rounded-xl shadow-sm mb-4 group-hover:bg-secondary group-hover:text-white transition-colors">
+                      <d.icon size={28} />
                     </div>
+                    <h4 className="font-black text-primary group-hover:text-white text-xs uppercase mb-2">{d.title}</h4>
+                    <p className="text-[10px] text-muted-foreground group-hover:text-white/70 leading-tight">{d.desc}</p>
                   </div>
-                  <Button asChild className="w-full">
-                    <NavLink to={tipo.href}>
-                      Saiba Mais
-                      <ArrowRight className="h-4 w-4 ml-2" />
-                    </NavLink>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <Button variant="outline" size="lg" asChild>
-              <NavLink to="/servicos/outras-contencoes">
-                Ver Outras Soluções de Contenção
-                <ArrowRight className="h-5 w-5 ml-2" />
-              </NavLink>
-            </Button>
+                ))}
+              </div>
+            </div>
+            <div className="relative">
+              <div className="absolute -inset-4 bg-primary/5 rounded-[40px] rotate-1"></div>
+              <img
+                src="/images/aeroporto.png"
+                alt="Projeto de Engenharia"
+                className="rounded-[32px] shadow-2xl relative z-10 w-full min-h-[500px] object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Metodologia */}
-      <section className="py-16">
+      {/* Disciplinas */}
+      <section className="py-24 bg-gray-50">
         <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Nossa Metodologia de Projeto
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Processo técnico rigoroso para garantir excelência em cada projeto
-            </p>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-black text-primary uppercase tracking-tighter mb-4">Nossa Atuação</h2>
+            <div className="h-1.5 w-24 bg-secondary mx-auto rounded-full"></div>
           </div>
-
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {metodologia.map((etapa, index) => (
-              <Card key={index} className="text-center">
-                <CardHeader>
-                  <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-xl mx-auto mb-4">
-                    {index + 1}
+            {disciplinas.map((d, i) => (
+              <Card key={i} className="border-none shadow-sm hover:shadow-xl transition-all rounded-3xl p-8 bg-white group">
+                <CardHeader className="p-0 mb-6">
+                  <div className="w-12 h-12 bg-primary/5 text-secondary rounded-xl flex items-center justify-center group-hover:bg-secondary group-hover:text-white transition-colors">
+                    <d.icon size={24} />
                   </div>
-                  <etapa.icon className="h-8 w-8 text-secondary mx-auto mb-4" />
-                  <CardTitle className="text-primary text-lg">{etapa.etapa}</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-sm">{etapa.descricao}</p>
+                <CardContent className="p-0">
+                  <CardTitle className="text-primary font-black uppercase tracking-tight mb-4 text-sm">{d.titulo}</CardTitle>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{d.descricao}</p>
                 </CardContent>
               </Card>
             ))}
@@ -264,67 +165,28 @@ const ProjetosContencao = () => {
         </div>
       </section>
 
-      {/* Vantagens e Aplicações */}
-      <section className="py-16 bg-engineering-light-gray">
+      {/* Serviços Relacionados */}
+      <section className="py-24 bg-white">
         <div className="container px-4">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div>
-              <h2 className="text-3xl font-bold mb-8 text-primary">
-                Vantagens dos Nossos Projetos
-              </h2>
-              <div className="space-y-4">
-                {vantagens.map((vantagem, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <CheckCircle className="h-5 w-5 text-secondary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{vantagem}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <div>
-              <h2 className="text-3xl font-bold mb-8 text-primary">
-                Aplicações Práticas
-              </h2>
-              <div className="space-y-4">
-                {aplicacoesPraticas.map((aplicacao, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <Mountain className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span className="text-muted-foreground">{aplicacao}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className="text-center mb-16">
+            <Badge variant="outline" className="mb-4 text-secondary border-secondary">Especialidades B2A</Badge>
+            <h2 className="text-3xl md:text-4xl font-black text-primary uppercase tracking-tighter">Projetos de <span className="text-secondary italic">Maior Demanda</span></h2>
           </div>
-        </div>
-      </section>
-
-      {/* Normas e Especificações */}
-      <section className="py-16">
-        <div className="container px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">
-              Conformidade com Normas Técnicas
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Todos os projetos seguem rigorosamente as normas brasileiras e internacionais
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {[
-              { norma: "NBR 11682", desc: "Estabilidade de Taludes" },
-              { norma: "NBR 5629", desc: "Execução de Tirantes" },
-              { norma: "NBR 9286", desc: "Terra Armada" },
-              { norma: "DNIT 379", desc: "Solo Grampeado" },
-              { norma: "FHWA", desc: "Contenções Especiais" },
-              { norma: "ABNT", desc: "Materiais e Ensaios" }
-            ].map((item, index) => (
-              <Card key={index} className="text-center">
-                <CardContent className="pt-6">
-                  <Award className="h-8 w-8 text-secondary mx-auto mb-3" />
-                  <h3 className="font-bold text-primary mb-1">{item.norma}</h3>
-                  <p className="text-xs text-muted-foreground">{item.desc}</p>
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {tiposContencao.map((tipo, index) => (
+              <Card key={index} className="border-none shadow-sm hover:shadow-2xl transition-all rounded-[32px] overflow-hidden group">
+                <CardHeader className="p-8 bg-gray-50 group-hover:bg-primary transition-colors">
+                  <div className="flex items-center justify-between">
+                    <tipo.icon size={32} className="text-secondary group-hover:text-white" />
+                    <ArrowRight size={20} className="text-primary group-hover:text-white opacity-0 group-hover:opacity-100 transition-all" />
+                  </div>
+                  <CardTitle className="pt-6 text-primary group-hover:text-white font-black uppercase tracking-tight">{tipo.titulo}</CardTitle>
+                </CardHeader>
+                <CardContent className="p-8 group-hover:bg-primary transition-colors">
+                  <p className="text-sm text-muted-foreground group-hover:text-white/70">{tipo.descricao}</p>
+                  <Button variant="link" className="p-0 mt-6 text-secondary group-hover:text-white font-bold" asChild>
+                    <NavLink to={tipo.href}>Ver detalhes técnicos</NavLink>
+                  </Button>
                 </CardContent>
               </Card>
             ))}
@@ -333,26 +195,19 @@ const ProjetosContencao = () => {
       </section>
 
       {/* CTA Final */}
-      <section className="py-16 bg-primary text-primary-foreground">
-        <div className="container px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Precisa de um Projeto de Contenção?
-          </h2>
-          <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
-            Nossa equipe especializada desenvolve a solução técnica ideal para seu projeto, 
-            garantindo segurança, eficiência e conformidade com normas técnicas.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary" asChild>
-              <NavLink to="/contato">
-                Solicitar Orçamento
-              </NavLink>
-            </Button>
-            <Button size="lg" variant="outline" className="bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary" asChild>
-              <NavLink to="/portfolio">
-                Ver Projetos Executados
-              </NavLink>
-            </Button>
+      <section className="py-24 bg-primary relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
+        <div className="container px-4 text-center relative z-10">
+          <div className="max-w-3xl mx-auto space-y-10">
+            <h2 className="text-3xl md:text-6xl font-black text-white uppercase tracking-tighter leading-none">Antecipe Soluções, <span className="text-secondary">Evite Retrabalho</span></h2>
+            <p className="text-xl text-white/70 font-light leading-relaxed">
+              Consulte nossa engenharia antes de iniciar sua obra para garantir o melhor dimensionamento técnico.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center pt-4">
+              <Button size="lg" className="bg-secondary hover:bg-secondary-glow text-white h-16 px-16 rounded-full text-lg font-bold shadow-2xl transition-all" asChild>
+                <NavLink to="/contato">Agendar Consulta Técnica</NavLink>
+              </Button>
+            </div>
           </div>
         </div>
       </section>
