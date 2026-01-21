@@ -54,7 +54,7 @@ const Index = () => {
 
           // Animate counters
           const duration = 2000;
-          const targets = { projects: 600, years: 15, experience: 300 };
+          const targets = { projects: 600, years: 13, experience: 300 };
           const startTime = Date.now();
 
           const animate = () => {
