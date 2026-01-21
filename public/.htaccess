@@ -2,9 +2,9 @@
   RewriteEngine On
   RewriteBase /
 
-# Se o caminho for /obras, força carregar o index.html (evita entrar na pasta física)
-RewriteRule ^obras$ index.html [L]
-RewriteRule ^obras/.*$ index.html [L]
+# Se o caminho for /obras e não for um arquivo real, força carregar o index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^obras(/.*)?$ /index.html [L]
 
 # Roteamento padrão para SPA
 RewriteCond %{REQUEST_FILENAME} !-f

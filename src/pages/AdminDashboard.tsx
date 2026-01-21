@@ -94,11 +94,14 @@ const AdminDashboard = () => {
             }
 
             // 2. Salvar no banco de dados
+            const generatedFolder = newWork.name.replace(/\s+/g, '-').toLowerCase();
+            const finalGalleryPath = newWork.galleryPath || `obras/${generatedFolder}`;
+
             const obraToSave = {
                 ...newWork,
                 slug: newWork.name.replace(/\s+/g, '-').toLowerCase(),
                 images: uploadedFileNames,
-                gallery_path: newWork.galleryPath
+                gallery_path: finalGalleryPath
             };
 
             const res = await fetch("/api/obras.php", {

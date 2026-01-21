@@ -12,13 +12,14 @@ import {
 } from "@/components/ui/carousel";
 
 interface WorkGalleryProps {
+    workId: string;
     workName: string;
     images: string[];
     galleryPath?: string;
     gallery_path?: string;
 }
 
-export const WorkGallery = ({ workName, images, galleryPath, gallery_path }: WorkGalleryProps) => {
+export const WorkGallery = ({ workId, workName, images, galleryPath, gallery_path }: WorkGalleryProps) => {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
     if (images.length === 0) return null;
@@ -65,7 +66,13 @@ export const WorkGallery = ({ workName, images, galleryPath, gallery_path }: Wor
                             >
                                 <CardContent className="p-0 aspect-video md:aspect-square">
                                     <img
-                                        src={`/obras/${encodeURIComponent(gallery_path || galleryPath || workName)}/${encodeURIComponent(image)}`}
+                                        src={(gallery_path || galleryPath)
+                                            ? `/${(gallery_path || galleryPath)?.split('/').map(p => encodeURIComponent(p)).join('/')}/${encodeURIComponent(image)}`
+                                            : (isNaN(Number(workId))
+                                                ? `/obras/${encodeURIComponent(workName)}/${encodeURIComponent(image)}`
+                                                : `/obras/${encodeURIComponent(workName.replace(/\s+/g, '-').toLowerCase())}/${encodeURIComponent(image)}`
+                                            )
+                                        }
                                         alt={`${workName} - Image ${index + 1}`}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                                     />
@@ -114,7 +121,13 @@ export const WorkGallery = ({ workName, images, galleryPath, gallery_path }: Wor
 
                     <div className="relative max-w-5xl max-h-[85vh] flex flex-col items-center p-4">
                         <img
-                            src={`/obras/${encodeURIComponent(gallery_path || galleryPath || workName)}/${encodeURIComponent(images[selectedIndex])}`}
+                            src={(gallery_path || galleryPath)
+                                ? `/${(gallery_path || galleryPath)?.split('/').map(p => encodeURIComponent(p)).join('/')}/${encodeURIComponent(images[selectedIndex])}`
+                                : (isNaN(Number(workId))
+                                    ? `/obras/${encodeURIComponent(workName)}/${encodeURIComponent(images[selectedIndex])}`
+                                    : `/obras/${encodeURIComponent(workName.replace(/\s+/g, '-').toLowerCase())}/${encodeURIComponent(images[selectedIndex])}`
+                                )
+                            }
                             alt={`${workName} expanded`}
                             className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
                             onClick={(e) => e.stopPropagation()}

@@ -324,7 +324,13 @@ const Index = () => {
               >
                 <div className="aspect-video overflow-hidden">
                   <img
-                    src={`/obras/${encodeURIComponent(obra.gallery_path || obra.galleryPath || obra.name)}/${encodeURIComponent(obra.images[0])}`}
+                    src={(obra.gallery_path || obra.galleryPath)
+                      ? `/${(obra.gallery_path || obra.galleryPath).split('/').map(p => encodeURIComponent(p)).join('/')}/${encodeURIComponent(obra.images[0])}`
+                      : (isNaN(Number(obra.id))
+                        ? `/obras/${encodeURIComponent(obra.name)}/${encodeURIComponent(obra.images[0])}`
+                        : `/obras/${encodeURIComponent(obra.name.replace(/\s+/g, '-').toLowerCase())}/${encodeURIComponent(obra.images[0])}`
+                      )
+                    }
                     alt={obra.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />

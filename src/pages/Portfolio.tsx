@@ -90,9 +90,11 @@ const Portfolio = () => {
 
                 {obra.images.length > 0 ? (
                   <WorkGallery
+                    workId={obra.id}
                     workName={obra.name}
                     images={obra.images}
-                    galleryPath={obra.gallery_path || obra.galleryPath || (obra.id.toString().length > 5 ? obra.images[0].split('/').slice(0, -1).join('/') : undefined)}
+                    gallery_path={obra.gallery_path}
+                    galleryPath={obra.galleryPath}
                   />
                 ) : (
                   <Card className="bg-gray-100 border-dashed border-2 border-gray-300 py-12">
