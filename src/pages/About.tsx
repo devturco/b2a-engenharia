@@ -12,7 +12,7 @@ const About = () => {
     document.title = "Sobre a B2A Engenharia | Especialistas em Geotecnia e Contenções";
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
-      metaDesc.setAttribute("content", "Conheça a B2A Engenharia, empresa líder em soluções de contenções, terra armada, solo grampeado e infraestrutura civil com mais de 15 anos de excelência.");
+      metaDesc.setAttribute("content", "Conheça a B2A Engenharia, empresa líder em soluções de contenções, terra armada, solo grampeado e infraestrutura civil com mais de 13 anos de excelência.");
     }
   }, []);
 
@@ -103,7 +103,7 @@ const About = () => {
             <div className="bg-engineering-light-gray p-8 rounded-lg border-l-4 border-secondary">
               <div className="grid grid-cols-2 gap-8 text-center">
                 <div>
-                  <div className="text-4xl font-bold text-primary mb-2">15</div>
+                  <div className="text-4xl font-bold text-primary mb-2">13</div>
                   <div className="text-muted-foreground font-medium">Anos de Mercado</div>
                 </div>
                 <div>

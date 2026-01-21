@@ -35,7 +35,7 @@ const TerraArmada = () => {
   const servicos = [
     {
       titulo: "Projeto Executivo Detalhado",
-      descricao: "Dimensionamento geotécnico e estrutural completo, seguindo as premissas da NBR 16920-2:2021.",
+      descricao: "Dimensionamento geotécnico e estrutural completo, seguindo as premissas da NBR 19286:2016.",
       icon: FileText
     },
     {
@@ -128,7 +128,7 @@ const TerraArmada = () => {
                 className="rounded-[32px] shadow-2xl relative z-10 w-full"
               />
               <div className="absolute bottom-10 left-10 bg-white/90 backdrop-blur p-6 rounded-2xl shadow-xl z-20 border border-gray-100">
-                <p className="text-primary font-black text-2xl leading-none">NBR 16920</p>
+                <p className="text-primary font-black text-2xl leading-none">NBR 19286</p>
                 <p className="text-muted-foreground text-xs font-bold uppercase mt-1">Conformidade Total</p>
               </div>
             </div>
@@ -214,7 +214,7 @@ const TerraArmada = () => {
               <h2 className="text-3xl font-black text-primary uppercase tracking-tighter mb-8">Diferenciais <br /> Competitivos</h2>
               <div className="space-y-4">
                 {[
-                  "Mais de 15 anos de expertise em sistemas de solo reforçado.",
+                  "Mais de 13 anos de expertise em sistemas de solo reforçado.",
                   "Dimensionamento otimizado focado na redução de custo do cliente.",
                   "Parcerias estratégicas com fabricantes de fitas e escamas.",
                   "Zero índice de patologias em mais de 300 obras executadas.",
@@ -232,7 +232,7 @@ const TerraArmada = () => {
               <div className="space-y-4">
                 {[
                   { q: "Qual o custo por m² da Terra Armada?", a: "O valor varia conforme a altura e cargas, mas é a solução mais econômica para muros acima de 6 metros de altura." },
-                  { q: "Quais normas são seguidas?", a: "Principalmente a NBR 16920 e manuais internacionais da FHWA para solo reforçado." },
+                  { q: "Quais normas são seguidas?", a: "Principalmente a NBR 19286:2016 e manuais internacionais da FHWA para solo reforçado." },
                   { q: "A B2A fornece as escamas?", a: "Nós gerenciamos o fornecimento e garantimos que a produção siga os padrões de qualidade exigidos pelo projeto." }
                 ].map((faq, i) => (
                   <details key={i} className="group bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">

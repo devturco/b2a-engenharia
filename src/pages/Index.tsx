@@ -142,7 +142,7 @@ const Index = () => {
           </h1>
 
           <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Referência nacional em <strong>Terra Armada</strong>, <strong>Solo Grampeado</strong> e projetos geotécnicos de alta complexidade.
+            Referência nacional em <strong>Terra Armada</strong> e projetos geotécnicos de alta complexidade.
             Mais de uma década de inovação e segurança para sua obra.
           </p>
 
@@ -207,7 +207,7 @@ const Index = () => {
                 A B2A CONTENÇÕES nasceu da firme parceria entre profissionais com experiência acumulada em mais de 17 anos em diversos segmentos de obras civis e na fabricação de equipamentos metálicos utilizados em indústrias, acumulando experiência em mais de 600 mil m² em projetos e na execução de muros de contenções em aterro, proporcionando aos nossos clientes a segurança necessária no desenvolvimento de parcerias sólidas e duradouras.
               </p>
               <p className="text-gray-600 text-lg mb-8">
-                Tem como principal atividade de negócios, oferecer soluções em muros de contenções em aterro com solos mecanicamente estabilizados, também conhecido como sistema Terra Armada conforme norma NBR 16920-2021.
+                Tem como principal atividade de negócios, oferecer soluções em muros de contenções em aterro com solos mecanicamente estabilizados, também conhecido como sistema Terra Armada conforme norma NBR 19286:2016.
               </p>
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center">

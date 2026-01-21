@@ -174,7 +174,7 @@ const Services = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-lg text-primary mb-1">Conformidade Normativa</h3>
-                    <p className="text-muted-foreground leading-relaxed">Todos os nossos projetos e execuções seguem rigorosamente a NBR 16920-2021 e outras normas vigentes, garantindo segurança jurídica e técnica.</p>
+                    <p className="text-muted-foreground leading-relaxed">Todos os nossos projetos e execuções seguem rigorosamente a NBR 19286:2016 e outras normas vigentes, garantindo segurança jurídica e técnica.</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">

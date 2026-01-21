@@ -165,7 +165,7 @@ const Terramesh = () => {
               <div className="grid grid-cols-2 gap-8">
                 <div className="space-y-2">
                   <Award className="text-secondary h-10 w-10" />
-                  <p className="text-white font-black text-2xl">NBR 16920</p>
+                  <p className="text-white font-black text-2xl">NBR 19286</p>
                   <p className="text-white/50 text-[10px] uppercase font-bold tracking-widest">Normatização</p>
                 </div>
                 <div className="space-y-2">
