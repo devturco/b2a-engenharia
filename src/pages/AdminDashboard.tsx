@@ -66,7 +66,18 @@ const AdminDashboard = () => {
         const uploadedFileNames: string[] = [];
 
         try {
-            // 1. Otimizar e fazer upload das imagens
+            // 1. Gerar slug e nome da pasta de forma consistente
+            const generatedFolder = newWork.name
+                .normalize('NFD')                     // Remove acentos
+                .replace(/[\u0300-\u036f]/g, '')      // Remove acentos
+                .replace(/[^a-z0-9]/gi, '-')          // Substitui tudo que não é letra/número por hífen
+                .toLowerCase()
+                .replace(/-+/g, '-')                  // Remove hífens duplicados
+                .replace(/^-|-$/g, '');               // Remove hífens no início/fim
+
+            const finalFolder = newWork.galleryPath || generatedFolder;
+
+            // 2. Otimizar e fazer upload das imagens
             for (const file of workFiles) {
                 // Opções de compressão
                 const options = {
@@ -79,7 +90,7 @@ const AdminDashboard = () => {
 
                 const formData = new FormData();
                 formData.append("file", compressedFile, file.name);
-                formData.append("folder", newWork.galleryPath || newWork.name.replace(/\s+/g, '-').toLowerCase());
+                formData.append("folder", finalFolder); // PHP já prefixa com obras/
                 formData.append("type", "obras");
 
                 const res = await fetch("/api/upload.php", {
@@ -93,15 +104,12 @@ const AdminDashboard = () => {
                 }
             }
 
-            // 2. Salvar no banco de dados
-            const generatedFolder = newWork.name.replace(/\s+/g, '-').toLowerCase();
-            const finalGalleryPath = newWork.galleryPath || `obras/${generatedFolder}`;
-
+            // 3. Salvar no banco de dados
             const obraToSave = {
                 ...newWork,
-                slug: newWork.name.replace(/\s+/g, '-').toLowerCase(),
+                slug: generatedFolder,
                 images: uploadedFileNames,
-                gallery_path: finalGalleryPath
+                gallery_path: `obras/${finalFolder}`
             };
 
             const res = await fetch("/api/obras.php", {

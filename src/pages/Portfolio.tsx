@@ -22,6 +22,7 @@ const Portfolio = () => {
             // Unir dados da API com os estáticos
             const processedApiData = apiData.map(o => ({
               ...o,
+              id: o.id.toString(),
               images: Array.isArray(o.images) ? o.images : JSON.parse(o.images || "[]")
             }));
             setObras([...processedApiData, ...staticObras]);

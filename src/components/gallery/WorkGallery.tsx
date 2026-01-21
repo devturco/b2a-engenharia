@@ -67,10 +67,16 @@ export const WorkGallery = ({ workId, workName, images, galleryPath, gallery_pat
                                 <CardContent className="p-0 aspect-video md:aspect-square">
                                     <img
                                         src={(gallery_path || galleryPath)
-                                            ? `/${(gallery_path || galleryPath)?.split('/').map(p => encodeURIComponent(p)).join('/')}/${encodeURIComponent(image)}`
+                                            ? (
+                                                (gallery_path || galleryPath)?.startsWith('obras/')
+                                                    ? `/${(gallery_path || galleryPath)?.split('/').map(p => encodeURIComponent(p)).join('/')}/${encodeURIComponent(image)}`
+                                                    : `/obras/${encodeURIComponent(gallery_path || galleryPath || '')}/${encodeURIComponent(image)}`
+                                            )
                                             : (isNaN(Number(workId))
                                                 ? `/obras/${encodeURIComponent(workName)}/${encodeURIComponent(image)}`
-                                                : `/obras/${encodeURIComponent(workName.replace(/\s+/g, '-').toLowerCase())}/${encodeURIComponent(image)}`
+                                                : `/obras/${encodeURIComponent(
+                                                    workName.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/gi, '-').toLowerCase().replace(/-+/g, '-').replace(/^-|-$/g, '')
+                                                )}/${encodeURIComponent(image)}`
                                             )
                                         }
                                         alt={`${workName} - Image ${index + 1}`}
@@ -122,10 +128,16 @@ export const WorkGallery = ({ workId, workName, images, galleryPath, gallery_pat
                     <div className="relative max-w-5xl max-h-[85vh] flex flex-col items-center p-4">
                         <img
                             src={(gallery_path || galleryPath)
-                                ? `/${(gallery_path || galleryPath)?.split('/').map(p => encodeURIComponent(p)).join('/')}/${encodeURIComponent(images[selectedIndex])}`
+                                ? (
+                                    (gallery_path || galleryPath)?.startsWith('obras/')
+                                        ? `/${(gallery_path || galleryPath)?.split('/').map(p => encodeURIComponent(p)).join('/')}/${encodeURIComponent(images[selectedIndex])}`
+                                        : `/obras/${encodeURIComponent(gallery_path || galleryPath || '')}/${encodeURIComponent(images[selectedIndex])}`
+                                )
                                 : (isNaN(Number(workId))
                                     ? `/obras/${encodeURIComponent(workName)}/${encodeURIComponent(images[selectedIndex])}`
-                                    : `/obras/${encodeURIComponent(workName.replace(/\s+/g, '-').toLowerCase())}/${encodeURIComponent(images[selectedIndex])}`
+                                    : `/obras/${encodeURIComponent(
+                                        workName.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/gi, '-').toLowerCase().replace(/-+/g, '-').replace(/^-|-$/g, '')
+                                    )}/${encodeURIComponent(images[selectedIndex])}`
                                 )
                             }
                             alt={`${workName} expanded`}

@@ -325,10 +325,16 @@ const Index = () => {
                 <div className="aspect-video overflow-hidden">
                   <img
                     src={(obra.gallery_path || obra.galleryPath)
-                      ? `/${(obra.gallery_path || obra.galleryPath).split('/').map(p => encodeURIComponent(p)).join('/')}/${encodeURIComponent(obra.images[0])}`
+                      ? (
+                        (obra.gallery_path || obra.galleryPath).startsWith('obras/')
+                          ? `/${(obra.gallery_path || obra.galleryPath).split('/').map(p => encodeURIComponent(p)).join('/')}/${encodeURIComponent(obra.images[0])}`
+                          : `/obras/${encodeURIComponent(obra.gallery_path || obra.galleryPath || '')}/${encodeURIComponent(obra.images[0])}`
+                      )
                       : (isNaN(Number(obra.id))
                         ? `/obras/${encodeURIComponent(obra.name)}/${encodeURIComponent(obra.images[0])}`
-                        : `/obras/${encodeURIComponent(obra.name.replace(/\s+/g, '-').toLowerCase())}/${encodeURIComponent(obra.images[0])}`
+                        : `/obras/${encodeURIComponent(
+                          obra.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/gi, '-').toLowerCase().replace(/-+/g, '-').replace(/^-|-$/g, '')
+                        )}/${encodeURIComponent(obra.images[0])}`
                       )
                     }
                     alt={obra.name}
