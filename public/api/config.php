@@ -11,20 +11,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // Configurações do Banco de Dados
 $host = "localhost";
-$db_name = "b2a_engenharia"; // Altere se o nome for diferente no seu phpMyAdmin
-$username = "root";          // Geralmente root no local, altere para o da hospedagem
-$password = "";              // Geralmente vazio no local, altere para o da hospedagem
+$db_name = "b2acon88_siteb2a";
+$username = "b2acon88_usersiteb2a";
+$password = "EU7urc0@@21";
 
 try {
     $conn = new PDO("mysql:host=" . $host . ";dbname=" . $db_name, $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $conn->exec("set names utf8");
-} catch(PDOException $exception) {
+} catch (PDOException $exception) {
     echo json_encode(["error" => "Conexão falhou: " . $exception->getMessage()]);
     exit();
 }
 
-function verifyToken() {
+function verifyToken()
+{
     // Para simplificar, vamos usar um token estático ou validar a sessão.
     // Em um cenário real, usaríamos JWT ou Session.
     // Para este MVP, vamos validar se o header Authorization está presente.
