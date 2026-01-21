@@ -1,8 +1,13 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
-  RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
+
+# Se o caminho for /obras, força carregar o index.html (evita entrar na pasta física)
+RewriteRule ^obras$ index.html [L]
+RewriteRule ^obras/.*$ index.html [L]
+
+# Roteamento padrão para SPA
+RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule . /index.html [L]
 </IfModule>

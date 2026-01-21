@@ -324,12 +324,7 @@ const Index = () => {
               >
                 <div className="aspect-video overflow-hidden">
                   <img
-                    src={obra.gallery_path
-                      ? `/${obra.gallery_path}/${obra.images[0]}`
-                      : (obra.id.toString().length > 5 // Simple check for DB IDs vs static IDs
-                        ? `/${obra.images[0]}`
-                        : `/obras/${encodeURIComponent(obra.name)}/${encodeURIComponent(obra.images[0])}`)
-                    }
+                    src={`/obras/${encodeURIComponent(obra.gallery_path || obra.galleryPath || obra.name)}/${encodeURIComponent(obra.images[0])}`}
                     alt={obra.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
