@@ -107,12 +107,14 @@ const Index = () => {
   ];
 
   const staticFeaturedObras = obras.filter(obra => obra.images.length > 0).slice(0, 6);
-  const featuredObras = dynamicObras.length > 0
-    ? dynamicObras.map(o => ({
-      ...o,
-      images: Array.isArray(o.images) ? o.images : JSON.parse(o.images || "[]")
-    }))
-    : staticFeaturedObras;
+
+  const processedDynamicObras = dynamicObras.map(o => ({
+    ...o,
+    id: o.id.toString(),
+    images: Array.isArray(o.images) ? o.images : JSON.parse(o.images || "[]")
+  }));
+
+  const featuredObras = [...processedDynamicObras, ...staticFeaturedObras].slice(0, 6);
 
   return (
     <Layout>
@@ -322,7 +324,12 @@ const Index = () => {
               >
                 <div className="aspect-video overflow-hidden">
                   <img
-                    src={obra.id > 100 ? obra.images[0] : `/obras/${encodeURIComponent(obra.name)}/${encodeURIComponent(obra.images[0])}`}
+                    src={obra.gallery_path
+                      ? `/${obra.gallery_path}/${obra.images[0]}`
+                      : (obra.id.toString().length > 5 // Simple check for DB IDs vs static IDs
+                        ? `/${obra.images[0]}`
+                        : `/obras/${encodeURIComponent(obra.name)}/${encodeURIComponent(obra.images[0])}`)
+                    }
                     alt={obra.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />

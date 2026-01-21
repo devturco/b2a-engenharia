@@ -216,6 +216,7 @@ const AdminDashboard = () => {
                                             <Label htmlFor="work-name">Nome da Obra</Label>
                                             <Input
                                                 id="work-name"
+                                                placeholder="Ex: ArcelorMittal - Itatiaiuçu - MG"
                                                 value={newWork.name}
                                                 onChange={e => setNewWork({ ...newWork, name: e.target.value })}
                                                 required
@@ -226,15 +227,28 @@ const AdminDashboard = () => {
                                                 <Label htmlFor="work-cat">Categoria</Label>
                                                 <Input
                                                     id="work-cat"
+                                                    list="category-suggestions"
+                                                    placeholder="Selecione ou digite..."
                                                     value={newWork.category}
                                                     onChange={e => setNewWork({ ...newWork, category: e.target.value })}
                                                     required
                                                 />
+                                                <datalist id="category-suggestions">
+                                                    {Array.from(new Set(obras.map(o => o.category))).map(cat => (
+                                                        <option key={cat} value={cat} />
+                                                    ))}
+                                                    <option value="Terra Armada" />
+                                                    <option value="Solo Grampeado" />
+                                                    <option value="Cortina Atirantada" />
+                                                    <option value="Muro a Flexão" />
+                                                    <option value="Mineração" />
+                                                </datalist>
                                             </div>
                                             <div className="space-y-2">
-                                                <Label htmlFor="work-loc">Localização</Label>
+                                                <Label htmlFor="work-loc">Localizacão (Cidade - UF)</Label>
                                                 <Input
                                                     id="work-loc"
+                                                    placeholder="Ex: São Paulo - SP"
                                                     value={newWork.location}
                                                     onChange={e => setNewWork({ ...newWork, location: e.target.value })}
                                                     required
@@ -242,12 +256,16 @@ const AdminDashboard = () => {
                                             </div>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label htmlFor="work-folder">Caminho da Galeria (Opcional - ex: "italu")</Label>
+                                            <Label htmlFor="work-folder">Pasta das Imagens (Opcional)</Label>
                                             <Input
                                                 id="work-folder"
+                                                placeholder="Ex: obras/novo-projeto (Deixe vazio para automático)"
                                                 value={newWork.galleryPath}
                                                 onChange={e => setNewWork({ ...newWork, galleryPath: e.target.value })}
                                             />
+                                            <p className="text-[10px] text-muted-foreground leading-tight">
+                                                Se você já subiu fotos via FTP, coloque o caminho da pasta aqui. Caso contrário, as fotos abaixo serão salvas na pasta padrão.
+                                            </p>
                                         </div>
                                         <div className="space-y-2">
                                             <Label htmlFor="work-images">Imagens (Múltiplas)</Label>

@@ -18,9 +18,13 @@ const Portfolio = () => {
         const response = await fetch("/api/obras.php");
         if (response.ok) {
           const apiData = await response.json();
-          if (Array.isArray(apiData) && apiData.length > 0) {
-            // Unir dados da API com os estáticos (removendo duplicados por slug/id se necessário)
-            setObras([...apiData, ...staticObras]);
+          if (Array.isArray(apiData)) {
+            // Unir dados da API com os estáticos
+            const processedApiData = apiData.map(o => ({
+              ...o,
+              images: Array.isArray(o.images) ? o.images : JSON.parse(o.images || "[]")
+            }));
+            setObras([...processedApiData, ...staticObras]);
           }
         }
       } catch (error) {
@@ -85,7 +89,11 @@ const Portfolio = () => {
                 </div>
 
                 {obra.images.length > 0 ? (
-                  <WorkGallery workName={obra.name} images={obra.images} galleryPath={obra.galleryPath} />
+                  <WorkGallery
+                    workName={obra.name}
+                    images={obra.images}
+                    galleryPath={obra.gallery_path || obra.galleryPath || (obra.id.toString().length > 5 ? obra.images[0].split('/').slice(0, -1).join('/') : undefined)}
+                  />
                 ) : (
                   <Card className="bg-gray-100 border-dashed border-2 border-gray-300 py-12">
                     <CardContent className="flex flex-col items-center justify-center text-gray-400">
