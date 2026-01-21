@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['file'])) {
     $folder = isset($_POST['folder']) ? $_POST['folder'] : 'geral';
     $type = isset($_POST['type']) ? $_POST['type'] : 'obras'; // 'obras' ou 'midias'
 
-    $baseDir = "../../public/";
+    $baseDir = "../";
     if ($type === 'midias') {
         $targetDir = $baseDir . "midias/";
     } else {
