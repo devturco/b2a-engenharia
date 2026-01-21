@@ -211,7 +211,7 @@ const Index = () => {
               </p>
               <div className="grid grid-cols-2 gap-6">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-red-500 mb-2">17+</div>
+                  <div className="text-3xl font-bold text-red-500 mb-2">13</div>
                   <div className="text-gray-600">Anos de Experiência</div>
                 </div>
                 <div className="text-center">
@@ -489,9 +489,9 @@ const Index = () => {
               <div className="text-gray-300">Clientes Ativos</div>
             </div>
             <div>
-              <CheckCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-              <div className="text-3xl font-bold text-white mb-2">24/7</div>
-              <div className="text-gray-300">Suporte Técnico</div>
+              <Shield className="w-12 h-12 text-red-500 mx-auto mb-4" />
+              <div className="text-3xl font-bold text-white mb-2">100%</div>
+              <div className="text-gray-300">Rigor Normativo</div>
             </div>
           </div>
         </div>
