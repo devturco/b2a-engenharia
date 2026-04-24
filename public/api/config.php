@@ -14,10 +14,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // Em desenvolvimento local, conecta diretamente pelo IP do servidor remoto.
 $isProduction = isset($_SERVER['HTTP_HOST']) && !in_array($_SERVER['HTTP_HOST'], ['localhost', '127.0.0.1', '::1']);
 
-$host     = $isProduction ? "localhost" : "162.241.203.72";
+// $host     = $isProduction ? "localhost" : "162.241.203.72";
+$host     = "localhost";
 $db_name  = "b2acon88_siteb2a";
-$username = "b2acon88_usersiteb2a";
-$password = "EU7urc0@@21";
+// $username = "b2acon88_usersiteb2a";
+$username = "root";
+// $password = "EU7urc0@@21";
+$password = "";
 
 try {
     $conn = new PDO("mysql:host=" . $host . ";dbname=" . $db_name, $username, $password);

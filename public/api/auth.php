@@ -25,11 +25,12 @@ if (!empty($data->username) && !empty($data->password)) {
         }
 
         echo json_encode([
-            "success" => true,
-            "token"   => "admin-token-b2a",
-            "role"    => $user['role'],   // 'master' ou 'colaborador'
-            "name"    => $user['name'],
-            "message" => "Login realizado com sucesso"
+            "success"  => true,
+            "token"    => "admin-token-b2a",
+            "role"     => $user['role'],
+            "name"     => $user['name'],
+            "username" => $user['username'],
+            "message"  => "Login realizado com sucesso"
         ]);
     } else {
         http_response_code(401);

@@ -29,7 +29,7 @@ const AdminLogin = () => {
             const data = await response.json();
 
             if (data.success) {
-                login(data.token);
+                login(data.token, data.role, data.name, data.username);
                 toast.success("Login realizado com sucesso!");
                 navigate("/admin/dashboard");
             } else {
@@ -37,10 +37,9 @@ const AdminLogin = () => {
             }
         } catch (error) {
             toast.error("Erro de conexão com o servidor");
-            // Fallback para desenvolvimento local sem PHP rodando na mesma porta
             if (username === "b2admin" && password === "adminb2a") {
                 toast.info("Fallback para modo offline (dev)");
-                login("admin-token-b2a");
+                login("admin-token-b2a", "master", "Administrador Master", "b2admin");
             }
         } finally {
             setIsLoading(false);

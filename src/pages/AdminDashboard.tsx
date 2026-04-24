@@ -8,8 +8,9 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
-import { Plus, Trash2, Video, HardHat, LogOut, Upload, Loader2, Images, ChevronDown, ChevronUp, Search, X, DatabaseZap } from "lucide-react";
+import { Plus, Trash2, Video, HardHat, LogOut, Upload, Loader2, Images, ChevronDown, ChevronUp, Search, X, DatabaseZap, Users, UserPlus, ShieldCheck, ToggleLeft, ToggleRight, KeyRound } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import imageCompression from "browser-image-compression";
 import { obras as staticObras } from "@/data/obras";
 
@@ -30,7 +31,7 @@ interface VideoData {
 }
 
 const AdminDashboard = () => {
-    const { isAuthenticated, loading, logout } = useAuth();
+    const { isAuthenticated, loading, logout, role, adminName } = useAuth();
     const [obras, setObras] = useState<Work[]>([]);
     const [allObras, setAllObras] = useState<Work[]>([]);
     const [videos, setVideos] = useState<VideoData[]>([]);
@@ -41,6 +42,21 @@ const AdminDashboard = () => {
     const [isAddObraOpen, setIsAddObraOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
     const [isSeedingAll, setIsSeedingAll] = useState(false);
+
+    // Colaboradores (somente master)
+    interface Colaborador {
+        id: number;
+        username: string;
+        name: string;
+        email: string | null;
+        role: string;
+        active: boolean;
+        created_at: string;
+    }
+    const [colaboradores, setColaboradores] = useState<Colaborador[]>([]);
+    const [isAddColabOpen, setIsAddColabOpen] = useState(false);
+    const [newColab, setNewColab] = useState({ name: "", username: "", email: "", password: "", role: "colaborador" });
+    const [isCreatingColab, setIsCreatingColab] = useState(false);
 
     // Form states for Obras
     const [newWork, setNewWork] = useState({ name: "", category: "", location: "", galleryPath: "" });
@@ -79,6 +95,29 @@ const AdminDashboard = () => {
         const dbNames = new Set(dbObras.map(o => o.name));
         const staticOnly = (staticObras as Work[]).filter(o => !dbNames.has(o.name));
         setAllObras([...dbObras, ...staticOnly]);
+
+        // Colaboradores — somente master
+        const storedRole = localStorage.getItem('b2a_admin_role') ?? 'master';
+        if (storedRole === 'master') {
+            try {
+                const colabRes = await fetch('/api/users.php', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('b2a_admin_token')}`,
+                        'X-Admin-User': localStorage.getItem('b2a_admin_username') ?? 'b2admin',
+                    }
+                });
+                if (colabRes.ok) {
+                    const colabData = await colabRes.json();
+                    setColaboradores(Array.isArray(colabData) ? colabData : []);
+                } else {
+                    const err = await colabRes.json().catch(() => ({}));
+                    toast.error(`Erro ao carregar usuários: ${err.error ?? colabRes.status}`);
+                }
+            } catch (e) {
+                toast.error('Não foi possível conectar à API de usuários');
+                console.error('API users:', e);
+            }
+        }
 
         // Load videos from API
         try {
@@ -216,6 +255,70 @@ const AdminDashboard = () => {
         if (isNaN(Number(obra.id))) return `obras/${obra.name}`;
         const slug = obra.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/gi, '-').toLowerCase().replace(/-+/g, '-').replace(/^-|-$/g, '');
         return `obras/${slug}`;
+    };
+
+    const getAdminHeaders = () => ({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('b2a_admin_token')}`,
+        // Usa username para identificação no PHP; fallback seguro para b2admin
+        'X-Admin-User': localStorage.getItem('b2a_admin_username') ?? 'b2admin',
+    });
+
+    const handleCreateColab = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsCreatingColab(true);
+        try {
+            const res = await fetch('/api/users.php', {
+                method: 'POST',
+                headers: getAdminHeaders(),
+                body: JSON.stringify(newColab),
+            });
+            const data = await res.json();
+            if (res.ok) {
+                toast.success('Usuário criado com sucesso!');
+                setNewColab({ name: '', username: '', email: '', password: '', role: 'colaborador' });
+                setIsAddColabOpen(false);
+                fetchData();
+            } else {
+                toast.error(data.error || 'Erro ao criar colaborador');
+            }
+        } catch {
+            toast.error('Erro de conexão');
+        } finally {
+            setIsCreatingColab(false);
+        }
+    };
+
+    const handleToggleActive = async (colab: Colaborador) => {
+        try {
+            const res = await fetch(`/api/users.php?id=${colab.id}`, {
+                method: 'PATCH',
+                headers: getAdminHeaders(),
+                body: JSON.stringify({ active: !colab.active }),
+            });
+            if (res.ok) {
+                toast.success(colab.active ? 'Colaborador desativado' : 'Colaborador ativado');
+                fetchData();
+            }
+        } catch {
+            toast.error('Erro ao atualizar colaborador');
+        }
+    };
+
+    const handleDeleteColab = async (colab: Colaborador) => {
+        if (!confirm(`Remover o colaborador "${colab.name}"? Esta ação não pode ser desfeita.`)) return;
+        try {
+            const res = await fetch(`/api/users.php?id=${colab.id}`, {
+                method: 'DELETE',
+                headers: getAdminHeaders(),
+            });
+            if (res.ok) {
+                toast.success('Colaborador removido');
+                fetchData();
+            }
+        } catch {
+            toast.error('Erro ao remover colaborador');
+        }
     };
 
     const handleSeedAll = async () => {
@@ -384,13 +487,18 @@ const AdminDashboard = () => {
                 </div>
 
                 <Tabs defaultValue="obras" className="space-y-6">
-                    <TabsList className="grid w-full grid-cols-2 max-w-md">
+                    <TabsList className={`grid w-full ${role === 'master' ? 'grid-cols-3 max-w-lg' : 'grid-cols-2 max-w-md'}`}>
                         <TabsTrigger value="obras" className="flex items-center gap-2">
                             <HardHat className="h-4 w-4" /> Obras
                         </TabsTrigger>
                         <TabsTrigger value="videos" className="flex items-center gap-2">
                             <Video className="h-4 w-4" /> Vídeos
                         </TabsTrigger>
+                        {role === 'master' && (
+                            <TabsTrigger value="colaboradores" className="flex items-center gap-2">
+                                <Users className="h-4 w-4" /> Colaboradores
+                            </TabsTrigger>
+                        )}
                     </TabsList>
 
                     {/* OBRAS TAB */}
@@ -709,6 +817,168 @@ const AdminDashboard = () => {
                             </Card>
                         </div>
                     </TabsContent>
+                    {/* COLABORADORES TAB — somente master */}
+                    {role === 'master' && (
+                        <TabsContent value="colaboradores" className="space-y-4">
+
+                            {/* Modal criar colaborador */}
+                            <Dialog open={isAddColabOpen} onOpenChange={setIsAddColabOpen}>
+                                <DialogContent className="max-w-md">
+                                    <DialogHeader>
+                                        <DialogTitle className="flex items-center gap-2">
+                                            <UserPlus className="h-5 w-5" /> Novo Usuário
+                                        </DialogTitle>
+                                        <DialogDescription>Crie um acesso master ou colaborador para gerenciar o conteúdo do site.</DialogDescription>
+                                    </DialogHeader>
+                                    <form onSubmit={handleCreateColab} className="space-y-4 pt-2">
+                                        <div className="space-y-2">
+                                            <Label>Nome completo</Label>
+                                            <Input
+                                                placeholder="Ex: João Silva"
+                                                value={newColab.name}
+                                                onChange={e => setNewColab({ ...newColab, name: e.target.value })}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="space-y-2">
+                                                <Label>Usuário</Label>
+                                                <Input
+                                                    placeholder="joaosilva"
+                                                    value={newColab.username}
+                                                    onChange={e => setNewColab({ ...newColab, username: e.target.value.toLowerCase().replace(/\s/g, '') })}
+                                                    required
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label>Senha</Label>
+                                                <Input
+                                                    type="password"
+                                                    placeholder="Mínimo 6 caracteres"
+                                                    value={newColab.password}
+                                                    onChange={e => setNewColab({ ...newColab, password: e.target.value })}
+                                                    required
+                                                    minLength={6}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="space-y-2">
+                                                <Label>E-mail <span className="text-muted-foreground text-xs">(opcional)</span></Label>
+                                                <Input
+                                                    type="email"
+                                                    placeholder="joao@email.com"
+                                                    value={newColab.email}
+                                                    onChange={e => setNewColab({ ...newColab, email: e.target.value })}
+                                                />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label>Perfil</Label>
+                                                <Select value={newColab.role} onValueChange={v => setNewColab({ ...newColab, role: v })}>
+                                                    <SelectTrigger>
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="colaborador">Colaborador</SelectItem>
+                                                        <SelectItem value="master">Master</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                        </div>
+                                        <Button type="submit" className="w-full" disabled={isCreatingColab}>
+                                            {isCreatingColab
+                                                ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Criando...</>
+                                                : <><UserPlus className="h-4 w-4 mr-2" />Criar {newColab.role === 'master' ? 'Master' : 'Colaborador'}</>}
+                                        </Button>
+                                    </form>
+                                </DialogContent>
+                            </Dialog>
+
+                            {/* Toolbar */}
+                            <div className="flex items-center justify-between gap-3">
+                                <div>
+                                    <h2 className="text-lg font-semibold">Colaboradores</h2>
+                                    <p className="text-sm text-muted-foreground">{colaboradores.length} usuário(s) com acesso ao painel</p>
+                                </div>
+                                <Button onClick={() => setIsAddColabOpen(true)}>
+                                    <UserPlus className="h-4 w-4 mr-2" /> Novo Colaborador
+                                </Button>
+                            </div>
+
+                            {/* Lista */}
+                            <Card>
+                                <CardContent className="p-0">
+                                    {colaboradores.length === 0 ? (
+                                        <div className="flex flex-col items-center justify-center py-16 text-center gap-3">
+                                            <Users className="h-10 w-10 text-muted-foreground/40" />
+                                            <p className="text-muted-foreground">Nenhum colaborador cadastrado.</p>
+                                            <Button variant="outline" size="sm" onClick={() => setIsAddColabOpen(true)}>
+                                                <UserPlus className="h-4 w-4 mr-2" /> Criar primeiro colaborador
+                                            </Button>
+                                        </div>
+                                    ) : (
+                                        <div className="divide-y">
+                                            {colaboradores.map(colab => (
+                                                <div key={colab.id} className="flex items-center justify-between px-4 py-3 hover:bg-muted/40 transition-colors">
+                                                    <div className="flex items-center gap-3 min-w-0">
+                                                        <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${colab.role === 'master' ? 'bg-primary text-primary-foreground' : 'bg-primary/10'}`}>
+                                                            <span className={`text-sm font-semibold ${colab.role === 'master' ? '' : 'text-primary'}`}>{colab.name.charAt(0).toUpperCase()}</span>
+                                                        </div>
+                                                        <div className="min-w-0">
+                                                            <div className="flex items-center gap-2">
+                                                                <p className="font-medium text-sm truncate">{colab.name}</p>
+                                                                {colab.role === 'master' && (
+                                                                    <Badge className="text-xs shrink-0 bg-primary"><ShieldCheck className="h-3 w-3 mr-1" />Master</Badge>
+                                                                )}
+                                                                {colab.role !== 'master' && (
+                                                                    <Badge variant={colab.active ? 'default' : 'secondary'} className="text-xs shrink-0">
+                                                                        {colab.active ? 'Ativo' : 'Inativo'}
+                                                                    </Badge>
+                                                                )}
+                                                            </div>
+                                                            <p className="text-xs text-muted-foreground truncate">@{colab.username}{colab.email ? ` · ${colab.email}` : ''}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center gap-1 shrink-0">
+                                                        {colab.role !== 'master' && (
+                                                            <>
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="sm"
+                                                                    onClick={() => handleToggleActive(colab)}
+                                                                    title={colab.active ? 'Desativar acesso' : 'Ativar acesso'}
+                                                                    className="gap-1.5 text-xs"
+                                                                >
+                                                                    {colab.active
+                                                                        ? <><ToggleRight className="h-4 w-4 text-green-600" />Desativar</>
+                                                                        : <><ToggleLeft className="h-4 w-4" />Ativar</>}
+                                                                </Button>
+                                                                <Button
+                                                                    variant="ghost"
+                                                                    size="icon"
+                                                                    className="text-destructive hover:bg-destructive/10"
+                                                                    onClick={() => handleDeleteColab(colab)}
+                                                                    title="Remover colaborador"
+                                                                >
+                                                                    <Trash2 className="h-4 w-4" />
+                                                                </Button>
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </CardContent>
+                            </Card>
+
+                            <div className="flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 rounded-lg p-3">
+                                <ShieldCheck className="h-4 w-4 shrink-0" />
+                                <span>Colaboradores têm acesso ao painel para gerenciar obras e vídeos. Apenas o master pode gerenciar colaboradores.</span>
+                            </div>
+                        </TabsContent>
+                    )}
+
                 </Tabs>
             </div>
         </Layout>
