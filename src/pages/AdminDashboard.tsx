@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
-import { Plus, Trash2, Video, HardHat, LogOut, Upload, Loader2, Images, ChevronDown, ChevronUp, Search, X } from "lucide-react";
+import { Plus, Trash2, Video, HardHat, LogOut, Upload, Loader2, Images, ChevronDown, ChevronUp, Search, X, DatabaseZap } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import imageCompression from "browser-image-compression";
 import { obras as staticObras } from "@/data/obras";
@@ -40,6 +40,7 @@ const AdminDashboard = () => {
     const [obraAddFiles, setObraAddFiles] = useState<File[]>([]);
     const [isAddObraOpen, setIsAddObraOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
+    const [isSeedingAll, setIsSeedingAll] = useState(false);
 
     // Form states for Obras
     const [newWork, setNewWork] = useState({ name: "", category: "", location: "", galleryPath: "" });
@@ -215,6 +216,30 @@ const AdminDashboard = () => {
         if (isNaN(Number(obra.id))) return `obras/${obra.name}`;
         const slug = obra.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/gi, '-').toLowerCase().replace(/-+/g, '-').replace(/^-|-$/g, '');
         return `obras/${slug}`;
+    };
+
+    const handleSeedAll = async () => {
+        // Obras estáticas que ainda NÃO estão no banco
+        const pending = allObras.filter(o => isNaN(Number(o.id)));
+        if (pending.length === 0) {
+            toast.info("Todas as obras já estão no banco de dados.");
+            return;
+        }
+        if (!confirm(`Importar ${pending.length} obra(s) estática(s) para o banco de dados?`)) return;
+        setIsSeedingAll(true);
+        let success = 0;
+        let failed = 0;
+        for (const obra of pending) {
+            const id = await seedObraToDb(obra);
+            if (id) success++; else failed++;
+        }
+        setIsSeedingAll(false);
+        if (failed === 0) {
+            toast.success(`${success} obra(s) importada(s) com sucesso!`);
+        } else {
+            toast.warning(`${success} importada(s), ${failed} com erro.`);
+        }
+        fetchData();
     };
 
     const seedObraToDb = async (obra: Work): Promise<string | null> => {
@@ -478,6 +503,19 @@ const AdminDashboard = () => {
                                     </button>
                                 )}
                             </div>
+                            {allObras.some(o => isNaN(Number(o.id))) && (
+                                <Button
+                                    variant="outline"
+                                    className="shrink-0"
+                                    onClick={handleSeedAll}
+                                    disabled={isSeedingAll}
+                                    title="Importar todas as obras estáticas para o banco de dados"
+                                >
+                                    {isSeedingAll
+                                        ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Importando...</>
+                                        : <><DatabaseZap className="h-4 w-4 mr-2" />Importar tudo</>}
+                                </Button>
+                            )}
                             <Button onClick={() => setIsAddObraOpen(true)} className="shrink-0">
                                 <Plus className="h-4 w-4 mr-2" /> Cadastrar Obra
                             </Button>

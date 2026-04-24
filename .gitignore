@@ -15,6 +15,10 @@ dist-ssr
 # Banco de dados local de desenvolvimento
 dev-db.json
 
+# Env de desenvolvimento remoto (contém IP/URL do servidor)
+.env.remote
+.env.local
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
