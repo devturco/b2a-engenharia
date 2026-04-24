@@ -108,11 +108,16 @@ const Index = () => {
 
   const staticFeaturedObras = obras.filter(obra => obra.images.length > 0).slice(0, 6);
 
-  const processedDynamicObras = dynamicObras.map(o => ({
-    ...o,
-    id: o.id.toString(),
-    images: Array.isArray(o.images) ? o.images : JSON.parse(o.images || "[]")
-  }));
+  const processedDynamicObras = dynamicObras.map(o => {
+    const staticMatch = obras.find(s => s.name === o.name);
+    return {
+      ...o,
+      id: o.id.toString(),
+      images: Array.isArray(o.images) ? o.images : JSON.parse(o.images || "[]"),
+      // Preserva galleryPath raiz do estático (ex: "new jersey", "muros a flexao")
+      galleryPath: staticMatch?.galleryPath,
+    };
+  });
 
   const featuredObras = [...processedDynamicObras, ...staticFeaturedObras].slice(0, 6);
 
@@ -324,18 +329,16 @@ const Index = () => {
               >
                 <div className="aspect-video overflow-hidden">
                   <img
-                    src={(obra.gallery_path || obra.galleryPath)
-                      ? (
-                        (obra.gallery_path || obra.galleryPath).startsWith('obras/')
-                          ? `/${(obra.gallery_path || obra.galleryPath).split('/').map(p => encodeURIComponent(p)).join('/')}/${encodeURIComponent(obra.images[0])}`
-                          : `/obras/${encodeURIComponent(obra.gallery_path || obra.galleryPath || '')}/${encodeURIComponent(obra.images[0])}`
-                      )
-                      : (isNaN(Number(obra.id))
-                        ? `/obras/${encodeURIComponent(obra.name)}/${encodeURIComponent(obra.images[0])}`
-                        : `/obras/${encodeURIComponent(
-                          obra.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/gi, '-').toLowerCase().replace(/-+/g, '-').replace(/^-|-$/g, '')
-                        )}/${encodeURIComponent(obra.images[0])}`
-                      )
+                    src={(obra.galleryPath)
+                      ? `/${obra.galleryPath.split('/').map(p => encodeURIComponent(p)).join('/')}/${encodeURIComponent(obra.images[0])}`
+                      : (obra.gallery_path)
+                        ? (() => { const p = obra.gallery_path.startsWith('obras/') ? obra.gallery_path : `obras/${obra.gallery_path}`; return `/${p.split('/').map(p2 => encodeURIComponent(p2)).join('/')}/${encodeURIComponent(obra.images[0])}`; })()
+                        : (isNaN(Number(obra.id))
+                          ? `/obras/${encodeURIComponent(obra.name)}/${encodeURIComponent(obra.images[0])}`
+                          : `/obras/${encodeURIComponent(
+                            obra.name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/gi, '-').toLowerCase().replace(/-+/g, '-').replace(/^-|-$/g, '')
+                          )}/${encodeURIComponent(obra.images[0])}`
+                        )
                     }
                     alt={obra.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

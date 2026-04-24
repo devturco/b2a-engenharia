@@ -235,6 +235,12 @@ const AdminDashboard = () => {
     };
 
     const getImageUrl = (obra: Work, image: string): string => {
+        // Se há um registro estático com galleryPath raiz (ex: "new jersey", "muros a flexao"),
+        // usa esse caminho — o DB pode ter gallery_path incorreto com prefixo "obras/"
+        const staticMatch = (staticObras as Work[]).find(s => s.name === obra.name);
+        if (staticMatch?.galleryPath) {
+            return `/${staticMatch.galleryPath.split('/').map((s: string) => encodeURIComponent(s)).join('/')}/${encodeURIComponent(image)}`;
+        }
         // gallery_path (DB, snake_case) → sempre dentro de /obras/
         if (obra.gallery_path) {
             const p = obra.gallery_path.startsWith('obras/')
@@ -244,7 +250,7 @@ const AdminDashboard = () => {
         }
         // galleryPath (estático, camelCase) → caminho raiz do public
         if (obra.galleryPath) {
-            return `/${encodeURIComponent(obra.galleryPath)}/${encodeURIComponent(image)}`;
+            return `/${obra.galleryPath.split('/').map((s: string) => encodeURIComponent(s)).join('/')}/${encodeURIComponent(image)}`;
         }
         if (isNaN(Number(obra.id))) {
             return `/obras/${encodeURIComponent(obra.name)}/${encodeURIComponent(image)}`;
@@ -254,6 +260,11 @@ const AdminDashboard = () => {
     };
 
     const getObraFolder = (obra: Work): string => {
+        // Se há um registro estático com galleryPath raiz, usa esse caminho
+        const staticMatch = (staticObras as Work[]).find(s => s.name === obra.name);
+        if (staticMatch?.galleryPath) {
+            return staticMatch.galleryPath;
+        }
         const path = obra.gallery_path || obra.galleryPath;
         if (path) return path.startsWith('obras/') ? path : `obras/${path}`;
         if (isNaN(Number(obra.id))) return `obras/${obra.name}`;

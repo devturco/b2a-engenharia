@@ -22,11 +22,16 @@ const Portfolio = () => {
         if (response.ok) {
           const apiData = await response.json();
           if (Array.isArray(apiData)) {
-            const processedApiData = apiData.map((o: Work) => ({
-              ...o,
-              id: o.id.toString(),
-              images: Array.isArray(o.images) ? o.images : JSON.parse((o.images as unknown as string) || "[]")
-            }));
+            const processedApiData = apiData.map((o: Work) => {
+              const staticMatch = staticObras.find(s => s.name === o.name);
+              return {
+                ...o,
+                id: o.id.toString(),
+                images: Array.isArray(o.images) ? o.images : JSON.parse((o.images as unknown as string) || "[]"),
+                // Preserva galleryPath raiz do estático (ex: "new jersey", "muros a flexao")
+                galleryPath: staticMatch?.galleryPath,
+              };
+            });
             const apiNames = new Set(processedApiData.map((o: Work) => o.name));
             const uniqueStatic = staticObras.filter(o => !apiNames.has(o.name));
             setObras([...processedApiData, ...uniqueStatic]);
@@ -51,12 +56,13 @@ const Portfolio = () => {
   const getCoverUrl = (obra: Work): string | null => {
     if (obra.images.length === 0) return null;
     const img = obra.images[0];
+    // galleryPath raiz tem prioridade (ex: "new jersey" fica fora de /obras/)
+    if (obra.galleryPath) {
+      return `/${obra.galleryPath.split('/').map(encodeURIComponent).join('/')}/${encodeURIComponent(img)}`;
+    }
     if (obra.gallery_path) {
       const p = obra.gallery_path.startsWith('obras/') ? obra.gallery_path : `obras/${obra.gallery_path}`;
       return `/${p.split('/').map(encodeURIComponent).join('/')}/${encodeURIComponent(img)}`;
-    }
-    if (obra.galleryPath) {
-      return `/${encodeURIComponent(obra.galleryPath)}/${encodeURIComponent(img)}`;
     }
     if (isNaN(Number(obra.id))) {
       return `/obras/${encodeURIComponent(obra.name)}/${encodeURIComponent(img)}`;

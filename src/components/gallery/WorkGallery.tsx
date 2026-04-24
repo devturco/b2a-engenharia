@@ -26,12 +26,13 @@ export const WorkGallery = ({ workId, workName, images, galleryPath, gallery_pat
 
     // Constrói a URL de uma imagem respeitando a origem (DB vs estático)
     const getUrl = (image: string): string => {
+        // galleryPath raiz tem prioridade (ex: "new jersey", "muros a flexao" ficam fora de /obras/)
+        if (galleryPath) {
+            return `/${galleryPath.split('/').map(encodeURIComponent).join('/')}/${encodeURIComponent(image)}`;
+        }
         if (gallery_path) {
             const p = gallery_path.startsWith('obras/') ? gallery_path : `obras/${gallery_path}`;
             return `/${p.split('/').map(encodeURIComponent).join('/')}/${encodeURIComponent(image)}`;
-        }
-        if (galleryPath) {
-            return `/${encodeURIComponent(galleryPath)}/${encodeURIComponent(image)}`;
         }
         if (isNaN(Number(workId))) {
             return `/obras/${encodeURIComponent(workName)}/${encodeURIComponent(image)}`;
