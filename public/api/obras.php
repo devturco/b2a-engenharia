@@ -45,6 +45,26 @@ switch ($method) {
         }
         break;
 
+    case 'PATCH':
+        verifyToken();
+        if (isset($_GET['id'])) {
+            $data = json_decode(file_get_contents("php://input"));
+            if (isset($data->images)) {
+                $images_json = json_encode($data->images);
+                $query = "UPDATE obras SET images = :images WHERE id = :id";
+                $stmt = $conn->prepare($query);
+                $stmt->bindParam(":images", $images_json);
+                $stmt->bindParam(":id", $_GET['id']);
+                if ($stmt->execute()) {
+                    echo json_encode(["message" => "Imagens atualizadas"]);
+                } else {
+                    http_response_code(500);
+                    echo json_encode(["error" => "Erro ao atualizar imagens"]);
+                }
+            }
+        }
+        break;
+
     case 'DELETE':
         verifyToken();
         if (isset($_GET['id'])) {

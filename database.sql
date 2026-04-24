@@ -12,19 +12,27 @@ SET time_zone = "-03:00";
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `id`         int(11)      NOT NULL AUTO_INCREMENT,
+  `username`   varchar(50)  NOT NULL,
+  `password`   varchar(255) NOT NULL,              -- SHA2-256 hash
+  `role`       ENUM('master', 'colaborador') NOT NULL DEFAULT 'colaborador',
+  `name`       varchar(100) NOT NULL DEFAULT '',
+  `email`      varchar(150) DEFAULT NULL,
+  `active`     tinyint(1)   NOT NULL DEFAULT 1,
+  `created_by` int(11)      DEFAULT NULL,
+  `created_at` timestamp    NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`),
+  CONSTRAINT `fk_users_created_by` FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dados da tabela `users`
+-- Dados da tabela `users` — senha: adminb2a (SHA2-256)
 --
 
-INSERT INTO `users` (`username`, `password`) VALUES
-('b2admin', 'adminb2a');
+INSERT INTO `users` (`username`, `password`, `role`, `name`) VALUES
+('b2admin', SHA2('adminb2a', 256), 'master', 'Administrador Master');
 
 -- --------------------------------------------------------
 
