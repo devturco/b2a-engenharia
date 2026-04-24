@@ -139,7 +139,7 @@ switch ($method) {
             exit();
         }
 
-        $sql  = "UPDATE users SET " . implode(", ", $fields) . " WHERE id = :id AND role = 'colaborador'";
+        $sql  = "UPDATE users SET " . implode(", ", $fields) . " WHERE id = :id";
         $stmt = $conn->prepare($sql);
         foreach ($params as $key => $val) {
             $stmt->bindValue($key, $val);

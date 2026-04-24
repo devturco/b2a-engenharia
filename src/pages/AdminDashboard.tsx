@@ -57,6 +57,10 @@ const AdminDashboard = () => {
     const [isAddColabOpen, setIsAddColabOpen] = useState(false);
     const [newColab, setNewColab] = useState({ name: "", username: "", email: "", password: "", role: "colaborador" });
     const [isCreatingColab, setIsCreatingColab] = useState(false);
+    const [isChangePwOpen, setIsChangePwOpen] = useState(false);
+    const [changePwUser, setChangePwUser] = useState<Colaborador | null>(null);
+    const [changePwValue, setChangePwValue] = useState("");
+    const [isChangingPw, setIsChangingPw] = useState(false);
 
     // Form states for Obras
     const [newWork, setNewWork] = useState({ name: "", category: "", location: "", galleryPath: "" });
@@ -305,8 +309,38 @@ const AdminDashboard = () => {
         }
     };
 
+    const handleOpenChangePw = (colab: Colaborador) => {
+        setChangePwUser(colab);
+        setChangePwValue("");
+        setIsChangePwOpen(true);
+    };
+
+    const handleChangePassword = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!changePwUser) return;
+        setIsChangingPw(true);
+        try {
+            const res = await fetch(`/api/users.php?id=${changePwUser.id}`, {
+                method: 'PATCH',
+                headers: getAdminHeaders(),
+                body: JSON.stringify({ password: changePwValue }),
+            });
+            if (res.ok) {
+                toast.success(`Senha de ${changePwUser.name} alterada com sucesso!`);
+                setIsChangePwOpen(false);
+            } else {
+                const data = await res.json();
+                toast.error(data.error || 'Erro ao alterar senha');
+            }
+        } catch {
+            toast.error('Erro de conexão');
+        } finally {
+            setIsChangingPw(false);
+        }
+    };
+
     const handleDeleteColab = async (colab: Colaborador) => {
-        if (!confirm(`Remover o colaborador "${colab.name}"? Esta ação não pode ser desfeita.`)) return;
+        if (!confirm(`Remover o usuário "${colab.name}"? Esta ação não pode ser desfeita.`)) return;
         try {
             const res = await fetch(`/api/users.php?id=${colab.id}`, {
                 method: 'DELETE',
@@ -821,6 +855,68 @@ const AdminDashboard = () => {
                     {role === 'master' && (
                         <TabsContent value="colaboradores" className="space-y-4">
 
+                            {/* Modal alterar senha */}
+                            <Dialog open={isChangePwOpen} onOpenChange={setIsChangePwOpen}>
+                                <DialogContent className="max-w-sm">
+                                    <DialogHeader>
+                                        <DialogTitle className="flex items-center gap-2">
+                                            <KeyRound className="h-5 w-5" /> Alterar Senha
+                                        </DialogTitle>
+                                        <DialogDescription>Nova senha para <strong>{changePwUser?.name}</strong> (@{changePwUser?.username})</DialogDescription>
+                                    </DialogHeader>
+                                    <form onSubmit={handleChangePassword} className="space-y-4 pt-2">
+                                        <div className="space-y-2">
+                                            <Label>Nova senha</Label>
+                                            <Input
+                                                type="password"
+                                                placeholder="Mínimo 6 caracteres"
+                                                value={changePwValue}
+                                                onChange={e => setChangePwValue(e.target.value)}
+                                                required
+                                                minLength={6}
+                                                autoFocus
+                                            />
+                                        </div>
+                                        <Button type="submit" className="w-full" disabled={isChangingPw}>
+                                            {isChangingPw
+                                                ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Salvando...</>
+                                                : <><KeyRound className="h-4 w-4 mr-2" />Salvar Nova Senha</>}
+                                        </Button>
+                                    </form>
+                                </DialogContent>
+                            </Dialog>
+
+                            {/* Modal alterar senha */}
+                            <Dialog open={isChangePwOpen} onOpenChange={setIsChangePwOpen}>
+                                <DialogContent className="max-w-sm">
+                                    <DialogHeader>
+                                        <DialogTitle className="flex items-center gap-2">
+                                            <KeyRound className="h-5 w-5" /> Alterar Senha
+                                        </DialogTitle>
+                                        <DialogDescription>Nova senha para <strong>{changePwUser?.name}</strong> (@{changePwUser?.username})</DialogDescription>
+                                    </DialogHeader>
+                                    <form onSubmit={handleChangePassword} className="space-y-4 pt-2">
+                                        <div className="space-y-2">
+                                            <Label>Nova senha</Label>
+                                            <Input
+                                                type="password"
+                                                placeholder="Mínimo 6 caracteres"
+                                                value={changePwValue}
+                                                onChange={e => setChangePwValue(e.target.value)}
+                                                required
+                                                minLength={6}
+                                                autoFocus
+                                            />
+                                        </div>
+                                        <Button type="submit" className="w-full" disabled={isChangingPw}>
+                                            {isChangingPw
+                                                ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Salvando...</>
+                                                : <><KeyRound className="h-4 w-4 mr-2" />Salvar Nova Senha</>}
+                                        </Button>
+                                    </form>
+                                </DialogContent>
+                            </Dialog>
+
                             {/* Modal criar colaborador */}
                             <Dialog open={isAddColabOpen} onOpenChange={setIsAddColabOpen}>
                                 <DialogContent className="max-w-md">
@@ -940,6 +1036,14 @@ const AdminDashboard = () => {
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center gap-1 shrink-0">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            onClick={() => handleOpenChangePw(colab)}
+                                                            title="Alterar senha"
+                                                        >
+                                                            <KeyRound className="h-4 w-4" />
+                                                        </Button>
                                                         {colab.role !== 'master' && (
                                                             <>
                                                                 <Button
@@ -958,7 +1062,7 @@ const AdminDashboard = () => {
                                                                     size="icon"
                                                                     className="text-destructive hover:bg-destructive/10"
                                                                     onClick={() => handleDeleteColab(colab)}
-                                                                    title="Remover colaborador"
+                                                                    title="Remover usuário"
                                                                 >
                                                                     <Trash2 className="h-4 w-4" />
                                                                 </Button>
