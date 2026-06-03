@@ -93,6 +93,15 @@ export default function MapaBrasil() {
 
   const close = () => setSelectedObra(null);
 
+  /** Monta a URL completa de uma imagem a partir do gallery_path + nome do arquivo */
+  const getObraImageUrl = (obra: Obra, filename: string): string => {
+    if (!obra.gallery_path) return filename;
+    const folder = obra.gallery_path.startsWith("obras/")
+      ? obra.gallery_path
+      : `obras/${obra.gallery_path}`;
+    return `/${folder.split("/").map(encodeURIComponent).join("/")}/${encodeURIComponent(filename)}`;
+  };
+
   const prev = () =>
     setGalleryIndex((i) => (i === 0 ? (selectedObra?.images.length ?? 1) - 1 : i - 1));
 
@@ -236,7 +245,7 @@ export default function MapaBrasil() {
                     {/* Main image */}
                     <div className="relative bg-gray-900" style={{ aspectRatio: "16/9" }}>
                       <img
-                        src={selectedObra.images[galleryIndex]}
+                        src={getObraImageUrl(selectedObra, selectedObra.images[galleryIndex])}
                         alt={`${selectedObra.name} — foto ${galleryIndex + 1}`}
                         className="w-full h-full object-cover"
                         onError={(e) => { (e.target as HTMLImageElement).src = "/images/placeholder.jpg"; }}
@@ -269,7 +278,7 @@ export default function MapaBrasil() {
                     {/* Thumbnails */}
                     {selectedObra.images.length > 1 && (
                       <div className="flex gap-2 overflow-x-auto px-4 py-3 bg-gray-50 border-b">
-                        {selectedObra.images.map((src, i) => (
+                        {selectedObra.images.map((filename, i) => (
                           <button
                             key={i}
                             onClick={() => setGalleryIndex(i)}
@@ -280,7 +289,7 @@ export default function MapaBrasil() {
                             }`}
                           >
                             <img
-                              src={src}
+                              src={getObraImageUrl(selectedObra, filename)}
                               alt=""
                               className="w-full h-full object-cover"
                               onError={(e) => { (e.target as HTMLImageElement).src = "/images/placeholder.jpg"; }}
