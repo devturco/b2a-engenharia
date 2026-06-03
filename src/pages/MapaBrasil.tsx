@@ -20,7 +20,7 @@ const createPinIcon = (active = false) =>
   L.divIcon({
     html: `<div style="
       width: 26px; height: 26px;
-      background: ${active ? "#f97316" : "#0f4c81"};
+      background: ${active ? "#b91c1c" : "#dc2626"};
       border: 3px solid white;
       border-radius: 50% 50% 50% 0;
       transform: rotate(-45deg);
