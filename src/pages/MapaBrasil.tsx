@@ -135,17 +135,17 @@ export default function MapaBrasil() {
       </div>
 
       {/* Main split area */}
-      <div className="py-8 bg-gray-50">
-      <div className="container mx-auto px-4">
+      <div className="py-4 md:py-8 bg-gray-50">
+      <div className="container mx-auto px-2 md:px-4">
       <div
         className="mx-auto transition-all duration-300 ease-in-out"
         style={{ maxWidth: panelOpen ? "1100px" : "520px" }}
       >
-      <div className="relative flex overflow-hidden rounded-2xl border border-gray-200 shadow-lg" style={{ height: "520px", isolation: "isolate" }}>
+      <div className="relative flex overflow-hidden rounded-xl md:rounded-2xl border border-gray-200 shadow-lg" style={{ height: "460px", isolation: "isolate" }}>
 
-        {/* MAP — shrinks when panel opens */}
+        {/* MAP — shrinks on desktop when panel opens; always full width on mobile */}
         <div
-          className="relative flex-shrink-0 transition-all duration-300 ease-in-out"
+          className="relative flex-shrink-0 transition-all duration-300 ease-in-out w-full"
           style={{ width: panelOpen ? "55%" : "100%" }}
         >
           <MapContainer
@@ -197,18 +197,32 @@ export default function MapaBrasil() {
           )}
         </div>
 
-        {/* DETAIL PANEL — slides in from right */}
+        {/* DETAIL PANEL — bottom sheet on mobile, side panel on desktop */}
+        {/* Mobile overlay backdrop */}
         <div
-          className={`absolute top-0 right-0 h-full bg-white shadow-2xl flex flex-col transition-all duration-300 ease-in-out overflow-hidden`}
-          style={{
-            width: "45%",
-            transform: panelOpen ? "translateX(0)" : "translateX(100%)",
-            opacity: panelOpen ? 1 : 0,
-            pointerEvents: panelOpen ? "auto" : "none",
-          }}
+          className={`md:hidden absolute inset-0 bg-black/40 transition-opacity duration-300 z-10 ${panelOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+          onClick={close}
+        />
+
+        <div
+          className={`
+            absolute bg-white shadow-2xl flex flex-col overflow-hidden
+            transition-all duration-300 ease-in-out
+            bottom-0 left-0 right-0 h-[85%] rounded-t-2xl z-20
+            md:top-0 md:bottom-auto md:left-auto md:right-0 md:h-full md:w-[45%] md:rounded-none md:z-auto
+            ${panelOpen
+              ? "translate-y-0 md:translate-y-0 md:translate-x-0 opacity-100 pointer-events-auto"
+              : "translate-y-full md:translate-y-0 md:translate-x-full opacity-0 pointer-events-none"
+            }
+          `}
         >
           {selectedObra && (
             <>
+              {/* Drag handle — mobile only */}
+              <div className="md:hidden flex justify-center pt-3 pb-1 flex-shrink-0">
+                <div className="w-10 h-1 rounded-full bg-gray-300" />
+              </div>
+
               {/* Panel header */}
               <div className="flex items-start justify-between px-5 pt-5 pb-4 border-b flex-shrink-0">
                 <div className="flex items-start gap-3 min-w-0">
@@ -254,7 +268,7 @@ export default function MapaBrasil() {
                 {selectedObra.images.length > 0 ? (
                   <>
                     {/* Main image */}
-                    <div className="relative bg-gray-900" style={{ aspectRatio: "16/9" }}>
+                    <div className="relative bg-gray-900 aspect-[4/3] md:aspect-video">
                       <img
                         src={getObraImageUrl(selectedObra, selectedObra.images[galleryIndex])}
                         alt={`${selectedObra.name} — foto ${galleryIndex + 1}`}
