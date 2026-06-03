@@ -195,7 +195,7 @@ export const Header = () => {
                 isActive ? "text-primary border-b-2 border-primary pb-1" : "text-foreground/70 transition-colors hover:text-primary pb-1"
               }
             >
-              Mapa
+              Mapa das Obras
             </NavLink>
             <NavLink
               to="/videos"
@@ -273,7 +273,7 @@ export const Header = () => {
                       </div>
                     </div>
                     <NavLink to="/obras" onClick={() => setIsOpen(false)}>Obras</NavLink>
-                    <NavLink to="/mapa" onClick={() => setIsOpen(false)}>Mapa</NavLink>
+                    <NavLink to="/mapa" onClick={() => setIsOpen(false)}>Mapa das Obras</NavLink>
                     <NavLink to="/videos" onClick={() => setIsOpen(false)}>Vídeos</NavLink>
                     <NavLink to="/contato" onClick={() => setIsOpen(false)}>Contato</NavLink>
                   </div>
