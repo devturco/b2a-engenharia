@@ -23,11 +23,13 @@ switch ($method) {
         $data = json_decode(file_get_contents("php://input"));
 
         if (!empty($data->name) && !empty($data->category)) {
-            $query = "INSERT INTO obras (slug, name, category, location, images, gallery_path) 
-                      VALUES (:slug, :name, :category, :location, :images, :gallery_path)";
+            $query = "INSERT INTO obras (slug, name, category, location, images, gallery_path, latitude, longitude) 
+                      VALUES (:slug, :name, :category, :location, :images, :gallery_path, :latitude, :longitude)";
             $stmt = $conn->prepare($query);
 
             $images_json = json_encode($data->images);
+            $latitude  = isset($data->latitude)  && $data->latitude  !== '' ? (float)$data->latitude  : null;
+            $longitude = isset($data->longitude) && $data->longitude !== '' ? (float)$data->longitude : null;
 
             $stmt->bindParam(":slug", $data->slug);
             $stmt->bindParam(":name", $data->name);
@@ -35,12 +37,34 @@ switch ($method) {
             $stmt->bindParam(":location", $data->location);
             $stmt->bindParam(":images", $images_json);
             $stmt->bindParam(":gallery_path", $data->gallery_path);
+            $stmt->bindParam(":latitude", $latitude);
+            $stmt->bindParam(":longitude", $longitude);
 
             if ($stmt->execute()) {
                 echo json_encode(["message" => "Obra criada com sucesso", "id" => $conn->lastInsertId()]);
             } else {
                 http_response_code(500);
                 echo json_encode(["error" => "Erro ao criar obra"]);
+            }
+        }
+        break;
+
+    case 'PUT':
+        verifyToken();
+        if (isset($_GET['id'])) {
+            $data = json_decode(file_get_contents("php://input"));
+            $latitude  = isset($data->latitude)  && $data->latitude  !== '' ? (float)$data->latitude  : null;
+            $longitude = isset($data->longitude) && $data->longitude !== '' ? (float)$data->longitude : null;
+            $query = "UPDATE obras SET latitude = :latitude, longitude = :longitude WHERE id = :id";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(":latitude", $latitude);
+            $stmt->bindParam(":longitude", $longitude);
+            $stmt->bindParam(":id", $_GET['id']);
+            if ($stmt->execute()) {
+                echo json_encode(["message" => "Coordenadas atualizadas"]);
+            } else {
+                http_response_code(500);
+                echo json_encode(["error" => "Erro ao atualizar coordenadas"]);
             }
         }
         break;

@@ -31,6 +31,7 @@ import ContencoesEspecializadas from "./pages/services/ContencoesEspecializadas"
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
+import MapaBrasil from "./pages/MapaBrasil";
 import ScrollToTop from "./components/utils/ScrollToTop";
 
 const queryClient = new QueryClient();
@@ -91,6 +92,7 @@ const App = () => (
           <Route path="/servicos/infraestrutura-civil" element={<InfraestruturaCivil />} />
 
           <Route path="/obras" element={<Portfolio />} />
+          <Route path="/mapa" element={<MapaBrasil />} />
           <Route path="/videos" element={<Videos />} />
           <Route path="/contato" element={<Contact />} />
 

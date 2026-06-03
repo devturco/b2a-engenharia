@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
-import { Plus, Trash2, Video, HardHat, LogOut, Upload, Loader2, Images, ChevronDown, ChevronUp, Search, X, DatabaseZap, Users, UserPlus, ShieldCheck, ToggleLeft, ToggleRight, KeyRound } from "lucide-react";
+import { Plus, Trash2, Video, HardHat, LogOut, Upload, Loader2, Images, ChevronDown, ChevronUp, Search, X, DatabaseZap, Users, UserPlus, ShieldCheck, ToggleLeft, ToggleRight, KeyRound, MapPin, Navigation } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import imageCompression from "browser-image-compression";
@@ -22,6 +22,8 @@ interface Work {
     images: string[];
     galleryPath?: string;
     gallery_path?: string;
+    latitude?: number | null;
+    longitude?: number | null;
 }
 
 interface VideoData {
@@ -62,8 +64,23 @@ const AdminDashboard = () => {
     const [changePwValue, setChangePwValue] = useState("");
     const [isChangingPw, setIsChangingPw] = useState(false);
 
+    // Coordenadas dialog
+    const [editCoordObra, setEditCoordObra] = useState<Work | null>(null);
+    const [coordInput, setCoordInput] = useState({ latitude: "", longitude: "" });
+    const [pasteCoord, setPasteCoord] = useState("");
+    const [isSavingCoord, setIsSavingCoord] = useState(false);
+
+    const handlePasteCoord = (value: string) => {
+        setPasteCoord(value);
+        // aceita formatos: "-19.9173, -43.9346" ou "-19.9173,-43.9346"
+        const match = value.trim().match(/^(-?\d+\.\d+)[,\s]+(-?\d+\.\d+)$/);
+        if (match) {
+            setCoordInput({ latitude: match[1], longitude: match[2] });
+        }
+    };
+
     // Form states for Obras
-    const [newWork, setNewWork] = useState({ name: "", category: "", location: "", galleryPath: "" });
+    const [newWork, setNewWork] = useState({ name: "", category: "", location: "", galleryPath: "", latitude: "", longitude: "" });
     const [workFiles, setWorkFiles] = useState<File[]>([]);
 
     // Form states for Videos
@@ -110,16 +127,20 @@ const AdminDashboard = () => {
                         'X-Admin-User': localStorage.getItem('b2a_admin_username') ?? 'b2admin',
                     }
                 });
-                if (colabRes.ok) {
-                    const colabData = await colabRes.json();
-                    setColaboradores(Array.isArray(colabData) ? colabData : []);
-                } else {
-                    const err = await colabRes.json().catch(() => ({}));
-                    toast.error(`Erro ao carregar usuários: ${err.error ?? colabRes.status}`);
+                const colabText = await colabRes.text();
+                try {
+                    const colabData = JSON.parse(colabText);
+                    if (colabRes.ok) {
+                        setColaboradores(Array.isArray(colabData) ? colabData : []);
+                    } else {
+                        toast.error(`Erro ao carregar usuários: ${colabData.error ?? colabRes.status}`);
+                    }
+                } catch {
+                    // servidor retornou HTML (erro PHP/DB) — ignora silenciosamente
+                    console.warn('API users: resposta não é JSON', colabText.substring(0, 200));
                 }
             } catch (e) {
-                toast.error('Não foi possível conectar à API de usuários');
-                console.error('API users:', e);
+                console.warn('Não foi possível conectar à API de usuários', e);
             }
         }
 
@@ -185,7 +206,9 @@ const AdminDashboard = () => {
                 ...newWork,
                 slug: generatedFolder,
                 images: uploadedFileNames,
-                gallery_path: `obras/${finalFolder}`
+                gallery_path: `obras/${finalFolder}`,
+                latitude: newWork.latitude !== "" ? parseFloat(newWork.latitude) : null,
+                longitude: newWork.longitude !== "" ? parseFloat(newWork.longitude) : null,
             };
 
             const res = await fetch("/api/obras.php", {
@@ -199,7 +222,7 @@ const AdminDashboard = () => {
 
             if (res.ok) {
                 toast.success("Obra cadastrada com sucesso!");
-                setNewWork({ name: "", category: "", location: "", galleryPath: "" });
+                setNewWork({ name: "", category: "", location: "", galleryPath: "", latitude: "", longitude: "" });
                 setWorkFiles([]);
                 setIsAddObraOpen(false);
                 fetchData();
@@ -208,6 +231,36 @@ const AdminDashboard = () => {
             toast.error("Erro ao cadastrar obra");
         } finally {
             setIsUploading(false);
+        }
+    };
+
+    const handleSaveCoords = async () => {
+        if (!editCoordObra) return;
+        setIsSavingCoord(true);
+        const token = localStorage.getItem("b2a_admin_token");
+        try {
+            const res = await fetch(`/api/obras.php?id=${editCoordObra.id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    latitude: coordInput.latitude !== "" ? parseFloat(coordInput.latitude) : null,
+                    longitude: coordInput.longitude !== "" ? parseFloat(coordInput.longitude) : null,
+                }),
+            });
+            if (res.ok) {
+                toast.success("Coordenadas atualizadas!");
+                setEditCoordObra(null);
+                fetchData();
+            } else {
+                toast.error("Erro ao salvar coordenadas");
+            }
+        } catch {
+            toast.error("Erro ao salvar coordenadas");
+        } finally {
+            setIsSavingCoord(false);
         }
     };
 
@@ -550,7 +603,7 @@ const AdminDashboard = () => {
                     <TabsContent value="obras" className="space-y-4">
 
                         {/* Modal de Cadastro */}
-                        <Dialog open={isAddObraOpen} onOpenChange={(open) => { setIsAddObraOpen(open); if (!open) { setNewWork({ name: "", category: "", location: "", galleryPath: "" }); setWorkFiles([]); } }}>
+                        <Dialog open={isAddObraOpen} onOpenChange={(open) => { setIsAddObraOpen(open); if (!open) { setNewWork({ name: "", category: "", location: "", galleryPath: "", latitude: "", longitude: "" }); setWorkFiles([]); } }}>
                             <DialogContent className="max-w-lg">
                                 <DialogHeader>
                                     <DialogTitle>Adicionar Nova Obra</DialogTitle>
@@ -610,6 +663,31 @@ const AdminDashboard = () => {
                                         />
                                         <p className="text-[10px] text-muted-foreground leading-tight">
                                             Se você já subiu fotos via FTP, coloque o caminho da pasta aqui.
+                                        </p>
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="flex items-center gap-1">
+                                            <MapPin className="h-3.5 w-3.5 text-primary" />
+                                            Coordenadas GPS <span className="text-muted-foreground font-normal">(opcional — para o Mapa de Obras)</span>
+                                        </Label>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <div>
+                                                <Input
+                                                    placeholder="Latitude (ex: -19.9173)"
+                                                    value={newWork.latitude}
+                                                    onChange={e => setNewWork({ ...newWork, latitude: e.target.value })}
+                                                />
+                                            </div>
+                                            <div>
+                                                <Input
+                                                    placeholder="Longitude (ex: -43.9346)"
+                                                    value={newWork.longitude}
+                                                    onChange={e => setNewWork({ ...newWork, longitude: e.target.value })}
+                                                />
+                                            </div>
+                                        </div>
+                                        <p className="text-[10px] text-muted-foreground leading-tight">
+                                            Cole as coordenadas do Google Maps (clique direito → &quot;O que há aqui?&quot;).
                                         </p>
                                     </div>
                                     <div className="space-y-2">
@@ -703,36 +781,92 @@ const AdminDashboard = () => {
                                         return filtered.map(obra => {
                                             const isDbObra = !isNaN(Number(obra.id));
                                             const isExpanded = selectedObraId === obra.id;
+                                            const hasGps = !!(obra.latitude && obra.longitude);
                                             return (
-                                                <div key={obra.id} className="border rounded-lg overflow-hidden">
-                                                    <div className="flex items-center justify-between p-3 hover:bg-muted/30 transition-colors">
-                                                        <div className="flex-1 min-w-0 mr-4">
+                                                <div key={obra.id} className="border rounded-lg overflow-hidden bg-white">
+                                                    {/* Linha principal */}
+                                                    <div className="flex items-center gap-3 p-3 hover:bg-muted/20 transition-colors">
+                                                        {/* Ícone de status GPS */}
+                                                        <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${hasGps ? 'bg-green-100' : isDbObra ? 'bg-gray-100' : 'bg-amber-50'}`}>
+                                                            <MapPin className={`h-4 w-4 ${hasGps ? 'text-green-600' : isDbObra ? 'text-gray-400' : 'text-amber-400'}`} />
+                                                        </div>
+
+                                                        {/* Info da obra */}
+                                                        <div className="flex-1 min-w-0">
                                                             <div className="flex items-center gap-2 flex-wrap">
-                                                                <h4 className="font-semibold text-sm">{obra.name}</h4>
+                                                                <span className="font-medium text-sm truncate max-w-xs">{obra.name}</span>
                                                                 <Badge variant="secondary" className="text-xs shrink-0">
                                                                     {obra.images.length} foto{obra.images.length !== 1 ? 's' : ''}
                                                                 </Badge>
                                                                 {!isDbObra && (
-                                                                    <Badge variant="outline" className="text-xs shrink-0 text-amber-600 border-amber-300">
+                                                                    <Badge variant="outline" className="text-xs shrink-0 text-amber-600 border-amber-300 bg-amber-50">
                                                                         Estática
+                                                                    </Badge>
+                                                                )}
+                                                                {hasGps && (
+                                                                    <Badge variant="outline" className="text-xs shrink-0 text-green-700 border-green-300 bg-green-50">
+                                                                        📍 Pin no mapa
                                                                     </Badge>
                                                                 )}
                                                             </div>
                                                             <p className="text-xs text-muted-foreground mt-0.5">{obra.category} · {obra.location}</p>
+                                                            {!isDbObra && (
+                                                                <p className="text-[11px] text-amber-600 mt-0.5">
+                                                                    ⚠ Importe para o banco para habilitar GPS no mapa
+                                                                </p>
+                                                            )}
+                                                            {isDbObra && !hasGps && (
+                                                                <p className="text-[11px] text-muted-foreground mt-0.5">
+                                                                    Sem coordenadas — não aparece no mapa
+                                                                </p>
+                                                            )}
                                                         </div>
-                                                        <div className="flex items-center gap-2 shrink-0">
+
+                                                        {/* Ações */}
+                                                        <div className="flex items-center gap-1.5 shrink-0">
+                                                            {isDbObra ? (
+                                                                <Button
+                                                                    variant={hasGps ? "default" : "outline"}
+                                                                    size="sm"
+                                                                    className={hasGps ? "bg-green-600 hover:bg-green-700 text-white border-0" : "border-dashed"}
+                                                                    title="Definir coordenadas GPS para o mapa"
+                                                                    onClick={() => {
+                                                                        setEditCoordObra(obra);
+                                                                        setPasteCoord("");
+                                                                        setCoordInput({
+                                                                            latitude: obra.latitude != null ? String(obra.latitude) : "",
+                                                                            longitude: obra.longitude != null ? String(obra.longitude) : "",
+                                                                        });
+                                                                    }}
+                                                                >
+                                                                    <Navigation className="h-3.5 w-3.5 mr-1.5" />
+                                                                    {hasGps ? "Editar GPS" : "+ Adicionar GPS"}
+                                                                </Button>
+                                                            ) : (
+                                                                <Button
+                                                                    variant="outline"
+                                                                    size="sm"
+                                                                    className="border-amber-300 text-amber-700 hover:bg-amber-50"
+                                                                    title="Importar para banco de dados para habilitar GPS"
+                                                                    onClick={() => { setSelectedObraId(isExpanded ? null : obra.id); setObraAddFiles([]); }}
+                                                                >
+                                                                    <DatabaseZap className="h-3.5 w-3.5 mr-1.5" />
+                                                                    Importar
+                                                                </Button>
+                                                            )}
                                                             <Button
-                                                                variant={isExpanded ? "default" : "outline"}
+                                                                variant={isExpanded ? "secondary" : "ghost"}
                                                                 size="sm"
+                                                                title="Gerenciar fotos"
                                                                 onClick={() => { setSelectedObraId(isExpanded ? null : obra.id); setObraAddFiles([]); }}
                                                             >
-                                                                <Images className="h-4 w-4 mr-1.5" />
-                                                                {isExpanded ? "Fechar" : "Gerenciar Fotos"}
+                                                                <Images className="h-3.5 w-3.5 mr-1.5" />
+                                                                Fotos
                                                                 {isExpanded ? <ChevronUp className="h-3 w-3 ml-1" /> : <ChevronDown className="h-3 w-3 ml-1" />}
                                                             </Button>
                                                             {isDbObra && (
-                                                                <Button variant="ghost" size="icon" className="text-destructive hover:bg-destructive/10" onClick={() => deleteWork(obra.id)}>
-                                                                    <Trash2 className="h-4 w-4" />
+                                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive/60 hover:text-destructive hover:bg-destructive/10" onClick={() => deleteWork(obra.id)}>
+                                                                    <Trash2 className="h-3.5 w-3.5" />
                                                                 </Button>
                                                             )}
                                                         </div>
@@ -740,8 +874,12 @@ const AdminDashboard = () => {
                                                     {isExpanded && (
                                                         <div className="border-t bg-muted/20 p-4 space-y-4">
                                                             {!isDbObra && (
-                                                                <div className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded p-2">
-                                                                    Esta obra está como dado estático do site. Ao adicionar ou remover fotos, ela será importada para o banco de dados automaticamente.
+                                                                <div className="flex items-start gap-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg p-3">
+                                                                    <DatabaseZap className="h-4 w-4 shrink-0 mt-0.5" />
+                                                                    <div>
+                                                                        <p className="font-medium">Obra estática — ainda não está no banco de dados</p>
+                                                                        <p className="mt-0.5 text-amber-600">Ao adicionar fotos aqui, ela será importada automaticamente. Depois disso você poderá adicionar as coordenadas GPS para ela aparecer no mapa.</p>
+                                                                    </div>
                                                                 </div>
                                                             )}
                                                             {obra.images.length > 0 ? (
@@ -798,6 +936,70 @@ const AdminDashboard = () => {
                                 </div>
                             </CardContent>
                         </Card>
+
+                        {/* Dialog: Editar Coordenadas GPS */}
+                        <Dialog open={!!editCoordObra} onOpenChange={(open) => { if (!open) { setEditCoordObra(null); setPasteCoord(""); } }}>
+                            <DialogContent className="max-w-sm">
+                                <DialogHeader>
+                                    <DialogTitle className="flex items-center gap-2">
+                                        <MapPin className="h-4 w-4 text-primary" /> Coordenadas GPS
+                                    </DialogTitle>
+                                    <DialogDescription>
+                                        {editCoordObra?.name}
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <div className="space-y-4 pt-2">
+                                    {/* Paste direto do Google Maps */}
+                                    <div className="space-y-2">
+                                        <Label className="font-semibold">Cole as coordenadas do Google Maps</Label>
+                                        <Input
+                                            placeholder="Ex: -19.9173, -43.9346"
+                                            value={pasteCoord}
+                                            onChange={e => handlePasteCoord(e.target.value)}
+                                        />
+                                        <p className="text-[11px] text-muted-foreground leading-snug">
+                                            No Google Maps: clique com botão direito no local exato → a coordenada aparece no topo do menu → clique nela para copiar → cole aqui.
+                                        </p>
+                                    </div>
+                                    <div className="relative flex items-center">
+                                        <div className="flex-grow border-t" />
+                                        <span className="mx-3 text-xs text-muted-foreground">ou preencha manualmente</span>
+                                        <div className="flex-grow border-t" />
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <div className="space-y-1">
+                                            <Label className="text-xs">Latitude</Label>
+                                            <Input
+                                                placeholder="-19.9173"
+                                                value={coordInput.latitude}
+                                                onChange={e => setCoordInput({ ...coordInput, latitude: e.target.value })}
+                                            />
+                                        </div>
+                                        <div className="space-y-1">
+                                            <Label className="text-xs">Longitude</Label>
+                                            <Input
+                                                placeholder="-43.9346"
+                                                value={coordInput.longitude}
+                                                onChange={e => setCoordInput({ ...coordInput, longitude: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+                                    {coordInput.latitude && coordInput.longitude && (
+                                        <a
+                                            href={`https://www.google.com/maps?q=${coordInput.latitude},${coordInput.longitude}`}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-1.5 text-xs text-primary hover:underline"
+                                        >
+                                            <MapPin className="h-3 w-3" /> Ver no Google Maps
+                                        </a>
+                                    )}
+                                    <Button className="w-full" onClick={handleSaveCoords} disabled={isSavingCoord}>
+                                        {isSavingCoord ? <><Loader2 className="h-4 w-4 animate-spin mr-2" />Salvando...</> : "Salvar Coordenadas"}
+                                    </Button>
+                                </div>
+                            </DialogContent>
+                        </Dialog>
                     </TabsContent>
 
                     {/* VIDEOS TAB */}
