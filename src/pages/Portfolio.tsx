@@ -181,7 +181,7 @@ const Portfolio = () => {
                             rel="noopener noreferrer"
                             onClick={e => e.stopPropagation()}
                             title="Ver no Street View"
-                            className="shrink-0 flex items-center gap-1 text-[11px] font-medium text-blue-600 hover:text-blue-700 hover:underline whitespace-nowrap"
+                            className="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-semibold transition-colors shadow-sm whitespace-nowrap"
                           >
                             <PersonStanding className="h-3.5 w-3.5" />
                             Street View
@@ -223,7 +223,7 @@ const Portfolio = () => {
                           href={`https://www.google.com/maps?layer=c&cbll=${selectedObra.latitude},${selectedObra.longitude}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline"
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-colors shadow-sm"
                         >
                           <PersonStanding className="h-4 w-4" />
                           Ver no Street View

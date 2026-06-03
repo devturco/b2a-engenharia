@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { MapContainer, TileLayer, Marker, Tooltip, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -110,7 +109,6 @@ export default function MapaBrasil() {
     setGalleryIndex((i) => (i === (selectedObra?.images.length ?? 1) - 1 ? 0 : i + 1));
 
   const panelOpen = !!selectedObra;
-  const isMobile = useIsMobile();
 
   return (
     <Layout>
@@ -128,7 +126,7 @@ export default function MapaBrasil() {
               </p>
             </div>
             {obras.length > 0 && (
-              <Badge variant="secondary" className="ml-auto text-sm font-semibold">
+              <Badge variant="secondary" className="ml-auto text-sm font-semibold whitespace-nowrap flex-shrink-0">
                 {obras.length} obra{obras.length !== 1 ? "s" : ""}
               </Badge>
             )}
@@ -140,15 +138,17 @@ export default function MapaBrasil() {
       <div className="py-4 md:py-8 bg-gray-50">
       <div className="container mx-auto px-2 md:px-4">
       <div
-        className="mx-auto transition-all duration-300 ease-in-out"
-        style={{ maxWidth: isMobile ? "100%" : panelOpen ? "1100px" : "520px" }}
+        className={`mx-auto transition-all duration-300 ease-in-out w-full ${
+          panelOpen ? "md:max-w-[1100px]" : "md:max-w-[520px]"
+        }`}
       >
       <div className="relative flex overflow-hidden rounded-xl md:rounded-2xl border border-gray-200 shadow-lg" style={{ height: "460px", isolation: "isolate" }}>
 
-        {/* MAP — shrinks on desktop when panel opens; always full width on mobile */}
+        {/* MAP — always full width on mobile; shrinks to 55% on desktop when panel opens */}
         <div
-          className="relative flex-shrink-0 transition-all duration-300 ease-in-out"
-          style={{ width: isMobile ? "100%" : panelOpen ? "55%" : "100%" }}
+          className={`relative flex-shrink-0 transition-all duration-300 ease-in-out w-full ${
+            panelOpen ? "md:w-[55%]" : ""
+          }`}
         >
           <MapContainer
             center={[-15.78, -47.93]}
@@ -209,9 +209,9 @@ export default function MapaBrasil() {
         <div
           className={`
             absolute bg-white shadow-2xl flex flex-col overflow-hidden
-            transition-all duration-300 ease-in-out
-            bottom-0 left-0 right-0 h-[85%] rounded-t-2xl z-20
-            md:top-0 md:bottom-auto md:left-auto md:right-0 md:h-full md:w-[45%] md:rounded-none md:z-auto
+            transition-[transform,opacity] duration-300 ease-in-out
+            left-0 right-0 bottom-0 h-[85%] rounded-t-2xl z-20
+            md:left-auto md:bottom-auto md:top-0 md:right-0 md:h-full md:w-[45%] md:rounded-none
             ${panelOpen
               ? "translate-y-0 md:translate-y-0 md:translate-x-0 opacity-100 pointer-events-auto"
               : "translate-y-full md:translate-y-0 md:translate-x-full opacity-0 pointer-events-none"
@@ -244,15 +244,16 @@ export default function MapaBrasil() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-1 flex-shrink-0 -mr-1 -mt-1">
+                <div className="flex items-center gap-2 flex-shrink-0 -mt-1">
                   <a
                     href={`https://www.google.com/maps?layer=c&cbll=${selectedObra.latitude},${selectedObra.longitude}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     title="Ver no Street View"
-                    className="inline-flex items-center justify-center h-8 w-8 rounded-full text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition-colors shadow-sm"
                   >
-                    <PersonStanding className="h-4 w-4" />
+                    <PersonStanding className="h-3.5 w-3.5" />
+                    Street View
                   </a>
                   <Button
                     variant="ghost"
