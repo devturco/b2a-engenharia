@@ -8,6 +8,7 @@ export interface Work {
   gallery_path?: string; // For DB compatibility
   latitude?: number | null;
   longitude?: number | null;
+  area_m2?: number | null;
 }
 
 export const obras: Work[] = [

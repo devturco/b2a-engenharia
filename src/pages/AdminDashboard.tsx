@@ -24,6 +24,7 @@ interface Work {
     gallery_path?: string;
     latitude?: number | null;
     longitude?: number | null;
+    area_m2?: number | null;
 }
 
 interface VideoData {
@@ -66,7 +67,7 @@ const AdminDashboard = () => {
 
     // Coordenadas dialog
     const [editCoordObra, setEditCoordObra] = useState<Work | null>(null);
-    const [coordInput, setCoordInput] = useState({ latitude: "", longitude: "" });
+    const [coordInput, setCoordInput] = useState({ latitude: "", longitude: "", area_m2: "" });
     const [pasteCoord, setPasteCoord] = useState("");
     const [isSavingCoord, setIsSavingCoord] = useState(false);
 
@@ -80,7 +81,7 @@ const AdminDashboard = () => {
     };
 
     // Form states for Obras
-    const [newWork, setNewWork] = useState({ name: "", category: "", location: "", galleryPath: "", latitude: "", longitude: "" });
+    const [newWork, setNewWork] = useState({ name: "", category: "", location: "", galleryPath: "", latitude: "", longitude: "", area_m2: "" });
     const [workFiles, setWorkFiles] = useState<File[]>([]);
 
     // Form states for Videos
@@ -209,6 +210,7 @@ const AdminDashboard = () => {
                 gallery_path: `obras/${finalFolder}`,
                 latitude: newWork.latitude !== "" ? parseFloat(newWork.latitude) : null,
                 longitude: newWork.longitude !== "" ? parseFloat(newWork.longitude) : null,
+                area_m2: newWork.area_m2 !== "" ? parseInt(newWork.area_m2) : null,
             };
 
             const res = await fetch("/api/obras.php", {
@@ -222,7 +224,7 @@ const AdminDashboard = () => {
 
             if (res.ok) {
                 toast.success("Obra cadastrada com sucesso!");
-                setNewWork({ name: "", category: "", location: "", galleryPath: "", latitude: "", longitude: "" });
+                setNewWork({ name: "", category: "", location: "", galleryPath: "", latitude: "", longitude: "", area_m2: "" });
                 setWorkFiles([]);
                 setIsAddObraOpen(false);
                 fetchData();
@@ -248,6 +250,7 @@ const AdminDashboard = () => {
                 body: JSON.stringify({
                     latitude: coordInput.latitude !== "" ? parseFloat(coordInput.latitude) : null,
                     longitude: coordInput.longitude !== "" ? parseFloat(coordInput.longitude) : null,
+                    area_m2: coordInput.area_m2 !== "" ? parseInt(coordInput.area_m2) : null,
                 }),
             });
             if (res.ok) {
@@ -667,6 +670,18 @@ const AdminDashboard = () => {
                                     </div>
                                     <div className="space-y-2">
                                         <Label className="flex items-center gap-1">
+                                            Metragem quadrada <span className="text-muted-foreground font-normal">(opcional)</span>
+                                        </Label>
+                                        <Input
+                                            type="number"
+                                            min="1"
+                                            placeholder="Ex: 1200"
+                                            value={newWork.area_m2}
+                                            onChange={e => setNewWork({ ...newWork, area_m2: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label className="flex items-center gap-1">
                                             <MapPin className="h-3.5 w-3.5 text-primary" />
                                             Coordenadas GPS <span className="text-muted-foreground font-normal">(opcional — para o Mapa de Obras)</span>
                                         </Label>
@@ -836,6 +851,7 @@ const AdminDashboard = () => {
                                                                         setCoordInput({
                                                                             latitude: obra.latitude != null ? String(obra.latitude) : "",
                                                                             longitude: obra.longitude != null ? String(obra.longitude) : "",
+                                                                            area_m2: obra.area_m2 != null ? String(obra.area_m2) : "",
                                                                         });
                                                                     }}
                                                                 >
@@ -994,6 +1010,23 @@ const AdminDashboard = () => {
                                             <MapPin className="h-3 w-3" /> Ver no Google Maps
                                         </a>
                                     )}
+                                    <div className="relative flex items-center">
+                                        <div className="flex-grow border-t" />
+                                        <span className="mx-3 text-xs text-muted-foreground">área executada</span>
+                                        <div className="flex-grow border-t" />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <Label className="text-xs flex items-center gap-1">
+                                            Metragem quadrada (m²) <span className="text-muted-foreground font-normal">— opcional</span>
+                                        </Label>
+                                        <Input
+                                            type="number"
+                                            min="1"
+                                            placeholder="Ex: 1200"
+                                            value={coordInput.area_m2}
+                                            onChange={e => setCoordInput({ ...coordInput, area_m2: e.target.value })}
+                                        />
+                                    </div>
                                     <Button className="w-full" onClick={handleSaveCoords} disabled={isSavingCoord}>
                                         {isSavingCoord ? <><Loader2 className="h-4 w-4 animate-spin mr-2" />Salvando...</> : "Salvar Coordenadas"}
                                     </Button>

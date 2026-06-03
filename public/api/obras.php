@@ -23,13 +23,14 @@ switch ($method) {
         $data = json_decode(file_get_contents("php://input"));
 
         if (!empty($data->name) && !empty($data->category)) {
-            $query = "INSERT INTO obras (slug, name, category, location, images, gallery_path, latitude, longitude) 
-                      VALUES (:slug, :name, :category, :location, :images, :gallery_path, :latitude, :longitude)";
+            $query = "INSERT INTO obras (slug, name, category, location, images, gallery_path, latitude, longitude, area_m2) 
+                      VALUES (:slug, :name, :category, :location, :images, :gallery_path, :latitude, :longitude, :area_m2)";
             $stmt = $conn->prepare($query);
 
             $images_json = json_encode($data->images);
             $latitude  = isset($data->latitude)  && $data->latitude  !== '' ? (float)$data->latitude  : null;
             $longitude = isset($data->longitude) && $data->longitude !== '' ? (float)$data->longitude : null;
+            $area_m2   = isset($data->area_m2)   && $data->area_m2   !== '' ? (int)$data->area_m2     : null;
 
             $stmt->bindParam(":slug", $data->slug);
             $stmt->bindParam(":name", $data->name);
@@ -39,6 +40,7 @@ switch ($method) {
             $stmt->bindParam(":gallery_path", $data->gallery_path);
             $stmt->bindParam(":latitude", $latitude);
             $stmt->bindParam(":longitude", $longitude);
+            $stmt->bindParam(":area_m2", $area_m2);
 
             if ($stmt->execute()) {
                 echo json_encode(["message" => "Obra criada com sucesso", "id" => $conn->lastInsertId()]);
@@ -55,10 +57,12 @@ switch ($method) {
             $data = json_decode(file_get_contents("php://input"));
             $latitude  = isset($data->latitude)  && $data->latitude  !== '' ? (float)$data->latitude  : null;
             $longitude = isset($data->longitude) && $data->longitude !== '' ? (float)$data->longitude : null;
-            $query = "UPDATE obras SET latitude = :latitude, longitude = :longitude WHERE id = :id";
+            $area_m2   = isset($data->area_m2)   && $data->area_m2   !== '' ? (int)$data->area_m2     : null;
+            $query = "UPDATE obras SET latitude = :latitude, longitude = :longitude, area_m2 = :area_m2 WHERE id = :id";
             $stmt = $conn->prepare($query);
             $stmt->bindParam(":latitude", $latitude);
             $stmt->bindParam(":longitude", $longitude);
+            $stmt->bindParam(":area_m2", $area_m2);
             $stmt->bindParam(":id", $_GET['id']);
             if ($stmt->execute()) {
                 echo json_encode(["message" => "Coordenadas atualizadas"]);

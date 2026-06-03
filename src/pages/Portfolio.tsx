@@ -169,6 +169,9 @@ const Portfolio = () => {
                       <h3 className="font-bold text-gray-900 text-sm leading-snug line-clamp-2 group-hover:text-red-600 transition-colors">
                         {obra.name}
                       </h3>
+                      {obra.area_m2 && (
+                        <p className="text-xs text-gray-500 mt-1 font-medium">{obra.area_m2.toLocaleString('pt-BR')} m²</p>
+                      )}
                       <div className="flex items-center justify-between mt-2 gap-2">
                         <div className="flex items-center text-gray-500 text-xs gap-1 min-w-0">
                           <MapPin className="h-3 w-3 text-red-400 shrink-0" />
@@ -218,6 +221,11 @@ const Portfolio = () => {
                         <MapPin className="h-3 w-3 text-red-400 shrink-0" />
                         {selectedObra.location}
                       </span>
+                      {selectedObra.area_m2 && (
+                        <span className="text-sm font-semibold text-gray-700">
+                          {selectedObra.area_m2.toLocaleString('pt-BR')} m²
+                        </span>
+                      )}
                       {selectedObra.latitude && selectedObra.longitude && (
                         <a
                           href={`https://www.google.com/maps?layer=c&cbll=${selectedObra.latitude},${selectedObra.longitude}`}

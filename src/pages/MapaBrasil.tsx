@@ -40,6 +40,7 @@ interface Obra {
   gallery_path?: string;
   latitude: number | null;
   longitude: number | null;
+  area_m2?: number | null;
 }
 
 function BrazilView({ panelOpen }: { panelOpen: boolean }) {
@@ -331,6 +332,7 @@ export default function MapaBrasil() {
                     <div className="px-5 py-4">
                       <p className="text-xs text-muted-foreground">
                         {selectedObra.images.length} foto{selectedObra.images.length !== 1 ? "s" : ""} · {selectedObra.category} · {selectedObra.location}
+                        {selectedObra.area_m2 ? ` · ${selectedObra.area_m2.toLocaleString('pt-BR')} m²` : ""}
                       </p>
                     </div>
                   </>
