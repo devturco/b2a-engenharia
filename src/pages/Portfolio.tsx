@@ -176,7 +176,7 @@ const Portfolio = () => {
                         </div>
                         {obra.latitude && obra.longitude && (
                           <a
-                            href={`https://www.google.com/maps/@${obra.latitude},${obra.longitude},3a,75y,0h,90t/data=!3m6!1e1`}
+                            href={`https://www.google.com/maps?layer=c&cbll=${obra.latitude},${obra.longitude}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={e => e.stopPropagation()}
@@ -220,7 +220,7 @@ const Portfolio = () => {
                       </span>
                       {selectedObra.latitude && selectedObra.longitude && (
                         <a
-                          href={`https://www.google.com/maps/@${selectedObra.latitude},${selectedObra.longitude},3a,75y,0h,90t/data=!3m6!1e1`}
+                          href={`https://www.google.com/maps?layer=c&cbll=${selectedObra.latitude},${selectedObra.longitude}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline"

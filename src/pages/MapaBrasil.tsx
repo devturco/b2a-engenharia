@@ -244,7 +244,7 @@ export default function MapaBrasil() {
                 </div>
                 <div className="flex items-center gap-1 flex-shrink-0 -mr-1 -mt-1">
                   <a
-                    href={`https://www.google.com/maps/@${selectedObra.latitude},${selectedObra.longitude},3a,75y,0h,90t/data=!3m6!1e1`}
+                    href={`https://www.google.com/maps?layer=c&cbll=${selectedObra.latitude},${selectedObra.longitude}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     title="Ver no Street View"
