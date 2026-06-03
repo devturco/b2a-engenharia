@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { MapPin, Search, Images, X } from "lucide-react";
+import { MapPin, Search, Images, X, PersonStanding } from "lucide-react";
 import { obras as staticObras } from "../data/obras";
 import { useState, useEffect } from "react";
 import { WorkGallery } from "@/components/gallery/WorkGallery";
@@ -169,9 +169,24 @@ const Portfolio = () => {
                       <h3 className="font-bold text-gray-900 text-sm leading-snug line-clamp-2 group-hover:text-red-600 transition-colors">
                         {obra.name}
                       </h3>
-                      <div className="flex items-center text-gray-500 text-xs mt-2 gap-1">
-                        <MapPin className="h-3 w-3 text-red-400 shrink-0" />
-                        <span className="truncate">{obra.location}</span>
+                      <div className="flex items-center justify-between mt-2 gap-2">
+                        <div className="flex items-center text-gray-500 text-xs gap-1 min-w-0">
+                          <MapPin className="h-3 w-3 text-red-400 shrink-0" />
+                          <span className="truncate">{obra.location}</span>
+                        </div>
+                        {obra.latitude && obra.longitude && (
+                          <a
+                            href={`https://www.google.com/maps/@${obra.latitude},${obra.longitude},3a,75y,0h,90t/data=!3m6!1e1`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={e => e.stopPropagation()}
+                            title="Ver no Street View"
+                            className="shrink-0 flex items-center gap-1 text-[11px] font-medium text-blue-600 hover:text-blue-700 hover:underline whitespace-nowrap"
+                          >
+                            <PersonStanding className="h-3.5 w-3.5" />
+                            Street View
+                          </a>
+                        )}
                       </div>
                     </div>
                   </button>
@@ -198,9 +213,22 @@ const Portfolio = () => {
                         {selectedObra.images.length} foto{selectedObra.images.length !== 1 ? "s" : ""}
                       </span>
                     </div>
-                    <div className="flex items-center text-gray-500 text-sm mt-1 gap-1">
-                      <MapPin className="h-3 w-3 text-red-400 shrink-0" />
-                      {selectedObra.location}
+                    <div className="flex items-center gap-3 mt-1 flex-wrap">
+                      <span className="flex items-center text-gray-500 text-sm gap-1">
+                        <MapPin className="h-3 w-3 text-red-400 shrink-0" />
+                        {selectedObra.location}
+                      </span>
+                      {selectedObra.latitude && selectedObra.longitude && (
+                        <a
+                          href={`https://www.google.com/maps/@${selectedObra.latitude},${selectedObra.longitude},3a,75y,0h,90t/data=!3m6!1e1`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline"
+                        >
+                          <PersonStanding className="h-4 w-4" />
+                          Ver no Street View
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>

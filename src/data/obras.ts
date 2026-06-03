@@ -6,6 +6,8 @@ export interface Work {
   images: string[];
   galleryPath?: string;
   gallery_path?: string; // For DB compatibility
+  latitude?: number | null;
+  longitude?: number | null;
 }
 
 export const obras: Work[] = [

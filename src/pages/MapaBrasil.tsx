@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 import { Layout } from "@/components/layout/Layout";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, MapPin, X, Building2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, MapPin, X, Building2, PersonStanding } from "lucide-react";
 
 // Fix leaflet default icon paths broken by Vite bundling
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -228,14 +228,25 @@ export default function MapaBrasil() {
                     </div>
                   </div>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={close}
-                  className="flex-shrink-0 -mr-1 -mt-1 rounded-full h-8 w-8"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
+                <div className="flex items-center gap-1 flex-shrink-0 -mr-1 -mt-1">
+                  <a
+                    href={`https://www.google.com/maps/@${selectedObra.latitude},${selectedObra.longitude},3a,75y,0h,90t/data=!3m6!1e1`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Ver no Street View"
+                    className="inline-flex items-center justify-center h-8 w-8 rounded-full text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                  >
+                    <PersonStanding className="h-4 w-4" />
+                  </a>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={close}
+                    className="rounded-full h-8 w-8"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
 
               {/* Gallery */}
