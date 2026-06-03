@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { MapContainer, TileLayer, Marker, Tooltip, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -109,6 +110,7 @@ export default function MapaBrasil() {
     setGalleryIndex((i) => (i === (selectedObra?.images.length ?? 1) - 1 ? 0 : i + 1));
 
   const panelOpen = !!selectedObra;
+  const isMobile = useIsMobile();
 
   return (
     <Layout>
@@ -139,14 +141,14 @@ export default function MapaBrasil() {
       <div className="container mx-auto px-2 md:px-4">
       <div
         className="mx-auto transition-all duration-300 ease-in-out"
-        style={{ maxWidth: panelOpen ? "1100px" : "520px" }}
+        style={{ maxWidth: isMobile ? "100%" : panelOpen ? "1100px" : "520px" }}
       >
       <div className="relative flex overflow-hidden rounded-xl md:rounded-2xl border border-gray-200 shadow-lg" style={{ height: "460px", isolation: "isolate" }}>
 
         {/* MAP — shrinks on desktop when panel opens; always full width on mobile */}
         <div
-          className="relative flex-shrink-0 transition-all duration-300 ease-in-out w-full"
-          style={{ width: panelOpen ? "55%" : "100%" }}
+          className="relative flex-shrink-0 transition-all duration-300 ease-in-out"
+          style={{ width: isMobile ? "100%" : panelOpen ? "55%" : "100%" }}
         >
           <MapContainer
             center={[-15.78, -47.93]}
