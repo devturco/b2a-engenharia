@@ -43,16 +43,19 @@ interface Obra {
   area_m2?: number | null;
 }
 
-function BrazilView({ panelOpen }: { panelOpen: boolean }) {
+function BrazilView({ panelOpen, obras }: { panelOpen: boolean; obras: Obra[] }) {
   const map = useMap();
   const fitted = useRef(false);
 
   useEffect(() => {
-    if (!fitted.current) {
-      map.setView([-14.5, -51.5], 4);
+    if (!fitted.current && obras.length > 0) {
+      const bounds = obras.map((o) => [o.latitude!, o.longitude!] as [number, number]);
+      map.fitBounds(bounds, { padding: [48, 48], maxZoom: 7 });
       fitted.current = true;
+    } else if (!fitted.current && obras.length === 0) {
+      map.setView([-14.5, -46.0], 5);
     }
-  }, [map]);
+  }, [map, obras]);
 
   // Re-invalidate size when panel opens/closes so tiles fill correctly
   useEffect(() => {
@@ -143,7 +146,7 @@ export default function MapaBrasil() {
           panelOpen ? "md:max-w-[1100px]" : "md:max-w-[520px]"
         }`}
       >
-      <div className="relative flex overflow-hidden rounded-xl md:rounded-2xl border border-gray-200 shadow-lg" style={{ height: "460px", isolation: "isolate" }}>
+      <div className="relative flex overflow-hidden rounded-xl md:rounded-2xl border border-gray-200 shadow-lg" style={{ height: "580px", isolation: "isolate" }}>
 
         {/* MAP — always full width on mobile; shrinks to 55% on desktop when panel opens */}
         <div
@@ -153,12 +156,12 @@ export default function MapaBrasil() {
         >
           <MapContainer
             center={[-15.78, -47.93]}
-            zoom={4}
+            zoom={5}
             style={{ height: "100%", width: "100%" }}
             scrollWheelZoom={true}
             zoomControl={true}
           >
-            <BrazilView panelOpen={panelOpen} />
+            <BrazilView panelOpen={panelOpen} obras={obras} />
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -211,7 +214,7 @@ export default function MapaBrasil() {
           className={`
             absolute bg-white shadow-2xl flex flex-col overflow-hidden
             transition-[transform,opacity] duration-300 ease-in-out
-            left-0 right-0 bottom-0 h-[85%] rounded-t-2xl z-20
+            left-0 right-0 bottom-0 h-[90%] rounded-t-2xl z-20
             md:left-auto md:bottom-auto md:top-0 md:right-0 md:h-full md:w-[45%] md:rounded-none
             ${panelOpen
               ? "translate-y-0 md:translate-y-0 md:translate-x-0 opacity-100 pointer-events-auto"
